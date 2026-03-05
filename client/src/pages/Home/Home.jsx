@@ -22,7 +22,7 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroLeft}>
-            <span className="section-label" style={{ color: 'var(--subtle)' }}>HITHLAIN GİYİM</span>
+            <span className="section-label" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>HITHLAIN GİYİM</span>
             <h1 className={styles.heroTitle}>
               KURUMSAL<br />TEKSTİL<br />ÇÖZÜMLERİ
             </h1>

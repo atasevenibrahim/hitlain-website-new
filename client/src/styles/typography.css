@@ -59,3 +59,7 @@ p {
   height: 1px;
   background: currentColor;
 }
+
+.section-dark .section-label {
+  color: rgba(255, 255, 255, 0.5);
+}

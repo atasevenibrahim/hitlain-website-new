@@ -85,6 +85,10 @@
   margin-bottom: 0.8rem;
 }
 
+.hero :global(.section-label) {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .heroGhost {
   position: absolute;
   bottom: -0.2em;

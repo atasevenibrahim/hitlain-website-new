@@ -52,11 +52,9 @@ export default function App() {
     <ErrorBoundary>
     <BrowserRouter>
       <Routes>
-        {/* Welcome / Splash */}
-        <Route path="/" element={<Welcome />} />
-
         {/* Public Routes */}
         <Route element={<PublicLayout />}>
+          <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:category" element={<Shop />} />

@@ -22,6 +22,7 @@ export default function Welcome() {
         onMouseEnter={() => setHover('left')}
         onMouseLeave={() => setHover(null)}
       >
+        <div className={styles.ghostText}>B2C</div>
         <div className={styles.halfContent}>
           <img src="/hithlain-logo.png" alt="HITHLAIN" className={styles.logo} />
           <span className={styles.tag}>B2C</span>
@@ -45,6 +46,7 @@ export default function Welcome() {
         onMouseEnter={() => setHover('right')}
         onMouseLeave={() => setHover(null)}
       >
+        <div className={styles.ghostText}>B2B</div>
         <div className={styles.halfContent}>
           <img src="/hithlain-logo.png" alt="HITHLAIN" className={styles.logo} />
           <span className={styles.tag}>B2B</span>

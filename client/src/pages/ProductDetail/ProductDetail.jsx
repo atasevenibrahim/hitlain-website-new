@@ -1,27 +1,62 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { products, categories } from '../../data/mockData'
+import { categories } from '../../data/mockData'
 import { formatPrice } from '../../utils/formatters'
+import api from '../../utils/api'
 import useCartStore from '../../stores/cartStore'
 import useToastStore from '../../stores/toastStore'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import styles from './ProductDetail.module.css'
 
+function addBadge(p) {
+  return { ...p, badge: p.isNew ? 'Yeni' : p.isFeatured ? 'Çok Satan' : p.stock < 10 ? 'Son Stok' : null }
+}
+
 export default function ProductDetail() {
   const revealRef = useScrollReveal()
   const { id } = useParams()
   const navigate = useNavigate()
-  const product = products.find((p) => p.id === Number(id))
 
-  const [selectedColor, setSelectedColor] = useState(product?.colors?.[0]?.name || '')
+  const [product, setProduct] = useState(null)
+  const [related, setRelated] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const [selectedColor, setSelectedColor] = useState('')
   const [selectedSize, setSelectedSize] = useState('')
   const [qty, setQty] = useState(1)
   const [openSection, setOpenSection] = useState('description')
 
   const addItem = useCartStore((s) => s.addItem)
   const openCart = useCartStore((s) => s.openCart)
+
+  useEffect(() => {
+    setLoading(true)
+    setSelectedColor('')
+    setSelectedSize('')
+    setQty(1)
+    api.get(`/products/${id}`)
+      .then((res) => {
+        const p = addBadge(res.data)
+        setProduct(p)
+        setSelectedColor(p.colors?.[0]?.name || '')
+        return api.get('/products', { params: { category: p.category, limit: 5 } })
+      })
+      .then((res) => {
+        setRelated(res.data.products.filter((p) => p.id !== Number(id)).slice(0, 4).map(addBadge))
+      })
+      .catch(() => setProduct(null))
+      .finally(() => setLoading(false))
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className="container" style={{ padding: '4rem 2rem', minHeight: '60vh', textAlign: 'center' }}>
+        <p>Yükleniyor...</p>
+      </div>
+    )
+  }
 
   if (!product) {
     return (
@@ -35,7 +70,6 @@ export default function ProductDetail() {
   }
 
   const category = categories.find((c) => c.id === product.category)
-  const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4)
 
   const handleAddToCart = () => {
     if (!selectedSize) {

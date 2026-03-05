@@ -1,8 +1,9 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams, Link } from 'react-router-dom'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { products, categories, colors as allColors, sizes as allSizes } from '../../data/mockData'
+import { categories, colors as allColors, sizes as allSizes } from '../../data/mockData'
+import api from '../../utils/api'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import styles from './Shop.module.css'
 
@@ -15,9 +16,24 @@ const SORT_OPTIONS = [
 
 const ITEMS_PER_PAGE = 6
 
+function addBadge(p) {
+  return { ...p, badge: p.isNew ? 'Yeni' : p.isFeatured ? 'Çok Satan' : p.stock < 10 ? 'Son Stok' : null }
+}
+
 export default function Shop() {
   const revealRef = useScrollReveal()
   const { category: urlCategory } = useParams()
+
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(true)
+    api.get('/products', { params: { limit: 100 } })
+      .then((res) => setProducts(res.data.products.map(addBadge)))
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
 
   const [selectedCategories, setSelectedCategories] = useState(
     urlCategory ? [urlCategory] : []
@@ -224,7 +240,11 @@ export default function Shop() {
               </select>
             </div>
 
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className={styles.empty}>
+                <p>Ürünler yükleniyor...</p>
+              </div>
+            ) : filtered.length === 0 ? (
               <div className={styles.empty}>
                 <p>Aramanızla eşleşen ürün bulunamadı.</p>
                 <button className="btn btn-ghost" onClick={clearFilters}>

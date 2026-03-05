@@ -1,16 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import SectionHeader from '../../components/SectionHeader/SectionHeader'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { products, categories, references, testimonials, faqItems } from '../../data/mockData'
+import { categories, references, testimonials, faqItems } from '../../data/mockData'
+import api from '../../utils/api'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import styles from './Home.module.css'
 
 export default function Home() {
   const revealRef = useScrollReveal()
   const [openFaq, setOpenFaq] = useState(null)
-  const featured = products.filter((p) => p.isFeatured)
+  const [featured, setFeatured] = useState([])
+
+  useEffect(() => {
+    api.get('/products', { params: { limit: 100 } })
+      .then((res) => {
+        const withBadge = res.data.products.map((p) => ({
+          ...p,
+          badge: p.isNew ? 'Yeni' : p.isFeatured ? 'Çok Satan' : p.stock < 10 ? 'Son Stok' : null,
+        }))
+        setFeatured(withBadge.filter((p) => p.isFeatured).slice(0, 3))
+      })
+      .catch(() => {})
+  }, [])
 
   return (
     <div className={styles.page} ref={revealRef}>

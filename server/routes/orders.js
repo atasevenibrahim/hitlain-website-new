@@ -43,6 +43,31 @@ router.post('/', async (req, res) => {
   }
 })
 
+// POST /api/orders/lookup — public (customer order tracking)
+router.post('/lookup', async (req, res) => {
+  try {
+    const { phone, orderId } = req.body
+    if (!phone) {
+      return res.status(400).json({ error: 'Telefon numarası gerekli' })
+    }
+
+    const where = { phone }
+    if (orderId) {
+      where.id = Number(orderId)
+    }
+
+    const orders = await prisma.order.findMany({
+      where,
+      include: { items: { include: { product: true } } },
+      orderBy: { createdAt: 'desc' },
+    })
+
+    res.json(orders)
+  } catch (err) {
+    res.status(500).json({ error: 'Sunucu hatası' })
+  }
+})
+
 // GET /api/orders — admin
 router.get('/', auth, async (req, res) => {
   try {

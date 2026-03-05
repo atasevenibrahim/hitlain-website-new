@@ -28,6 +28,9 @@ export default function CheckoutSuccess() {
           <Link to="/shop" className="btn btn-primary">
             ALIŞVERİŞE DEVAM ET
           </Link>
+          <Link to="/my-orders" className="btn btn-secondary">
+            SİPARİŞİMİ TAKİP ET
+          </Link>
           <button className="btn btn-wa" onClick={handleWhatsApp}>
             WHATSAPP İLE TAKİP ET
           </button>

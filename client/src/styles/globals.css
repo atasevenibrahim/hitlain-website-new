@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════════════
+   HITHLAIN GİYİM — Global Styles
+   ═══════════════════════════════════════════════ */
+
+@import url('./typography.css');
+@import url('./buttons.css');
+@import url('./animations.css');
+
+:root {
+  /* Zemin & Yüzeyler */
+  --white: #ffffff;
+  --off: #f0f7f2;
+  --off2: #e2f0e5;
+
+  /* Yeşil Skalası */
+  --ink: #0d3b22;
+  --ink2: #145232;
+  --ink3: #1a6b40;
+  --mid: #3d7a56;
+  --subtle: #6b9e80;
+  --border: #c2dbc9;
+  --border2: #dceee0;
+
+  /* Aksan — SARI */
+  --green: #d4a017;
+  --green-l: #e6b422;
+  --green-xl: #fef9e7;
+  --green-txt: #7a5c00;
+
+  /* Durum Renkleri */
+  --success: #2d6a4f;
+  --warning: #b45309;
+  --error: #b91c1c;
+  --warning-bg: #fef3c7;
+  --error-bg: #fee2e2;
+
+  /* Tipografi */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-ui: 'Barlow', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--white);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.7rem 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--green);
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Section */
+.section {
+  padding: 6rem 0;
+}
+
+/* Section Dark */
+.section-dark {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Section Off */
+.section-off {
+  background: var(--off);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--off);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--subtle);
+}

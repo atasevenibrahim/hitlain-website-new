@@ -1,0 +1,151 @@
+.footer {
+  background: var(--ink);
+  color: var(--white);
+  padding: 5rem 0 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--ink3);
+}
+
+.column {}
+
+.columnTitle {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.link {
+  font-size: 0.82rem;
+  color: var(--subtle);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: var(--white);
+}
+
+/* Newsletter */
+.newsletterText {
+  font-size: 0.82rem;
+  color: var(--subtle);
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+}
+
+.newsletterForm {
+  display: flex;
+}
+
+.newsletterInput {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--ink3);
+  background: transparent;
+  color: var(--white);
+  font-size: 0.82rem;
+  border-radius: 2px 0 0 2px;
+  outline: none;
+}
+
+.newsletterInput::placeholder {
+  color: var(--subtle);
+}
+
+.newsletterInput:focus {
+  border-color: var(--green);
+}
+
+.newsletterBtn {
+  padding: 0.7rem 1.2rem;
+  background: var(--green);
+  color: var(--ink);
+  border: 1px solid var(--green);
+  border-left: none;
+  border-radius: 0 2px 2px 0;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.newsletterBtn:hover {
+  background: var(--green-l);
+}
+
+/* Bottom */
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 2rem;
+}
+
+.logoBottom {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.logoBottomImg {
+  height: 32px;
+  width: auto;
+  filter: brightness(10);
+}
+
+.logoAccent {
+  color: var(--green);
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: var(--subtle);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}

@@ -1,0 +1,632 @@
+.page {
+  min-height: 100vh;
+}
+
+/* ═══ HERO ═══ */
+.hero {
+  background: var(--ink);
+  color: var(--white);
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroGrid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.heroLeft {}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+
+.heroText {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 440px;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.heroCta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--ink3);
+}
+
+.heroCard {
+  padding: 2rem;
+  background: var(--ink2);
+}
+
+.heroCard h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+
+.heroCard p {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+}
+
+.heroCardLabel {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: var(--green);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  border-radius: 2px;
+  margin-bottom: 0.8rem;
+}
+
+.heroGhost {
+  position: absolute;
+  bottom: -0.2em;
+  right: 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 18vw, 16rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--white);
+  opacity: 0.03;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ═══ KATEGORİLER ═══ */
+.catGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.catCard {
+  aspect-ratio: 3 / 4;
+  background: var(--off);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.catCard:hover {
+  background: var(--off2);
+}
+
+.catContent {
+  text-align: center;
+}
+
+.catEmoji {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.8rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.catCard:hover .catEmoji {
+  transform: scale(1.2) translateY(-4px);
+}
+
+.catName {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ═══ ÇOK SATANLAR ═══ */
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.centerCta {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* ═══ KENDİN TASARLA ═══ */
+.studioSection {
+  background: #2d6a4f;
+  color: var(--white);
+  overflow: hidden;
+}
+
+.studioGrid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 500px;
+}
+
+.studioLeft {
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.studioTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.9;
+  color: var(--white);
+  margin-bottom: 1.2rem;
+}
+
+.studioText {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 380px;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+.studioRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.studioCanvas {
+  width: 280px;
+  height: 340px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  backdrop-filter: blur(4px);
+}
+
+.studioMockup {
+  text-align: center;
+}
+
+.studioOverlay {
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+/* ═══ KURUMSAL ═══ */
+.corpGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+}
+
+.corpCard {
+  background: var(--white);
+  padding: 3rem;
+}
+
+.corpNum {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--border);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.corpCard h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.8rem;
+}
+
+.corpCard p {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+
+.corpLink {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--green);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.corpLink:hover {
+  color: var(--green-l);
+}
+
+/* ═══ NEDEN BİZ ═══ */
+.whyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.whyList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.whyList li {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.whyList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+}
+
+.whyList li strong {
+  color: var(--white);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--ink3);
+}
+
+.statItem {
+  background: var(--ink2);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.statNum {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+}
+
+.statLabel {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+/* ═══ REFERANSLAR ═══ */
+.refGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.refCard {
+  background: var(--white);
+  padding: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refName {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--ink);
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.refCard:hover .refName {
+  opacity: 1;
+}
+
+/* ═══ HAKKIMIZDA ═══ */
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.aboutImage {}
+
+.aboutPlaceholder {
+  aspect-ratio: 4 / 3;
+  background: var(--off2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+
+.aboutText {
+  font-size: 0.88rem;
+  color: var(--mid);
+  line-height: 1.8;
+  margin-bottom: 1.2rem;
+}
+
+/* ═══ MÜŞTERİ YORUMLARI ═══ */
+.reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.reviewCard {
+  background: var(--white);
+  padding: 2.5rem;
+}
+
+.reviewStars {
+  color: var(--green);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.reviewText {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.reviewAuthor strong {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.15rem;
+}
+
+.reviewAuthor span {
+  font-size: 0.72rem;
+  color: var(--subtle);
+}
+
+/* ═══ SSS ═══ */
+.faqList {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.faqItem {
+  border-bottom: 1px solid var(--border);
+}
+
+.faqQuestion {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+}
+
+.faqArrow {
+  font-size: 1.2rem;
+  color: var(--mid);
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.faqAnswer {
+  padding: 0 0 1.2rem;
+}
+
+.faqAnswer p {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.7;
+}
+
+/* ═══ İLETİŞİM ═══ */
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contactItem h4 {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.contactItem p {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.6;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ═══ INSTAGRAM ═══ */
+.instaSection {
+  padding: 4rem 0;
+  background: var(--off);
+}
+
+.instaGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+}
+
+.instaItem {
+  aspect-ratio: 1;
+  background: var(--off2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.instaItem:hover {
+  opacity: 0.8;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 900px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .catGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .productGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .studioGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .studioRight {
+    display: none;
+  }
+
+  .corpGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .whyGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .refGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .aboutGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contactGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .instaGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 4rem 1.5rem;
+  }
+
+  .catGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .productGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .refGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,29 @@
+.banner {
+  background: var(--ink);
+  overflow: hidden;
+  padding: 0.5rem 0;
+  white-space: nowrap;
+}
+
+.track {
+  display: inline-block;
+  animation: marquee 22s linear infinite;
+}
+
+.text {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--white);
+}
+
+/* ◆ separator color */
+.text::after {
+  color: var(--green-l);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

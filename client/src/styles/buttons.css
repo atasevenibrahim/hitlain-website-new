@@ -1,0 +1,116 @@
+/* ═══════════════════════════════════════════════
+   HITHLAIN GİYİM — Button System
+   ═══════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primary — Sarı CTA */
+.btn-primary {
+  background: var(--green);
+  color: var(--ink);
+  border-color: var(--green);
+}
+
+.btn-primary:hover {
+  background: var(--green-l);
+  border-color: var(--green-l);
+}
+
+/* Secondary — Border Ink */
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn-secondary:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Ghost — Border Light */
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--ink);
+}
+
+/* Outline White — Dark Surface */
+.btn-outline-white {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-outline-white:hover {
+  background: var(--white);
+  color: var(--ink);
+}
+
+/* Danger */
+.btn-danger {
+  background: var(--error);
+  color: var(--white);
+  border-color: var(--error);
+}
+
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+/* WhatsApp */
+.btn-wa {
+  background: #25D366;
+  color: var(--white);
+  border-color: #25D366;
+}
+
+.btn-wa:hover {
+  background: #20bd5a;
+  border-color: #20bd5a;
+}
+
+/* Full Width */
+.btn-full {
+  width: 100%;
+}
+
+/* Small */
+.btn-sm {
+  padding: 0.55rem 1.2rem;
+  font-size: 0.7rem;
+}
+
+/* Large */
+.btn-lg {
+  padding: 1rem 2.5rem;
+  font-size: 0.8rem;
+}

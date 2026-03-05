@@ -1,0 +1,672 @@
+/* ═══════════════════════════════════════════════
+   STUDIO — Full Page Layout
+   ═══════════════════════════════════════════════ */
+
+.studio {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 140px); /* account for MarqueeBanner + TrustBar + Navbar */
+  background: var(--off);
+}
+
+/* ═══ STUDIO NAVBAR ═══ */
+.studioNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 52px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+.studioLogo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.logoImg {
+  height: 32px;
+  width: auto;
+}
+
+.logoAccent {
+  color: var(--green);
+}
+
+.logoSub {
+  font-family: var(--font-ui);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.studioSteps {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--mid);
+  letter-spacing: 0.05em;
+}
+
+.stepDivider {
+  color: var(--border);
+  font-size: 0.7rem;
+}
+
+.studioBack {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.studioBack:hover {
+  color: var(--ink);
+}
+
+/* ═══ STUDIO BODY ═══ */
+.studioBody {
+  display: grid;
+  grid-template-columns: 240px 1fr 280px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ═══ TOOL PANEL (LEFT) ═══ */
+.toolPanel {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 0;
+}
+
+.panelTitle {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  margin: 0;
+}
+
+.toolGroup {
+  border-bottom: 1px solid var(--border);
+}
+
+.groupHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background 0.2s;
+}
+
+.groupHeader:hover {
+  background: var(--off);
+}
+
+.groupContent {
+  padding: 0 1.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Drop Zone */
+.dropZone {
+  border: 2px dashed var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.dropZone:hover {
+  border-color: var(--green);
+}
+
+.dropIcon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.dropZone p {
+  font-size: 0.78rem;
+  color: var(--mid);
+}
+
+.dropZone small {
+  font-size: 0.65rem;
+  color: var(--subtle);
+}
+
+/* Tool Inputs */
+.toolInput {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.toolRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolLabel {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--mid);
+  min-width: 35px;
+}
+
+.toolSlider {
+  flex: 1;
+  accent-color: var(--green);
+}
+
+.toolValue {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink);
+  min-width: 24px;
+  text-align: right;
+}
+
+.toolColor {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.styleBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.styleBtnActive {
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+
+/* Shape Buttons */
+.shapeButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.shapeBtn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--ink);
+  transition: all 0.2s;
+}
+
+.shapeBtn:hover {
+  border-color: var(--ink);
+  background: var(--off);
+}
+
+/* Toggle Buttons */
+.toggleBtn {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggleActive {
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+
+.zoneGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.zoneBtn {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.zoneActive {
+  background: var(--green);
+  color: var(--ink);
+  border-color: var(--green);
+}
+
+/* ═══ CANVAS AREA (CENTER) ═══ */
+.canvasArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.canvasToolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.toolbarBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--ink);
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.toolbarBtn:hover {
+  background: var(--off);
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 0.2rem;
+}
+
+.canvasWrapper {
+  position: relative;
+  width: 500px;
+  height: 600px;
+}
+
+.mockupBg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.mockupIcon {
+  font-size: 8rem;
+  opacity: 0.15;
+}
+
+.mockupLabel {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(0, 0, 0, 0.15);
+  margin-top: 0.5rem;
+}
+
+.canvasContainer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvasContainer canvas {
+  border: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+/* ═══ PROPERTY PANEL (RIGHT) ═══ */
+.propPanel {
+  background: var(--white);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.propEmpty {
+  padding: 2rem 1.2rem;
+  text-align: center;
+}
+
+.propEmpty p {
+  font-size: 0.8rem;
+  color: var(--subtle);
+}
+
+.propGroup {
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid var(--border2);
+}
+
+.propLabel {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.5rem;
+}
+
+.propRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.propRow label {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--subtle);
+  min-width: 16px;
+}
+
+.propInput {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.propSlider {
+  flex: 1;
+  accent-color: var(--green);
+}
+
+.propValue {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink);
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ═══ BOTTOM PANEL ═══ */
+.bottomPanel {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  overflow-x: auto;
+}
+
+.bottomStep {
+  flex-shrink: 0;
+}
+
+.bottomStepTitle {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+
+/* Product Mini Cards */
+.productScroll {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  max-width: 400px;
+}
+
+.productMini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  cursor: pointer;
+  min-width: 90px;
+  transition: border-color 0.2s;
+}
+
+.productMini:hover {
+  border-color: var(--ink);
+}
+
+.productMiniActive {
+  border-color: var(--green);
+  background: var(--green-xl);
+}
+
+.productMiniIcon {
+  font-size: 1.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.productMiniName {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 0.2rem;
+}
+
+.productMiniPrice {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--green);
+}
+
+/* Color Options */
+.colorOptions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.colorOption {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 500;
+  transition: border-color 0.2s;
+}
+
+.colorOption:hover {
+  border-color: var(--ink);
+}
+
+.colorOptionActive {
+  border-color: var(--green);
+  background: var(--green-xl);
+}
+
+.colorDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* Size Inputs */
+.sizeInputs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.sizeInput {
+  text-align: center;
+}
+
+.sizeInput label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--mid);
+  margin-bottom: 0.25rem;
+}
+
+.sizeInput input {
+  width: 48px;
+  padding: 0.35rem;
+  text-align: center;
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--mid);
+}
+
+.totalRow strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 900px) {
+  .studioBody {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .propPanel {
+    display: none;
+  }
+
+  .canvasWrapper {
+    width: 100%;
+    max-width: 400px;
+    height: 480px;
+  }
+
+  .studioSteps {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .studioBody {
+    grid-template-columns: 1fr;
+  }
+
+  .toolPanel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .bottomPanel {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .canvasWrapper {
+    width: 100%;
+    max-width: 320px;
+    height: 380px;
+  }
+}

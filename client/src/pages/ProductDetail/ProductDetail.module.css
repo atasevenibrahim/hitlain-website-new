@@ -1,0 +1,402 @@
+.page {
+  padding: 2rem 0 4rem;
+  min-height: 60vh;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--subtle);
+  margin-bottom: 2rem;
+}
+
+.breadcrumb a {
+  color: var(--subtle);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+  color: var(--ink);
+}
+
+.breadcrumb span {
+  margin: 0 0.3rem;
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+/* Gallery */
+.gallery {}
+
+.mainImage {
+  aspect-ratio: 4 / 5;
+  background: var(--off);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--off2);
+}
+
+.mainImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.thumb {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.thumb:hover {
+  border-color: var(--ink);
+}
+
+.thumbPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: var(--off2);
+}
+
+/* Studio Banner */
+.studioBanner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--green-xl);
+  border-radius: 2px;
+  text-decoration: none;
+  color: var(--green-txt);
+  transition: opacity 0.2s;
+}
+
+.studioBanner:hover {
+  opacity: 0.9;
+}
+
+.studioBannerIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.studioBanner strong {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.studioBanner p {
+  font-size: 0.72rem;
+  color: var(--green);
+  opacity: 0.8;
+}
+
+.studioBannerArrow {
+  margin-left: auto;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Info Panel */
+.info {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+
+.brand {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 0.95;
+  margin-bottom: 0.8rem;
+}
+
+.price {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+}
+
+.stock {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.stockIn {
+  background: var(--green-xl);
+  color: var(--green-txt);
+}
+
+.stockLow {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.stockOut {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.2rem 0;
+}
+
+/* Option Groups */
+.optionGroup {
+  margin-bottom: 1.2rem;
+}
+
+.optionLabel {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--mid);
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+
+.optionLabel strong {
+  color: var(--ink);
+}
+
+/* Color Swatches */
+.colorSwatches {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.colorSwatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.colorSwatch:hover {
+  transform: scale(1.1);
+}
+
+.colorActive {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--ink);
+}
+
+/* Size Options */
+.sizeOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.sizeBtn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sizeBtn:hover {
+  border-color: var(--ink);
+}
+
+.sizeActive {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--white);
+}
+
+.sizeGuide {
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--green);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* Quantity */
+.qtyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.qtyControl {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.qtyControl button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--ink);
+  transition: background 0.2s;
+}
+
+.qtyControl button:hover {
+  background: var(--off);
+}
+
+.qtyControl span {
+  width: 40px;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* Collapsible */
+.collapsible {
+  border-bottom: 1px solid var(--border);
+}
+
+.collapseBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.collapseContent {
+  padding: 0 0 1rem;
+}
+
+.collapseContent p {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
+/* Related */
+.related {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+
+.relatedTitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .info {
+    position: static;
+  }
+
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .relatedGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}

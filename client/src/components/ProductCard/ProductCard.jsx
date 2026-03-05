@@ -33,9 +33,13 @@ export default function ProductCard({ product }) {
   return (
     <Link to={`/product/${product.id}`} className={styles.card}>
       <div className={styles.imageWrap}>
-        <div className={styles.imagePlaceholder}>
-          <span className={styles.placeholderIcon}>👕</span>
-        </div>
+        {product.images?.[0] && product.images[0] !== '/placeholder-product.jpg' ? (
+          <img src={product.images[0]} alt={product.name} />
+        ) : (
+          <div className={styles.imagePlaceholder}>
+            <span className={styles.placeholderIcon}>👕</span>
+          </div>
+        )}
 
         {product.badge && (
           <span className={`${styles.badge} ${badgeClass}`}>

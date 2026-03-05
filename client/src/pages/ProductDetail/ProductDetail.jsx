@@ -27,6 +27,7 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState('')
   const [qty, setQty] = useState(1)
   const [openSection, setOpenSection] = useState('description')
+  const [activeImage, setActiveImage] = useState(0)
 
   const addItem = useCartStore((s) => s.addItem)
   const openCart = useCartStore((s) => s.openCart)
@@ -69,6 +70,7 @@ export default function ProductDetail() {
     )
   }
 
+  const realImages = (product.images || []).filter((img) => img && img !== '/placeholder-product.jpg')
   const category = categories.find((c) => c.id === product.category)
 
   const handleAddToCart = () => {
@@ -111,18 +113,28 @@ export default function ProductDetail() {
           {/* Sol — Görsel Galeri */}
           <div className={styles.gallery}>
             <div className={styles.mainImage}>
-              <div className={styles.imagePlaceholder}>
-                <span style={{ fontSize: '5rem', opacity: 0.2 }}>👕</span>
-              </div>
+              {realImages.length > 0 ? (
+                <img src={realImages[activeImage]} alt={product.name} />
+              ) : (
+                <div className={styles.imagePlaceholder}>
+                  <span style={{ fontSize: '5rem', opacity: 0.2 }}>👕</span>
+                </div>
+              )}
             </div>
 
-            <div className={styles.thumbnails}>
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className={styles.thumb}>
-                  <div className={styles.thumbPlaceholder} />
-                </div>
-              ))}
-            </div>
+            {realImages.length > 1 && (
+              <div className={styles.thumbnails}>
+                {realImages.map((img, i) => (
+                  <div
+                    key={i}
+                    className={`${styles.thumb} ${activeImage === i ? styles.thumbActive : ''}`}
+                    onClick={() => setActiveImage(i)}
+                  >
+                    <img src={img} alt={`${product.name} ${i + 1}`} />
+                  </div>
+                ))}
+              </div>
+            )}
 
             <Link to="/studio" className={styles.studioBanner}>
               <span className={styles.studioBannerIcon}>✏</span>

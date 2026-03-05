@@ -107,7 +107,11 @@ export default function Products() {
               return (
                 <tr key={p.id}>
                   <td>
-                    <div className={s.thumbnail}>👕</div>
+                    <div className={s.thumbnail}>
+                      {p.images?.[0] && p.images[0] !== '/placeholder-product.jpg'
+                        ? <img src={p.images[0]} alt={p.name} />
+                        : '👕'}
+                    </div>
                   </td>
                   <td style={{ fontWeight: 600 }}>{p.name}</td>
                   <td>{categories.find((c) => c.id === p.category)?.name || p.category}</td>

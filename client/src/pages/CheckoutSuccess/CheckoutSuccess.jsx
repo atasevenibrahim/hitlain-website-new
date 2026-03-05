@@ -1,12 +1,10 @@
-import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styles from './CheckoutSuccess.module.css'
 
 export default function CheckoutSuccess() {
-  const orderNumber = useMemo(
-    () => `HIT-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
-    []
-  )
+  const location = useLocation()
+  const orderId = location.state?.orderId
+  const orderNumber = orderId ? `HIT-${orderId}` : 'HIT-????'
 
   const handleWhatsApp = () => {
     const text = `Merhaba, ${orderNumber} numaralı siparişimi takip etmek istiyorum.`

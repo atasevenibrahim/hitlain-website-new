@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import api from '../../../utils/api'
 import useToastStore from '../../../stores/toastStore'
 import { TableSkeleton } from '../../../components/Skeleton/Skeleton'
@@ -9,6 +9,7 @@ const emptyForm = {
   sector: '',
   quantity: '',
   description: '',
+  logoUrl: '',
   isActive: true,
 }
 
@@ -18,6 +19,8 @@ export default function References() {
   const [form, setForm] = useState(emptyForm)
   const [editId, setEditId] = useState(null)
   const [showForm, setShowForm] = useState(false)
+  const [logoUploading, setLogoUploading] = useState(false)
+  const logoInputRef = useRef(null)
 
   useEffect(() => {
     api.get('/references', { params: { all: true } }).then((res) => {
@@ -27,6 +30,7 @@ export default function References() {
         sector: r.sector || '',
         quantity: r.quantity || 0,
         description: r.description || '',
+        logoUrl: r.logoUrl || '',
         isActive: r.isActive,
       })))
       setLoading(false)
@@ -46,6 +50,7 @@ export default function References() {
       sector: form.sector,
       quantity: Number(form.quantity) || null,
       description: form.description,
+      logoUrl: form.logoUrl || null,
       isActive: form.isActive,
     }
 
@@ -64,6 +69,7 @@ export default function References() {
           sector: res.data.sector || '',
           quantity: res.data.quantity || 0,
           description: res.data.description || '',
+          logoUrl: res.data.logoUrl || '',
           isActive: res.data.isActive,
         }
         setRefs((prev) => [...prev, newRef])
@@ -83,6 +89,7 @@ export default function References() {
       sector: ref.sector || '',
       quantity: ref.quantity || '',
       description: ref.description || '',
+      logoUrl: ref.logoUrl || '',
       isActive: ref.isActive !== false,
     })
     setEditId(ref.id)
@@ -98,6 +105,25 @@ export default function References() {
     } catch {
       useToastStore.getState().showToast('Silme başarısız', 'error')
     }
+  }
+
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setLogoUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await api.post('/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      updateForm('logoUrl', res.data.url)
+      useToastStore.getState().showToast('Logo yuklendi', 'success')
+    } catch {
+      useToastStore.getState().showToast('Logo yuklenemedi', 'error')
+    }
+    setLogoUploading(false)
+    e.target.value = ''
   }
 
   const cancelForm = () => {
@@ -176,9 +202,34 @@ export default function References() {
             </div>
             <div className={`${s.formGroup} ${s.formGroupFull}`}>
               <label className={s.formLabel}>Logo</label>
-              <div className={s.uploadArea} style={{ padding: '1rem' }}>
-                <div className={s.uploadText}>Logo yüklemek için tıklayın</div>
+              <input
+                ref={logoInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/svg+xml"
+                onChange={handleLogoUpload}
+                style={{ display: 'none' }}
+              />
+              <div
+                className={s.uploadArea}
+                style={{ padding: '1rem' }}
+                onClick={() => logoInputRef.current?.click()}
+              >
+                <div className={s.uploadText}>
+                  {logoUploading ? 'Yükleniyor...' : 'Logo yüklemek için tıklayın'}
+                </div>
               </div>
+              {form.logoUrl && (
+                <div className={s.logoPreview}>
+                  <img src={form.logoUrl} alt="Logo" />
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => updateForm('logoUrl', '')}
+                    style={{ padding: '0.2rem 0.5rem' }}
+                  >
+                    Kaldır
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <div className={s.formActions}>
@@ -209,7 +260,9 @@ export default function References() {
             {refs.map((ref) => (
               <tr key={ref.id}>
                 <td>
-                  <div className={s.thumbnail}>🏢</div>
+                  <div className={s.thumbnail}>
+                    {ref.logoUrl ? <img src={ref.logoUrl} alt={ref.name} /> : '🏢'}
+                  </div>
                 </td>
                 <td style={{ fontWeight: 600 }}>{ref.name}</td>
                 <td>{ref.quantity ? ref.quantity.toLocaleString('tr-TR') : '—'}</td>

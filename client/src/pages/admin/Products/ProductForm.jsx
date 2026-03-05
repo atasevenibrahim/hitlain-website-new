@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../../../utils/api'
 import { categories, sizes as allSizes } from '../../../data/mockData'
@@ -9,6 +9,7 @@ export default function ProductForm() {
   const { id } = useParams()
   const navigate = useNavigate()
   const isEdit = Boolean(id)
+  const fileInputRef = useRef(null)
 
   const [form, setForm] = useState({
     name: '',
@@ -19,11 +20,14 @@ export default function ProductForm() {
     care: '',
     colors: [{ name: '', hex: '#000000' }],
     sizes: [],
+    images: [],
     status: 'active',
     isFeatured: false,
     isNew: false,
   })
   const [loading, setLoading] = useState(isEdit)
+  const [uploading, setUploading] = useState(false)
+  const [dragOver, setDragOver] = useState(false)
 
   useEffect(() => {
     if (isEdit) {
@@ -38,6 +42,7 @@ export default function ProductForm() {
           care: p.care || '',
           colors: p.colors?.length ? p.colors : [{ name: '', hex: '#000000' }],
           sizes: p.sizes || [],
+          images: Array.isArray(p.images) ? p.images.filter((img) => img && img !== '/placeholder-product.jpg') : [],
           status: p.status || 'active',
           isFeatured: p.isFeatured || false,
           isNew: p.isNew || false,
@@ -75,6 +80,38 @@ export default function ProductForm() {
     )
   }
 
+  const uploadFiles = async (files) => {
+    if (!files.length) return
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      Array.from(files).forEach((f) => formData.append('files', f))
+      const res = await api.post('/upload/multiple', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      update('images', [...form.images, ...res.data.urls])
+      useToastStore.getState().showToast(`${res.data.urls.length} gorsel yuklendi`, 'success')
+    } catch {
+      useToastStore.getState().showToast('Gorsel yuklenemedi', 'error')
+    }
+    setUploading(false)
+  }
+
+  const handleFileSelect = (e) => {
+    uploadFiles(e.target.files)
+    e.target.value = ''
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    setDragOver(false)
+    uploadFiles(e.dataTransfer.files)
+  }
+
+  const removeImage = (index) => {
+    update('images', form.images.filter((_, i) => i !== index))
+  }
+
   const handleSubmit = async () => {
     if (!form.name || !form.category || !form.price) {
       useToastStore.getState().showToast('Lütfen zorunlu alanları doldurun', 'error')
@@ -90,6 +127,7 @@ export default function ProductForm() {
       care: form.care,
       colors: form.colors.filter((c) => c.name),
       sizes: form.sizes,
+      images: form.images,
       status: form.status,
       isFeatured: form.isFeatured,
       isNew: form.isNew,
@@ -194,12 +232,42 @@ export default function ProductForm() {
           {/* Image Upload */}
           <div className={s.formSection}>
             <div className={s.formSectionTitle}>Görseller</div>
-            <div className={s.uploadArea}>
-              <div className={s.uploadIcon}>📷</div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/jpeg,image/png,image/webp,image/svg+xml"
+              onChange={handleFileSelect}
+              style={{ display: 'none' }}
+            />
+            <div
+              className={`${s.uploadArea} ${dragOver ? s.uploadAreaDrag : ''}`}
+              onClick={() => fileInputRef.current?.click()}
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+            >
+              <div className={s.uploadIcon}>{uploading ? '...' : '+'}</div>
               <div className={s.uploadText}>
-                Görselleri sürükleyip bırakın veya tıklayıp seçin
+                {uploading ? 'Yükleniyor...' : 'Görselleri sürükleyip bırakın veya tıklayıp seçin'}
               </div>
             </div>
+            {form.images.length > 0 && (
+              <div className={s.imagePreviewGrid}>
+                {form.images.map((url, i) => (
+                  <div key={i} className={s.imagePreviewItem}>
+                    <img src={url} alt={`Görsel ${i + 1}`} />
+                    <button
+                      className={s.imagePreviewRemove}
+                      onClick={() => removeImage(i)}
+                      type="button"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Colors */}

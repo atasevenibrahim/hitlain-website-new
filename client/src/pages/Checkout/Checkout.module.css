@@ -6,71 +6,30 @@
   padding: 2rem 0 4rem;
 }
 
-/* ═══ STEPPER ═══ */
-.stepper {
+/* ═══ PAGE TITLE ═══ */
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 2rem;
+}
+
+/* ═══ FORM COLUMN ═══ */
+.formColumn {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 0;
-  margin-bottom: 2.5rem;
 }
 
-.stepItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.stepCircle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-ui);
+/* ═══ PAYMENT NOTICE ═══ */
+.paymentNotice {
   font-size: 0.75rem;
-  font-weight: 700;
-  border: 2px solid var(--border);
-  color: var(--subtle);
-  background: var(--white);
-  transition: all 0.3s;
-}
-
-.stepCircleActive {
-  border-color: var(--green);
-  background: var(--green);
-  color: var(--ink);
-}
-
-.stepCircleDone {
-  border-color: var(--green);
-  background: var(--green);
-  color: var(--ink);
-}
-
-.stepLabel {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--subtle);
-  transition: color 0.3s;
-}
-
-.stepLabelActive {
-  color: var(--ink);
-}
-
-.stepLine {
-  width: 60px;
-  height: 2px;
-  background: var(--border);
-  margin: 0 0.8rem;
-  transition: background 0.3s;
-}
-
-.stepLineDone {
-  background: var(--green);
+  color: var(--mid);
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.8rem;
+  background: var(--off);
+  border-radius: 2px;
 }
 
 /* ═══ BODY LAYOUT ═══ */
@@ -431,18 +390,6 @@
   .miniSummary {
     position: static;
     order: -1;
-  }
-
-  .stepper {
-    gap: 0;
-  }
-
-  .stepLabel {
-    display: none;
-  }
-
-  .stepLine {
-    width: 40px;
   }
 }
 

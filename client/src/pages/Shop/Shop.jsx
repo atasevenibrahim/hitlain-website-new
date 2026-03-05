@@ -110,7 +110,7 @@ export default function Shop() {
     }
 
     return result
-  }, [selectedCategories, selectedColors, selectedSizes, priceMin, priceMax, sort])
+  }, [products, selectedCategories, selectedColors, selectedSizes, priceMin, priceMax, sort])
 
   const visible = filtered.slice(0, visibleCount)
   const hasMore = visibleCount < filtered.length
@@ -253,7 +253,7 @@ export default function Shop() {
               </div>
             ) : (
               <>
-                <div className={`${styles.grid} reveal`}>
+                <div className={styles.grid}>
                   {visible.map((p) => (
                     <ProductCard key={p.id} product={p} />
                   ))}

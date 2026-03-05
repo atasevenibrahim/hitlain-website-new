@@ -80,6 +80,17 @@
   border-color: var(--ink);
 }
 
+.thumbActive {
+  border-color: var(--ink);
+  border-width: 2px;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .thumbPlaceholder {
   width: 100%;
   height: 100%;

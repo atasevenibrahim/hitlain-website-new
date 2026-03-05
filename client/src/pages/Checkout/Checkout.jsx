@@ -20,7 +20,7 @@ const CITIES = [
 export default function Checkout() {
   const navigate = useNavigate()
   const { items, clearCart } = useCartStore()
-  const totalPrice = useCartStore((s) => s.totalPrice)
+  const totalPrice = useCartStore((s) => s.items.reduce((sum, i) => sum + i.product.price * i.qty, 0))
 
   const [form, setForm] = useState({
     name: '',

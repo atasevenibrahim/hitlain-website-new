@@ -9,8 +9,8 @@ const STANDARD_SHIPPING = 79
 
 export default function Cart() {
   const { items, removeItem, updateQty } = useCartStore()
-  const totalItems = useCartStore((s) => s.totalItems)
-  const totalPrice = useCartStore((s) => s.totalPrice)
+  const totalItems = useCartStore((s) => s.items.reduce((sum, i) => sum + i.qty, 0))
+  const totalPrice = useCartStore((s) => s.items.reduce((sum, i) => sum + i.product.price * i.qty, 0))
 
   const shippingFee = totalPrice >= FREE_SHIPPING_LIMIT ? 0 : STANDARD_SHIPPING
   const grandTotal = totalPrice + shippingFee

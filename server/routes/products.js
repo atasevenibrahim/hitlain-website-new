@@ -153,6 +153,32 @@ router.put('/:id', auth, async (req, res) => {
       include: { variants: true },
     })
 
+    // Update variants if colors and sizes are provided
+    const { colors, sizes } = req.body
+    if (colors && sizes) {
+      await prisma.variant.deleteMany({ where: { productId: Number(req.params.id) } })
+      const variantData = []
+      for (const color of colors) {
+        for (const size of sizes) {
+          variantData.push({
+            productId: Number(req.params.id),
+            size,
+            color: color.name,
+            colorHex: color.hex,
+            stock: 0,
+            minStock: 5,
+          })
+        }
+      }
+      await prisma.variant.createMany({ data: variantData })
+
+      const updated = await prisma.product.findUnique({
+        where: { id: Number(req.params.id) },
+        include: { variants: true },
+      })
+      return res.json(updated)
+    }
+
     res.json(product)
   } catch (err) {
     res.status(500).json({ error: 'Sunucu hatası' })

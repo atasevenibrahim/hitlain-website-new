@@ -86,12 +86,11 @@ export default function ProductForm() {
     try {
       const formData = new FormData()
       Array.from(files).forEach((f) => formData.append('files', f))
-      const res = await api.post('/upload/multiple', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+      const res = await api.post('/upload/multiple', formData)
       update('images', [...form.images, ...res.data.urls])
       useToastStore.getState().showToast(`${res.data.urls.length} gorsel yuklendi`, 'success')
-    } catch {
+    } catch (err) {
+      console.error('Upload error:', err.response?.data || err.message)
       useToastStore.getState().showToast('Gorsel yuklenemedi', 'error')
     }
     setUploading(false)

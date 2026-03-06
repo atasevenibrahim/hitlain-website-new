@@ -4,6 +4,19 @@ const auth = require('../middleware/auth')
 
 const router = Router()
 
+function turkishSlug(str) {
+  return str
+    .replace(/ş/g, 's').replace(/Ş/g, 's')
+    .replace(/ç/g, 'c').replace(/Ç/g, 'c')
+    .replace(/ğ/g, 'g').replace(/Ğ/g, 'g')
+    .replace(/ü/g, 'u').replace(/Ü/g, 'u')
+    .replace(/ö/g, 'o').replace(/Ö/g, 'o')
+    .replace(/ı/g, 'i').replace(/İ/g, 'i')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
 // GET /api/products — public, with filters
 router.get('/', async (req, res) => {
   try {
@@ -73,7 +86,7 @@ router.post('/', auth, async (req, res) => {
     const product = await prisma.product.create({
       data: {
         name,
-        slug: slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+        slug: slug || turkishSlug(name),
         category,
         price: Number(price),
         description,

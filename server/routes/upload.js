@@ -6,11 +6,21 @@ const auth = require('../middleware/auth')
 
 const router = Router()
 
-const uploadsDir = path.join(__dirname, '..', 'uploads')
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true })
-}
+// Always use memory storage (Vercel compatible)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: (req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']
+    if (allowed.includes(file.mimetype)) {
+      cb(null, true)
+    } else {
+      cb(new Error('Desteklenmeyen dosya formati'), false)
+    }
+  },
+  limits: { fileSize: 10 * 1024 * 1024 },
+})
 
+// Cloudinary setup
 const useCloudinary = !!(
   process.env.CLOUDINARY_CLOUD_NAME &&
   process.env.CLOUDINARY_API_KEY &&
@@ -27,32 +37,6 @@ if (useCloudinary) {
   })
 }
 
-const storage = useCloudinary
-  ? multer.memoryStorage()
-  : multer.diskStorage({
-      destination: uploadsDir,
-      filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname)
-        const name = path.basename(file.originalname, ext)
-          .replace(/[^a-zA-Z0-9-_]/g, '')
-          .substring(0, 40)
-        cb(null, `${Date.now()}-${name}${ext}`)
-      },
-    })
-
-const upload = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']
-    if (allowed.includes(file.mimetype)) {
-      cb(null, true)
-    } else {
-      cb(new Error('Desteklenmeyen dosya formati'), false)
-    }
-  },
-  limits: { fileSize: 10 * 1024 * 1024 },
-})
-
 function uploadToCloudinary(buffer, folder = 'hithlain') {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
@@ -66,8 +50,36 @@ function uploadToCloudinary(buffer, folder = 'hithlain') {
   })
 }
 
+// Save buffer to local disk (fallback for dev without Cloudinary)
+function saveLocal(file) {
+  const uploadsDir = path.join(__dirname, '..', 'uploads')
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true })
+  }
+  const ext = path.extname(file.originalname)
+  const name = path.basename(file.originalname, ext)
+    .replace(/[^a-zA-Z0-9-_]/g, '')
+    .substring(0, 40)
+  const filename = `${Date.now()}-${name}${ext}`
+  fs.writeFileSync(path.join(uploadsDir, filename), file.buffer)
+  return `/uploads/${filename}`
+}
+
+// Wrap multer to catch its errors inside the route
+function handleUpload(multerFn) {
+  return (req, res, next) => {
+    multerFn(req, res, (err) => {
+      if (err) {
+        console.error('Multer error:', err)
+        return res.status(400).json({ error: err.message || 'Dosya yuklenemedi' })
+      }
+      next()
+    })
+  }
+}
+
 // POST /api/upload — admin, single file
-router.post('/', auth, upload.single('file'), async (req, res) => {
+router.post('/', auth, handleUpload(upload.single('file')), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Dosya yuklenemedi' })
@@ -76,7 +88,8 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
       const result = await uploadToCloudinary(req.file.buffer)
       return res.json({ url: result.secure_url })
     }
-    res.json({ url: `/uploads/${req.file.filename}` })
+    const url = saveLocal(req.file)
+    res.json({ url })
   } catch (err) {
     console.error('Upload error:', err)
     res.status(500).json({ error: 'Yukleme hatasi' })
@@ -84,7 +97,7 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
 })
 
 // POST /api/upload/multiple — admin, multiple files (max 10)
-router.post('/multiple', auth, upload.array('files', 10), async (req, res) => {
+router.post('/multiple', auth, handleUpload(upload.array('files', 10)), async (req, res) => {
   try {
     if (!req.files?.length) {
       return res.status(400).json({ error: 'Dosya yuklenemedi' })
@@ -95,7 +108,8 @@ router.post('/multiple', auth, upload.array('files', 10), async (req, res) => {
       )
       return res.json({ urls: uploads.map((r) => r.secure_url) })
     }
-    res.json({ urls: req.files.map((f) => `/uploads/${f.filename}`) })
+    const urls = req.files.map((f) => saveLocal(f))
+    res.json({ urls })
   } catch (err) {
     console.error('Upload error:', err)
     res.status(500).json({ error: 'Yukleme hatasi' })

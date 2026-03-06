@@ -141,7 +141,8 @@ export default function ProductForm() {
         useToastStore.getState().showToast('Ürün eklendi', 'success')
       }
       navigate('/admin/products')
-    } catch {
+    } catch (err) {
+      console.error('Product save error:', err.response?.data || err.message)
       useToastStore.getState().showToast('İşlem başarısız', 'error')
     }
   }

@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
+import BannerSlider from '../../components/BannerSlider/BannerSlider'
 import useSiteContent from '../../hooks/useSiteContent'
 import styles from './Welcome.module.css'
 
@@ -84,51 +85,5 @@ export default function Welcome() {
       {/* Orta çizgi */}
       <div className={styles.divider} />
     </div>
-  )
-}
-
-function BannerSlider({ banners }) {
-  const [active, setActive] = useState(0)
-  const validBanners = banners.filter((b) => b.imageUrl)
-
-  const next = useCallback(() => {
-    setActive((prev) => (prev + 1) % validBanners.length)
-  }, [validBanners.length])
-
-  useEffect(() => {
-    if (validBanners.length <= 1) return
-    const timer = setInterval(next, 5000)
-    return () => clearInterval(timer)
-  }, [validBanners.length, next])
-
-  if (validBanners.length === 0) return null
-
-  return (
-    <>
-      {validBanners.map((banner, i) => (
-        <div
-          key={i}
-          className={`${styles.bannerSlide} ${i === active ? styles.bannerSlideActive : ''}`}
-          style={{ backgroundImage: `url(${banner.imageUrl})` }}
-        />
-      ))}
-      {validBanners[active] && (validBanners[active].title || validBanners[active].subtitle) && (
-        <div className={styles.bannerText}>
-          {validBanners[active].title && <span className={styles.bannerTitle}>{validBanners[active].title}</span>}
-          {validBanners[active].subtitle && <span className={styles.bannerSubtitle}>{validBanners[active].subtitle}</span>}
-        </div>
-      )}
-      {validBanners.length > 1 && (
-        <div className={styles.bannerDots}>
-          {validBanners.map((_, i) => (
-            <button
-              key={i}
-              className={`${styles.bannerDot} ${i === active ? styles.bannerDotActive : ''}`}
-              onClick={(e) => { e.preventDefault(); setActive(i) }}
-            />
-          ))}
-        </div>
-      )}
-    </>
   )
 }

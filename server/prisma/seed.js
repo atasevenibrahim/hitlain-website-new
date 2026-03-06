@@ -280,6 +280,9 @@ const settings = [
   { key: 'welcome.b2b.desc', value: 'Toptan sipariş, baskı & nakış, promosyon tekstili.\n50 adet ve üzeri siparişlerde özel fiyat avantajı.' },
   { key: 'welcome.b2b.cta', value: 'TEKLİF AL' },
   { key: 'welcome.b2b.banners', value: JSON.stringify([]) },
+  // Home & Corporate hero banners
+  { key: 'home.hero.banners', value: JSON.stringify([]) },
+  { key: 'corporate.hero.banners', value: JSON.stringify([]) },
   // Footer / General
   { key: 'logoText', value: 'HITHLAIN' },
   { key: 'footerCopyright', value: '© 2026 Hithlain Giyim. Tüm hakları saklıdır.' },

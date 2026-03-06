@@ -120,9 +120,79 @@ function SaveBtn({ onClick, saving }) {
   )
 }
 
+// ═══ SHARED BANNER EDITOR ═══
+function renderBannerSection(key, label, getArr, set, uploading, setUploading) {
+  const banners = getArr(key)
+
+  const updateBanner = (index, field, value) => {
+    const newBanners = [...banners]
+    newBanners[index] = { ...newBanners[index], [field]: value }
+    set(key, newBanners)
+  }
+
+  const addBanner = () => {
+    set(key, [...banners, { imageUrl: '', title: '', subtitle: '' }])
+  }
+
+  const removeBanner = (index) => {
+    set(key, banners.filter((_, i) => i !== index))
+  }
+
+  const handleUpload = async (index, e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(`${key}-${index}`)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await api.post('/upload', formData)
+      const newBanners = [...banners]
+      newBanners[index] = { ...newBanners[index], imageUrl: res.data.url }
+      set(key, newBanners)
+    } catch {
+      useToastStore.getState().showToast('Gorsel yuklenemedi', 'error')
+    }
+    setUploading(null)
+  }
+
+  return (
+    <div className={s.formSection}>
+      <div className={s.formSectionTitle}>{label}</div>
+      {banners.map((banner, i) => (
+        <div key={i} className={styles.listItem}>
+          <div className={styles.listItemHeader}>
+            <span className={styles.listItemNum}>{i + 1}</span>
+            <button className={styles.removeBtn} onClick={() => removeBanner(i)}>Sil</button>
+          </div>
+          <div className={styles.bannerRow}>
+            {banner.imageUrl ? (
+              <img src={banner.imageUrl} alt="" className={styles.bannerThumb} />
+            ) : (
+              <div className={styles.bannerThumbEmpty}>Gorsel Yok</div>
+            )}
+            <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
+              {uploading === `${key}-${i}` ? 'Yukleniyor...' : 'Gorsel Sec'}
+              <input type="file" accept="image/*" onChange={(e) => handleUpload(i, e)} hidden />
+            </label>
+          </div>
+          <div className={s.formGrid}>
+            <Field label="Baslik" value={banner.title} onChange={(v) => updateBanner(i, 'title', v)} placeholder="BAHAR KOLEKSİYONU" />
+            <Field label="Alt Yazi" value={banner.subtitle} onChange={(v) => updateBanner(i, 'subtitle', v)} placeholder="Yeni sezon ürünleri" />
+          </div>
+        </div>
+      ))}
+      <button className="btn btn-ghost btn-sm" onClick={addBanner} style={{ marginTop: '0.5rem' }}>
+        + Banner Ekle
+      </button>
+    </div>
+  )
+}
+
 // ═══ ANA SAYFA ═══
 function HomeTab({ get, set, getArr, save, saving }) {
+  const [uploading, setUploading] = useState(null)
   const keys = [
+    'home.hero.banners',
     'hero.label', 'hero.title', 'hero.description', 'hero.cta1', 'hero.cta2',
     'hero.b2b.title', 'hero.b2b.desc', 'hero.b2c.title', 'hero.b2c.desc',
     'categories.label', 'categories.title',
@@ -158,6 +228,9 @@ function HomeTab({ get, set, getArr, save, saving }) {
           <Field label="B2C Aciklama" value={get('hero.b2c.desc')} onChange={(v) => set('hero.b2c.desc', v)} placeholder="Tek parça siparişlerde..." />
         </div>
       </div>
+
+      {/* Hero Banners */}
+      {renderBannerSection('home.hero.banners', 'Hero Bannerlari', getArr, set, uploading, setUploading)}
 
       {/* Section Headers */}
       <div className={s.formSection}>
@@ -357,7 +430,9 @@ function TestimonialsTab({ getArr, set, save, saving }) {
 
 // ═══ KURUMSAL ═══
 function CorporateTab({ get, set, getArr, save, saving }) {
+  const [uploading, setUploading] = useState(null)
   const keys = [
+    'corporate.hero.banners',
     'corporate.hero.label', 'corporate.hero.title', 'corporate.hero.desc',
     'corporate.hero.cta1', 'corporate.hero.cta2',
     'corporate.services',
@@ -395,6 +470,9 @@ function CorporateTab({ get, set, getArr, save, saving }) {
           <Field label="CTA Buton 2" value={get('corporate.hero.cta2')} onChange={(v) => set('corporate.hero.cta2', v)} placeholder="İLETİŞİME GEÇ" />
         </div>
       </div>
+
+      {/* Hero Banners */}
+      {renderBannerSection('corporate.hero.banners', 'Hero Bannerlari', getArr, set, uploading, setUploading)}
 
       <div className={s.formSection}>
         <div className={s.formSectionTitle}>Hizmetler</div>

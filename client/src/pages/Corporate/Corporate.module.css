@@ -7,6 +7,14 @@
   overflow: hidden;
 }
 
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .heroContent {
   max-width: 640px;
   position: relative;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
+import BannerSlider from '../../components/BannerSlider/BannerSlider'
 import SectionHeader from '../../components/SectionHeader/SectionHeader'
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { categories, references } from '../../data/mockData'
@@ -62,6 +63,8 @@ export default function Home() {
       </Helmet>
       {/* ═══ 1. HERO ═══ */}
       <section className={styles.hero}>
+        <BannerSlider banners={getJSON('home.hero.banners', [])} />
+        {getJSON('home.hero.banners', []).filter(b => b.imageUrl).length > 0 && <div className={styles.heroOverlay} />}
         <div className={styles.heroGrid}>
           <div className={styles.heroLeft}>
             <span className="section-label" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>{get('hero.label', 'HITHLAIN GİYİM')}</span>

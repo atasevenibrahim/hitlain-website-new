@@ -188,13 +188,90 @@ function renderBannerSection(key, label, getArr, set, uploading, setUploading) {
   )
 }
 
+// ═══ HERO SLIDE EDITOR ═══
+function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading) {
+  const slides = getArr(key)
+
+  const updateSlide = (index, field, value) => {
+    const newSlides = [...slides]
+    newSlides[index] = { ...newSlides[index], [field]: value }
+    set(key, newSlides)
+  }
+
+  const addSlide = () => {
+    set(key, [...slides, { imageUrl: '', title: '', subtitle: '', cta1Text: '', cta1Link: '', cta2Text: '', cta2Link: '' }])
+  }
+
+  const removeSlide = (index) => {
+    set(key, slides.filter((_, i) => i !== index))
+  }
+
+  const handleUpload = async (index, e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(`${key}-${index}`)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await api.post('/upload', formData)
+      const newSlides = [...slides]
+      newSlides[index] = { ...newSlides[index], imageUrl: res.data.url }
+      set(key, newSlides)
+    } catch {
+      useToastStore.getState().showToast('Gorsel yuklenemedi', 'error')
+    }
+    setUploading(null)
+  }
+
+  return (
+    <div className={s.formSection}>
+      <div className={s.formSectionTitle}>{label}</div>
+      <p style={{ fontSize: '0.75rem', color: 'var(--mid)', marginBottom: '1rem' }}>
+        Slide yoksa varsayilan icerik gosterilir. En az 1 slide ekleyin.
+      </p>
+      {slides.map((slide, i) => (
+        <div key={i} className={styles.listItem}>
+          <div className={styles.listItemHeader}>
+            <span className={styles.listItemNum}>Slide {i + 1}</span>
+            <button className={styles.removeBtn} onClick={() => removeSlide(i)}>Sil</button>
+          </div>
+          <div className={styles.bannerRow}>
+            {slide.imageUrl ? (
+              <img src={slide.imageUrl} alt="" className={styles.bannerThumb} />
+            ) : (
+              <div className={styles.bannerThumbEmpty}>Gorsel Yok</div>
+            )}
+            <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
+              {uploading === `${key}-${i}` ? 'Yukleniyor...' : 'Gorsel Sec'}
+              <input type="file" accept="image/*" onChange={(e) => handleUpload(i, e)} hidden />
+            </label>
+          </div>
+          <div className={s.formGrid}>
+            <div className={`${s.formGroup} ${s.formGroupFull}`}>
+              <Field label="Baslik" value={slide.title} onChange={(v) => updateSlide(i, 'title', v)} placeholder="BAHAR KOLEKSİYONU" />
+            </div>
+            <div className={`${s.formGroup} ${s.formGroupFull}`}>
+              <Field label="Aciklama" value={slide.subtitle} onChange={(v) => updateSlide(i, 'subtitle', v)} textarea placeholder="Yeni sezon urunleri kesfet" />
+            </div>
+            <Field label="Buton 1 Metin" value={slide.cta1Text} onChange={(v) => updateSlide(i, 'cta1Text', v)} placeholder="HEMEN İNCELE" />
+            <Field label="Buton 1 Link" value={slide.cta1Link} onChange={(v) => updateSlide(i, 'cta1Link', v)} placeholder="/shop" />
+            <Field label="Buton 2 Metin" value={slide.cta2Text} onChange={(v) => updateSlide(i, 'cta2Text', v)} placeholder="KURUMSAL ÇÖZÜMLER" />
+            <Field label="Buton 2 Link" value={slide.cta2Link} onChange={(v) => updateSlide(i, 'cta2Link', v)} placeholder="/corporate" />
+          </div>
+        </div>
+      ))}
+      <button className="btn btn-ghost btn-sm" onClick={addSlide} style={{ marginTop: '0.5rem' }}>
+        + Slide Ekle
+      </button>
+    </div>
+  )
+}
+
 // ═══ ANA SAYFA ═══
 function HomeTab({ get, set, getArr, save, saving }) {
   const [uploading, setUploading] = useState(null)
   const keys = [
-    'home.hero.banners',
-    'hero.label', 'hero.title', 'hero.description', 'hero.cta1', 'hero.cta2',
-    'hero.b2b.title', 'hero.b2b.desc', 'hero.b2c.title', 'hero.b2c.desc',
+    'home.hero.slides',
     'categories.label', 'categories.title',
     'bestsellers.label', 'bestsellers.title',
     'studio.label', 'studio.title', 'studio.description', 'studio.cta',
@@ -211,26 +288,8 @@ function HomeTab({ get, set, getArr, save, saving }) {
 
   return (
     <>
-      {/* Hero */}
-      <div className={s.formSection}>
-        <div className={s.formSectionTitle}>Hero Bolumu</div>
-        <div className={s.formGrid}>
-          <Field label="Etiket" value={get('hero.label')} onChange={(v) => set('hero.label', v)} placeholder="HITHLAIN GİYİM" />
-          <Field label="Baslik" value={get('hero.title')} onChange={(v) => set('hero.title', v)} placeholder="KURUMSAL TEKSTİL ÇÖZÜMLERİ" />
-          <div className={`${s.formGroup} ${s.formGroupFull}`}>
-            <Field label="Aciklama" value={get('hero.description')} onChange={(v) => set('hero.description', v)} textarea placeholder="Toptan ve perakende..." />
-          </div>
-          <Field label="CTA Buton 1" value={get('hero.cta1')} onChange={(v) => set('hero.cta1', v)} placeholder="ÜRÜNLERİ KEŞFET" />
-          <Field label="CTA Buton 2" value={get('hero.cta2')} onChange={(v) => set('hero.cta2', v)} placeholder="KURUMSAL ÇÖZÜMLER" />
-          <Field label="B2B Baslik" value={get('hero.b2b.title')} onChange={(v) => set('hero.b2b.title', v)} placeholder="Toptan Sipariş" />
-          <Field label="B2B Aciklama" value={get('hero.b2b.desc')} onChange={(v) => set('hero.b2b.desc', v)} placeholder="50 adet ve üzeri..." />
-          <Field label="B2C Baslik" value={get('hero.b2c.title')} onChange={(v) => set('hero.b2c.title', v)} placeholder="Perakende" />
-          <Field label="B2C Aciklama" value={get('hero.b2c.desc')} onChange={(v) => set('hero.b2c.desc', v)} placeholder="Tek parça siparişlerde..." />
-        </div>
-      </div>
-
-      {/* Hero Banners */}
-      {renderBannerSection('home.hero.banners', 'Hero Bannerlari', getArr, set, uploading, setUploading)}
+      {/* Hero Slides */}
+      {renderHeroSlideEditor('home.hero.slides', 'Hero Slider', getArr, set, uploading, setUploading)}
 
       {/* Section Headers */}
       <div className={s.formSection}>

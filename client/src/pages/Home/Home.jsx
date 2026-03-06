@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
-import BannerSlider from '../../components/BannerSlider/BannerSlider'
+import HeroSlider from '../../components/HeroSlider/HeroSlider'
 import SectionHeader from '../../components/SectionHeader/SectionHeader'
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { categories, references } from '../../data/mockData'
@@ -62,40 +62,7 @@ export default function Home() {
         <meta name="description" content={get('metaDescription', 'Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.')} />
       </Helmet>
       {/* ═══ 1. HERO ═══ */}
-      <section className={styles.hero}>
-        <BannerSlider banners={getJSON('home.hero.banners', [])} />
-        {getJSON('home.hero.banners', []).filter(b => b.imageUrl).length > 0 && <div className={styles.heroOverlay} />}
-        <div className={styles.heroGrid}>
-          <div className={styles.heroLeft}>
-            <span className="section-label" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>{get('hero.label', 'HITHLAIN GİYİM')}</span>
-            <h1 className={styles.heroTitle}>
-              {get('hero.title', 'KURUMSAL\nTEKSTİL\nÇÖZÜMLERİ').split('\n').map((line, i) => (
-                <span key={i}>{line}<br /></span>
-              ))}
-            </h1>
-            <p className={styles.heroText}>
-              {get('hero.description', 'Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.')}
-            </p>
-            <div className={styles.heroCta}>
-              <Link to="/shop" className="btn btn-primary btn-lg">{get('hero.cta1', 'ÜRÜNLERİ KEŞFET')}</Link>
-              <Link to="/corporate" className="btn btn-outline-white btn-lg">{get('hero.cta2', 'KURUMSAL ÇÖZÜMLER')}</Link>
-            </div>
-          </div>
-          <div className={styles.heroRight}>
-            <div className={styles.heroCard}>
-              <span className={styles.heroCardLabel}>B2B</span>
-              <h3>{get('hero.b2b.title', 'Toptan Sipariş')}</h3>
-              <p>{get('hero.b2b.desc', '50 adet ve üzeri kurumsal siparişlerde özel fiyat')}</p>
-            </div>
-            <div className={styles.heroCard}>
-              <span className={styles.heroCardLabel}>B2C</span>
-              <h3>{get('hero.b2c.title', 'Perakende')}</h3>
-              <p>{get('hero.b2c.desc', 'Tek parça siparişlerde hızlı teslimat')}</p>
-            </div>
-          </div>
-        </div>
-        <div className={styles.heroGhost}>TEKSTİL</div>
-      </section>
+      <HeroSlider slides={getJSON('home.hero.slides', [])} />
 
       {/* ═══ 2. KATEGORİLER ═══ */}
       <section className="section">

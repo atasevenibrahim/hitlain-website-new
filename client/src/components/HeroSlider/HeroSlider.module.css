@@ -1,0 +1,146 @@
+.hero {
+  position: relative;
+  min-height: 70vh;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+}
+
+/* ═══ Background Slides ═══ */
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 0;
+}
+
+.slideActive {
+  opacity: 1;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ═══ Content ═══ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.content {
+  max-width: 700px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 500px;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.ctas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ═══ Ghost Text ═══ */
+.ghost {
+  position: absolute;
+  bottom: -0.2em;
+  right: 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 18vw, 16rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--white);
+  opacity: 0.03;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* ═══ Dot Navigation ═══ */
+.dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.6rem;
+  z-index: 3;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.dotActive {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* ═══ Responsive ═══ */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 60vh;
+  }
+
+  .container {
+    padding: 4rem 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 50vh;
+  }
+
+  .title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .ghost {
+    font-size: clamp(4rem, 14vw, 8rem);
+  }
+}

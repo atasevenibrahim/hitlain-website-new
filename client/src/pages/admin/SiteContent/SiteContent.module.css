@@ -39,3 +39,56 @@
   background: var(--error);
   color: white;
 }
+
+/* ═══ LOGO UPLOAD ═══ */
+.logoUploadArea {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logoPreviewImg {
+  height: 60px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.5rem;
+  background: var(--white);
+}
+
+.logoUploadActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ═══ BANNER EDITOR ═══ */
+.bannerRow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.bannerThumb {
+  width: 120px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.bannerThumbEmpty {
+  width: 120px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: var(--subtle);
+  font-family: var(--font-ui);
+}

@@ -269,6 +269,17 @@ const settings = [
   // Contact page
   { key: 'contact.title', value: 'Bize Ulaşın' },
   { key: 'contact.subtitle', value: 'İLETİŞİM' },
+  // Logo
+  { key: 'logoUrl', value: '/hithlain-logo.png' },
+  // Welcome (Karsilama) page
+  { key: 'welcome.b2c.title', value: 'BİREYSEL\nALIŞVERİŞ' },
+  { key: 'welcome.b2c.desc', value: 'Tişört, sweatshirt, mont ve daha fazlası.\nKendi tasarımını oluştur veya hazır ürünleri keşfet.' },
+  { key: 'welcome.b2c.cta', value: 'MAĞAZAYA GİT' },
+  { key: 'welcome.b2c.banners', value: JSON.stringify([]) },
+  { key: 'welcome.b2b.title', value: 'KURUMSAL\nÇÖZÜMLER' },
+  { key: 'welcome.b2b.desc', value: 'Toptan sipariş, baskı & nakış, promosyon tekstili.\n50 adet ve üzeri siparişlerde özel fiyat avantajı.' },
+  { key: 'welcome.b2b.cta', value: 'TEKLİF AL' },
+  { key: 'welcome.b2b.banners', value: JSON.stringify([]) },
   // Footer / General
   { key: 'logoText', value: 'HITHLAIN' },
   { key: 'footerCopyright', value: '© 2026 Hithlain Giyim. Tüm hakları saklıdır.' },

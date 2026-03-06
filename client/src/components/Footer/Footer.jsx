@@ -85,7 +85,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className={styles.bottom}>
           <span className={styles.logoBottom}>
-            <img src="/hithlain-logo.png" alt="HITHLAIN" className={styles.logoBottomImg} />
+            <img src={get('logoUrl', '/hithlain-logo.png') || '/hithlain-logo.png'} alt="HITHLAIN" className={styles.logoBottomImg} />
           </span>
           <p className={styles.copyright}>
             {get('footerCopyright', '© 2026 Hithlain Giyim. Tüm hakları saklıdır.')}

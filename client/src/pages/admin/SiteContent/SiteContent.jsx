@@ -6,6 +6,7 @@ import s from '../admin.module.css'
 import styles from './SiteContent.module.css'
 
 const tabs = [
+  { id: 'welcome', label: 'Karsilama' },
   { id: 'home', label: 'Ana Sayfa' },
   { id: 'stats', label: 'İstatistikler' },
   { id: 'faq', label: 'SSS' },
@@ -17,7 +18,7 @@ const tabs = [
 ]
 
 export default function SiteContent() {
-  const [activeTab, setActiveTab] = useState('home')
+  const [activeTab, setActiveTab] = useState('welcome')
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -83,6 +84,7 @@ export default function SiteContent() {
         ))}
       </div>
 
+      {activeTab === 'welcome' && <WelcomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
       {activeTab === 'home' && <HomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
       {activeTab === 'stats' && <StatsTab get={get} set={set} save={saveTab} saving={saving} />}
       {activeTab === 'faq' && <FaqTab getArr={getArr} set={set} save={saveTab} saving={saving} />}
@@ -471,10 +473,49 @@ function ContactTab({ get, set, save, saving }) {
 
 // ═══ GENEL ═══
 function GeneralTab({ get, set, save, saving }) {
-  const keys = ['logoText', 'footerCopyright', 'footerNewsletter']
+  const keys = ['logoText', 'logoUrl', 'footerCopyright', 'footerNewsletter']
+  const [uploading, setUploading] = useState(false)
+
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await api.post('/upload', formData)
+      set('logoUrl', res.data.url)
+      useToastStore.getState().showToast('Logo yuklendi', 'success')
+    } catch {
+      useToastStore.getState().showToast('Logo yuklenemedi', 'error')
+    }
+    setUploading(false)
+  }
 
   return (
     <>
+      <div className={s.formSection}>
+        <div className={s.formSectionTitle}>Site Logosu</div>
+        <div className={styles.logoUploadArea}>
+          <img
+            src={get('logoUrl') || '/hithlain-logo.png'}
+            alt="Logo"
+            className={styles.logoPreviewImg}
+          />
+          <div className={styles.logoUploadActions}>
+            <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
+              {uploading ? 'Yukleniyor...' : 'Logo Degistir'}
+              <input type="file" accept="image/*" onChange={handleLogoUpload} hidden disabled={uploading} />
+            </label>
+            {get('logoUrl') && (
+              <button className="btn btn-ghost btn-sm" onClick={() => set('logoUrl', '')}>
+                Varsayilana Don
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
       <div className={s.formSection}>
         <div className={s.formSectionTitle}>Genel Icerikler</div>
         <div className={s.formGrid}>
@@ -485,7 +526,117 @@ function GeneralTab({ get, set, save, saving }) {
           </div>
         </div>
       </div>
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} />
+    </>
+  )
+}
+
+// ═══ KARSILAMA EKRANI ═══
+function WelcomeTab({ get, set, getArr, save, saving }) {
+  const [uploading, setUploading] = useState(null)
+  const keys = [
+    'welcome.b2c.title', 'welcome.b2c.desc', 'welcome.b2c.cta', 'welcome.b2c.banners',
+    'welcome.b2b.title', 'welcome.b2b.desc', 'welcome.b2b.cta', 'welcome.b2b.banners',
+  ]
+
+  const handleBannerUpload = async (side, index, e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(`${side}-${index}`)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await api.post('/upload', formData)
+      const banners = [...getArr(`welcome.${side}.banners`)]
+      banners[index] = { ...banners[index], imageUrl: res.data.url }
+      set(`welcome.${side}.banners`, banners)
+    } catch {
+      useToastStore.getState().showToast('Gorsel yuklenemedi', 'error')
+    }
+    setUploading(null)
+  }
+
+  const renderBannerEditor = (side, label) => {
+    const banners = getArr(`welcome.${side}.banners`)
+
+    const updateBanner = (index, field, value) => {
+      const newBanners = [...banners]
+      newBanners[index] = { ...newBanners[index], [field]: value }
+      set(`welcome.${side}.banners`, newBanners)
+    }
+
+    const addBanner = () => {
+      set(`welcome.${side}.banners`, [...banners, { imageUrl: '', title: '', subtitle: '' }])
+    }
+
+    const removeBanner = (index) => {
+      set(`welcome.${side}.banners`, banners.filter((_, i) => i !== index))
+    }
+
+    return (
+      <div className={s.formSection}>
+        <div className={s.formSectionTitle}>{label} — Bannerlar</div>
+        {banners.map((banner, i) => (
+          <div key={i} className={styles.listItem}>
+            <div className={styles.listItemHeader}>
+              <span className={styles.listItemNum}>{i + 1}</span>
+              <button className={styles.removeBtn} onClick={() => removeBanner(i)}>Sil</button>
+            </div>
+            <div className={styles.bannerRow}>
+              {banner.imageUrl ? (
+                <img src={banner.imageUrl} alt="" className={styles.bannerThumb} />
+              ) : (
+                <div className={styles.bannerThumbEmpty}>Gorsel Yok</div>
+              )}
+              <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
+                {uploading === `${side}-${i}` ? 'Yukleniyor...' : 'Gorsel Sec'}
+                <input type="file" accept="image/*" onChange={(e) => handleBannerUpload(side, i, e)} hidden />
+              </label>
+            </div>
+            <div className={s.formGrid}>
+              <Field label="Baslik" value={banner.title} onChange={(v) => updateBanner(i, 'title', v)} placeholder="BAHAR KOLEKSİYONU" />
+              <Field label="Alt Yazi" value={banner.subtitle} onChange={(v) => updateBanner(i, 'subtitle', v)} placeholder="Yeni sezon ürünleri" />
+            </div>
+          </div>
+        ))}
+        <button className="btn btn-ghost btn-sm" onClick={addBanner} style={{ marginTop: '0.5rem' }}>
+          + Banner Ekle
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {/* B2C Text */}
+      <div className={s.formSection}>
+        <div className={s.formSectionTitle}>Bireysel (B2C) — Yazilar</div>
+        <div className={s.formGrid}>
+          <Field label="Baslik" value={get('welcome.b2c.title')} onChange={(v) => set('welcome.b2c.title', v)} placeholder="BİREYSEL ALIŞVERİŞ" />
+          <Field label="CTA Buton" value={get('welcome.b2c.cta')} onChange={(v) => set('welcome.b2c.cta', v)} placeholder="MAĞAZAYA GİT" />
+          <div className={`${s.formGroup} ${s.formGroupFull}`}>
+            <Field label="Aciklama" value={get('welcome.b2c.desc')} onChange={(v) => set('welcome.b2c.desc', v)} textarea placeholder="Tişört, sweatshirt, mont ve daha fazlası..." />
+          </div>
+        </div>
+      </div>
+
+      {renderBannerEditor('b2c', 'Bireysel (B2C)')}
+
+      {/* B2B Text */}
+      <div className={s.formSection}>
+        <div className={s.formSectionTitle}>Kurumsal (B2B) — Yazilar</div>
+        <div className={s.formGrid}>
+          <Field label="Baslik" value={get('welcome.b2b.title')} onChange={(v) => set('welcome.b2b.title', v)} placeholder="KURUMSAL ÇÖZÜMLER" />
+          <Field label="CTA Buton" value={get('welcome.b2b.cta')} onChange={(v) => set('welcome.b2b.cta', v)} placeholder="TEKLİF AL" />
+          <div className={`${s.formGroup} ${s.formGroupFull}`}>
+            <Field label="Aciklama" value={get('welcome.b2b.desc')} onChange={(v) => set('welcome.b2b.desc', v)} textarea placeholder="Toptan sipariş, baskı & nakış..." />
+          </div>
+        </div>
+      </div>
+
+      {renderBannerEditor('b2b', 'Kurumsal (B2B)')}
+
+      <SaveBtn onClick={() => save(keys)} saving={saving} />
     </>
   )
 }

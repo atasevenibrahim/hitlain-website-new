@@ -1,5 +1,6 @@
 import { Outlet, NavLink, Link, Navigate } from 'react-router-dom'
 import useAdminStore from '../../stores/adminStore'
+import useSiteContent from '../../hooks/useSiteContent'
 import styles from './AdminLayout.module.css'
 
 const navItems = [
@@ -15,6 +16,7 @@ const navItems = [
 
 export default function AdminLayout() {
   const { token, logout } = useAdminStore()
+  const { get } = useSiteContent()
 
   if (!token) {
     return <Navigate to="/admin/login" replace />
@@ -24,7 +26,7 @@ export default function AdminLayout() {
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
         <Link to="/admin" className={styles.logo}>
-          <img src="/hithlain-logo.png" alt="HITHLAIN" className={styles.logoImg} />
+          <img src={get('logoUrl', '/hithlain-logo.png') || '/hithlain-logo.png'} alt="HITHLAIN" className={styles.logoImg} />
           <span className={styles.logoSub}>Admin</span>
         </Link>
 

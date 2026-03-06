@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import useCartStore from '../../stores/cartStore'
+import useSiteContent from '../../hooks/useSiteContent'
 import styles from './Navbar.module.css'
 
 const navLinks = [
@@ -17,6 +18,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
   const location = useLocation()
   const { openCart, items } = useCartStore()
+  const { get } = useSiteContent()
   const totalItems = items.reduce((sum, item) => sum + item.qty, 0)
 
   return (
@@ -24,7 +26,7 @@ export default function Navbar() {
       <div className={styles.container}>
         {/* Logo */}
         <Link to="/" className={styles.logo}>
-          <img src="/hithlain-logo.png" alt="HITHLAIN" className={styles.logoImg} />
+          <img src={get('logoUrl', '/hithlain-logo.png') || '/hithlain-logo.png'} alt="HITHLAIN" className={styles.logoImg} />
         </Link>
 
         {/* Desktop Nav Links */}

@@ -58,7 +58,7 @@ model OrderItem {
   id        Int     @id @default(autoincrement())
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
   size      String
   color     String
@@ -83,7 +83,7 @@ model StudioOrderItem {
   id            Int         @id @default(autoincrement())
   studioOrder   StudioOrder @relation(fields: [studioOrderId], references: [id], onDelete: Cascade)
   studioOrderId Int
-  product       Product     @relation(fields: [productId], references: [id])
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId     Int
   color         String
   sizes         String      @default("{}")

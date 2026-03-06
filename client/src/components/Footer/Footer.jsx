@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import useSiteContent from '../../hooks/useSiteContent'
 import styles from './Footer.module.css'
 
 const categoryLinks = [
@@ -19,6 +20,7 @@ const legalLinks = [
 ]
 
 export default function Footer() {
+  const { get } = useSiteContent()
   const [email, setEmail] = useState('')
 
   const handleSubscribe = (e) => {
@@ -62,7 +64,7 @@ export default function Footer() {
           <div className={styles.column}>
             <h4 className={styles.columnTitle}>Bülten</h4>
             <p className={styles.newsletterText}>
-              Kampanya ve yeni ürünlerden haberdar olun.
+              {get('footerNewsletter', 'Kampanya ve yeni ürünlerden haberdar olun.')}
             </p>
             <form className={styles.newsletterForm} onSubmit={handleSubscribe}>
               <input
@@ -86,7 +88,7 @@ export default function Footer() {
             <img src="/hithlain-logo.png" alt="HITHLAIN" className={styles.logoBottomImg} />
           </span>
           <p className={styles.copyright}>
-            © 2026 Hithlain Giyim. Tüm hakları saklıdır.
+            {get('footerCopyright', '© 2026 Hithlain Giyim. Tüm hakları saklıdır.')}
           </p>
         </div>
       </div>

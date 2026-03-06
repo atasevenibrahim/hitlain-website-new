@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { SiteContentProvider } from './hooks/useSiteContent'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import MarqueeBanner from './components/MarqueeBanner/MarqueeBanner'
 import TrustBar from './components/TrustBar/TrustBar'
@@ -31,6 +32,7 @@ import Orders from './pages/admin/Orders/Orders'
 import StudioOrders from './pages/admin/StudioOrders/StudioOrders'
 import References from './pages/admin/References/References'
 import Settings from './pages/admin/Settings/Settings'
+import SiteContent from './pages/admin/SiteContent/SiteContent'
 
 function PublicLayout() {
   return (
@@ -51,6 +53,7 @@ function PublicLayout() {
 export default function App() {
   return (
     <ErrorBoundary>
+    <SiteContentProvider>
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
@@ -83,9 +86,11 @@ export default function App() {
           <Route path="studio-orders" element={<StudioOrders />} />
           <Route path="references" element={<References />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="site-content" element={<SiteContent />} />
         </Route>
       </Routes>
     </BrowserRouter>
+    </SiteContentProvider>
     </ErrorBoundary>
   )
 }

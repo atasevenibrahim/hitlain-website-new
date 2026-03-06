@@ -1,6 +1,7 @@
+import useSiteContent from '../../hooks/useSiteContent'
 import styles from './TrustBar.module.css'
 
-const items = [
+const defaultItems = [
   { icon: '✓', text: 'Güvenli Alışveriş' },
   { icon: '⬡', text: '1500₺ Üzeri Kargo Bedava' },
   { icon: '→', text: 'Hızlı Teslimat' },
@@ -8,6 +9,9 @@ const items = [
 ]
 
 export default function TrustBar() {
+  const { getJSON } = useSiteContent()
+  const items = getJSON('trustBarItems', defaultItems)
+
   return (
     <div className={styles.bar}>
       <div className={styles.container}>

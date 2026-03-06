@@ -9,6 +9,7 @@ const navItems = [
   { to: '/admin/orders', label: 'Siparişler', icon: '📋' },
   { to: '/admin/studio-orders', label: 'Stüdyo Siparişleri', icon: '🎨' },
   { to: '/admin/references', label: 'Referanslar', icon: '🏢' },
+  { to: '/admin/site-content', label: 'Site İçeriği', icon: '✏️' },
   { to: '/admin/settings', label: 'Site Ayarları', icon: '⚙️' },
 ]
 

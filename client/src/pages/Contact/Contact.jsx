@@ -1,32 +1,34 @@
 import { Helmet } from 'react-helmet-async'
+import useSiteContent from '../../hooks/useSiteContent'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import styles from './Contact.module.css'
 
 export default function Contact() {
   const revealRef = useScrollReveal()
+  const { get } = useSiteContent()
 
   return (
     <div className={styles.page} ref={revealRef}>
       <Helmet>
-        <title>İletişim — HITHLAIN Giyim</title>
+        <title>İletişim — {get('siteName', 'HITHLAIN Giyim')}</title>
         <meta name="description" content="HITHLAIN Giyim ile iletişime geçin. Adres, telefon, e-posta bilgileri." />
       </Helmet>
       <div className="container">
-        <span className="section-label">İLETİŞİM</span>
-        <h1>Bize Ulaşın</h1>
+        <span className="section-label">{get('contact.subtitle', 'İLETİŞİM')}</span>
+        <h1>{get('contact.title', 'Bize Ulaşın')}</h1>
         <div className={styles.grid}>
           <div className={styles.info}>
             <div className={styles.infoItem}>
               <h4>Adres</h4>
-              <p>Varsak Karşıyaka Mah. Gazi cad. 1Üzüm apt. No:11/A Kepez/ANTALYA</p>
+              <p>{get('address', 'Varsak Karşıyaka Mah. Gazi cad. 1Üzüm apt. No:11/A Kepez/ANTALYA')}</p>
             </div>
             <div className={styles.infoItem}>
               <h4>E-posta</h4>
-              <p>hithlaingiyim@gmail.com</p>
+              <p>{get('email', 'hithlaingiyim@gmail.com')}</p>
             </div>
             <div className={styles.infoItem}>
               <h4>Telefon</h4>
-              <p>0543 686 19 94</p>
+              <p>{get('phone', '0543 686 19 94')}</p>
             </div>
           </div>
           <form className={styles.form}>

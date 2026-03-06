@@ -1,6 +1,7 @@
+import useSiteContent from '../../hooks/useSiteContent'
 import styles from './MarqueeBanner.module.css'
 
-const items = [
+const defaultItems = [
   'TOPTAN FİYAT AVANTAJI',
   'KURUMSAL ÇÖZÜMLER',
   'BASKI & NAKIŞ HİZMETİ',
@@ -10,6 +11,8 @@ const items = [
 ]
 
 export default function MarqueeBanner() {
+  const { getJSON } = useSiteContent()
+  const items = getJSON('marqueeItems', defaultItems)
   const content = items.map((item) => `${item} ◆ `).join('')
   const doubled = content + content
 

@@ -158,6 +158,7 @@ const references = [
 ]
 
 const settings = [
+  // Genel
   { key: 'siteName', value: 'HITHLAIN Giyim' },
   { key: 'metaDescription', value: 'Kurumsal giyim ve promosyon tekstil çözümleri' },
   { key: 'whatsapp', value: '905436861994' },
@@ -175,6 +176,103 @@ const settings = [
     { icon: '→', text: 'Hızlı Teslimat' },
     { icon: '◎', text: 'Online Destek' },
   ]) },
+  // Hero
+  { key: 'hero.label', value: 'HITHLAIN GİYİM' },
+  { key: 'hero.title', value: 'KURUMSAL\nTEKSTİL\nÇÖZÜMLERİ' },
+  { key: 'hero.description', value: 'Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.' },
+  { key: 'hero.cta1', value: 'ÜRÜNLERİ KEŞFET' },
+  { key: 'hero.cta2', value: 'KURUMSAL ÇÖZÜMLER' },
+  { key: 'hero.b2b.title', value: 'Toptan Sipariş' },
+  { key: 'hero.b2b.desc', value: '50 adet ve üzeri kurumsal siparişlerde özel fiyat' },
+  { key: 'hero.b2c.title', value: 'Perakende' },
+  { key: 'hero.b2c.desc', value: 'Tek parça siparişlerde hızlı teslimat' },
+  // Section Headers
+  { key: 'categories.label', value: 'KATEGORİLER' },
+  { key: 'categories.title', value: 'NE ARIYORSUNUZ?' },
+  { key: 'bestsellers.label', value: 'ÇOK SATANLAR' },
+  { key: 'bestsellers.title', value: 'EN SEVİLEN ÜRÜNLER' },
+  // Studio
+  { key: 'studio.label', value: 'TASARIM STÜDYOSU' },
+  { key: 'studio.title', value: 'KENDİN\nTASARLA' },
+  { key: 'studio.description', value: 'Kendi tasarımını yükle veya stüdyomuzda oluştur. Baskı bölgesini seç, ürünü özelleştir.' },
+  { key: 'studio.cta', value: 'STÜDYOYA GİT' },
+  // Corporate cards on Home
+  { key: 'corp.label', value: 'KURUMSAL' },
+  { key: 'corp.title', value: 'İŞLETMENİZ İÇİN ÇÖZÜMLER' },
+  { key: 'corp.card1.title', value: 'Baskı & Nakış' },
+  { key: 'corp.card1.desc', value: 'Logonuzu, tasarımınızı tişört, sweatshirt ve daha fazlasına uyguluyoruz. Serigrafi, dijital baskı ve nakış seçenekleri.' },
+  { key: 'corp.card2.title', value: 'Toptan Dikim' },
+  { key: 'corp.card2.desc', value: 'İstediğiniz model, kumaş ve renkte toptan üretim. Minimum 50 adet sipariş ile özel fiyat avantajı.' },
+  // Why Us
+  { key: 'whyus.label', value: 'NEDEN BİZ' },
+  { key: 'whyus.title', value: 'FARKINIZ BİZİZ' },
+  { key: 'whyus.items', value: JSON.stringify([
+    { title: 'Kaliteli Kumaş', desc: 'Sadece A sınıfı, sertifikalı kumaşlar kullanıyoruz.' },
+    { title: 'Hızlı Üretim', desc: '500 adete kadar siparişleri 5 iş gününde teslim ediyoruz.' },
+    { title: 'Profesyonel Baskı', desc: 'Serigrafi, dijital ve nakış, her teknikte uzman ekip.' },
+    { title: 'Uygun Fiyat', desc: 'Aracısız, fabrikadan direkt toptan fiyat avantajı.' },
+  ]) },
+  // Stats
+  { key: 'stats.1.num', value: '50K+' },
+  { key: 'stats.1.label', value: 'Üretilen Parça' },
+  { key: 'stats.2.num', value: '200+' },
+  { key: 'stats.2.label', value: 'Kurumsal Müşteri' },
+  { key: 'stats.3.num', value: '15+' },
+  { key: 'stats.3.label', value: 'Yıllık Deneyim' },
+  { key: 'stats.4.num', value: '%98' },
+  { key: 'stats.4.label', value: 'Memnuniyet' },
+  // About Home
+  { key: 'aboutHome.label', value: 'HAKKIMIZDA' },
+  { key: 'aboutHome.title', value: 'İKİ KARDEŞİN HİKAYESİ' },
+  { key: 'aboutHome.text1', value: 'Antalya\'da küçük bir atölyede başlayan yolculuğumuz, bugün yüzlerce kurumsal müşteriye hizmet veren bir markaya dönüştü. Kalite ve müşteri memnuniyeti odaklı yaklaşımımızla sektörde güvenilir bir isim olduk.' },
+  { key: 'aboutHome.text2', value: 'Her bir ürünümüzde aynı özveri ve titizliği gösteriyoruz. Amacımız sadece giysi üretmek değil, markanızı en iyi şekilde temsil edecek çözümler sunmak.' },
+  // Section headers
+  { key: 'reviews.label', value: 'YORUMLAR' },
+  { key: 'reviews.title', value: 'MÜŞTERİLERİMİZ NE DİYOR?' },
+  { key: 'faqHome.label', value: 'SSS' },
+  { key: 'faqHome.title', value: 'SIK SORULAN SORULAR' },
+  { key: 'contactHome.label', value: 'İLETİŞİM' },
+  { key: 'contactHome.title', value: 'BİZE ULAŞIN' },
+  { key: 'instagram.label', value: 'INSTAGRAM' },
+  { key: 'instagram.title', value: '@HITHLAİNGİYİM' },
+  // Testimonials
+  { key: 'testimonials', value: JSON.stringify([
+    { id: 1, name: 'Ahmet Yılmaz', company: 'PAYDIN Gıda', text: 'Toptan tişört siparişimizi zamanında ve kaliteli bir şekilde teslim ettiler.', rating: 5 },
+    { id: 2, name: 'Fatma Demir', company: 'ABC İnşaat', text: 'İş kıyafetlerinde fiyat-performans oranı çok iyi.', rating: 5 },
+    { id: 3, name: 'Mehmet Kaya', company: '112 Acil', text: 'Nakış işçiliği çok başarılı. Kesinlikle tavsiye ederim.', rating: 5 },
+  ]) },
+  // FAQ
+  { key: 'faq.items', value: JSON.stringify([
+    { question: 'Minimum sipariş adedi kaçtır?', answer: 'Toptan siparişlerde minimum sipariş adedi 50 adettir.' },
+    { question: 'Baskı ve nakış fiyatları dahil midir?', answer: 'Hayır, baskı ve nakış işlemleri ayrıca ücretlendirilir.' },
+    { question: 'Kargo süresi ne kadardır?', answer: 'Standart 3-5 iş günü, hızlı kargo 1-2 iş günü.' },
+    { question: 'İade politikanız nedir?', answer: 'Baskılı ürünlerde iade yoktur. Standart ürünlerde 14 gün iade.' },
+  ]) },
+  // Corporate page
+  { key: 'corporate.hero.label', value: 'KURUMSAL ÇÖZÜMLER' },
+  { key: 'corporate.hero.title', value: 'İŞLETMENİZ İÇİN\nTEKSTİL ÇÖZÜMLERİ' },
+  { key: 'corporate.hero.desc', value: 'Toptan iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.' },
+  { key: 'corporate.hero.cta1', value: 'TEKLİF AL' },
+  { key: 'corporate.hero.cta2', value: 'İLETİŞİME GEÇ' },
+  { key: 'corporate.services', value: JSON.stringify([
+    { num: '01', title: 'Baskı & Nakış', desc: 'Serigrafi, dijital baskı, transfer baskı ve nakış seçenekleri.' },
+    { num: '02', title: 'Toptan Dikim', desc: 'İstediğiniz model, kumaş ve renkte toptan üretim.' },
+    { num: '03', title: 'Promosyon Tekstili', desc: 'Etkinlikler, fuarlar ve kampanyalar için promosyon ürünleri.' },
+  ]) },
+  { key: 'corporate.quote.label', value: 'TEKLİF' },
+  { key: 'corporate.quote.title', value: 'BİZE ULAŞIN' },
+  { key: 'corporate.quote.desc', value: 'Kurumsal siparişleriniz için teklif almak veya bilgi edinmek için formu doldurun.' },
+  // About page
+  { key: 'about.title', value: 'İki Kardeşin Hikayesi' },
+  { key: 'about.subtitle', value: 'HAKKIMIZDA' },
+  { key: 'about.text', value: 'Hithlain Giyim, Antalya merkezli olarak kurumsal tekstil ve iş giyim alanında hizmet vermektedir.' },
+  // Contact page
+  { key: 'contact.title', value: 'Bize Ulaşın' },
+  { key: 'contact.subtitle', value: 'İLETİŞİM' },
+  // Footer / General
+  { key: 'logoText', value: 'HITHLAIN' },
+  { key: 'footerCopyright', value: '© 2026 Hithlain Giyim. Tüm hakları saklıdır.' },
+  { key: 'footerNewsletter', value: 'Kampanya ve yeni ürünlerden haberdar olun.' },
 ]
 
 async function main() {

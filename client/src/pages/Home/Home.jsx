@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import SectionHeader from '../../components/SectionHeader/SectionHeader'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { categories, references, testimonials, faqItems } from '../../data/mockData'
+import { categories, references } from '../../data/mockData'
+import useSiteContent from '../../hooks/useSiteContent'
 import api from '../../utils/api'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import styles from './Home.module.css'
@@ -12,6 +13,34 @@ export default function Home() {
   const revealRef = useScrollReveal()
   const [openFaq, setOpenFaq] = useState(null)
   const [featured, setFeatured] = useState([])
+  const { get, getJSON } = useSiteContent()
+
+  const testimonials = getJSON('testimonials', [
+    { id: 1, name: 'Ahmet Yılmaz', company: 'PAYDIN Gıda', text: 'Toptan tişört siparişimizi zamanında ve kaliteli bir şekilde teslim ettiler. Baskı kalitesi mükemmel.', rating: 5 },
+    { id: 2, name: 'Fatma Demir', company: 'ABC İnşaat', text: 'İş kıyafetlerinde fiyat-performans oranı çok iyi. 500 adet ikaz yeleği aldık, hepsi standartlara uygundu.', rating: 5 },
+    { id: 3, name: 'Mehmet Kaya', company: '112 Acil', text: 'Nakış işçiliği çok başarılı. Logolarımız tam istediğimiz gibi çıktı. Kesinlikle tavsiye ederim.', rating: 5 },
+  ])
+
+  const faqItems = getJSON('faq.items', [
+    { question: 'Minimum sipariş adedi kaçtır?', answer: 'Toptan siparişlerde minimum sipariş adedi 50 adettir. Perakende satışlarda minimum adet bulunmamaktadır.' },
+    { question: 'Baskı ve nakış fiyatları ürün fiyatına dahil midir?', answer: 'Hayır, baskı ve nakış işlemleri ayrıca ücretlendirilir. Tasarım stüdyomuzda tasarımınızı oluşturup fiyat bilgisini görebilirsiniz.' },
+    { question: 'Kargo süresi ne kadardır?', answer: 'Standart kargo ile 3-5 iş günü, hızlı kargo ile 1-2 iş günü içinde teslimat yapılmaktadır.' },
+    { question: 'İade ve değişim politikanız nedir?', answer: 'Özel baskılı/nakışlı ürünlerde iade kabul edilmemektedir. Standart ürünlerde 14 gün içinde iade ve değişim yapılabilir.' },
+  ])
+
+  const whyUsItems = getJSON('whyus.items', [
+    { title: 'Kaliteli Kumaş', desc: 'Sadece A sınıfı, sertifikalı kumaşlar kullanıyoruz.' },
+    { title: 'Hızlı Üretim', desc: '500 adete kadar siparişleri 5 iş gününde teslim ediyoruz.' },
+    { title: 'Profesyonel Baskı', desc: 'Serigrafi, dijital ve nakış, her teknikte uzman ekip.' },
+    { title: 'Uygun Fiyat', desc: 'Aracısız, fabrikadan direkt toptan fiyat avantajı.' },
+  ])
+
+  const stats = [
+    { num: get('stats.1.num', '50K+'), label: get('stats.1.label', 'Üretilen Parça') },
+    { num: get('stats.2.num', '200+'), label: get('stats.2.label', 'Kurumsal Müşteri') },
+    { num: get('stats.3.num', '15+'), label: get('stats.3.label', 'Yıllık Deneyim') },
+    { num: get('stats.4.num', '%98'), label: get('stats.4.label', 'Memnuniyet') },
+  ]
 
   useEffect(() => {
     api.get('/products', { params: { limit: 100 } })
@@ -28,35 +57,37 @@ export default function Home() {
   return (
     <div className={styles.page} ref={revealRef}>
       <Helmet>
-        <title>HITHLAIN Giyim — Kurumsal Tekstil Çözümleri</title>
-        <meta name="description" content="Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri. Kurumsal giyim çözümlerinde güvenilir iş ortağınız." />
+        <title>{get('siteName', 'HITHLAIN Giyim')} — Kurumsal Tekstil Çözümleri</title>
+        <meta name="description" content={get('metaDescription', 'Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.')} />
       </Helmet>
       {/* ═══ 1. HERO ═══ */}
       <section className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroLeft}>
-            <span className="section-label" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>HITHLAIN GİYİM</span>
+            <span className="section-label" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>{get('hero.label', 'HITHLAIN GİYİM')}</span>
             <h1 className={styles.heroTitle}>
-              KURUMSAL<br />TEKSTİL<br />ÇÖZÜMLERİ
+              {get('hero.title', 'KURUMSAL\nTEKSTİL\nÇÖZÜMLERİ').split('\n').map((line, i) => (
+                <span key={i}>{line}<br /></span>
+              ))}
             </h1>
             <p className={styles.heroText}>
-              Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.
+              {get('hero.description', 'Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.')}
             </p>
             <div className={styles.heroCta}>
-              <Link to="/shop" className="btn btn-primary btn-lg">ÜRÜNLERİ KEŞFET</Link>
-              <Link to="/corporate" className="btn btn-outline-white btn-lg">KURUMSAL ÇÖZÜMLER</Link>
+              <Link to="/shop" className="btn btn-primary btn-lg">{get('hero.cta1', 'ÜRÜNLERİ KEŞFET')}</Link>
+              <Link to="/corporate" className="btn btn-outline-white btn-lg">{get('hero.cta2', 'KURUMSAL ÇÖZÜMLER')}</Link>
             </div>
           </div>
           <div className={styles.heroRight}>
             <div className={styles.heroCard}>
               <span className={styles.heroCardLabel}>B2B</span>
-              <h3>Toptan Sipariş</h3>
-              <p>50 adet ve üzeri kurumsal siparişlerde özel fiyat</p>
+              <h3>{get('hero.b2b.title', 'Toptan Sipariş')}</h3>
+              <p>{get('hero.b2b.desc', '50 adet ve üzeri kurumsal siparişlerde özel fiyat')}</p>
             </div>
             <div className={styles.heroCard}>
               <span className={styles.heroCardLabel}>B2C</span>
-              <h3>Perakende</h3>
-              <p>Tek parça siparişlerde hızlı teslimat</p>
+              <h3>{get('hero.b2c.title', 'Perakende')}</h3>
+              <p>{get('hero.b2c.desc', 'Tek parça siparişlerde hızlı teslimat')}</p>
             </div>
           </div>
         </div>
@@ -66,7 +97,7 @@ export default function Home() {
       {/* ═══ 2. KATEGORİLER ═══ */}
       <section className="section">
         <div className="container">
-          <SectionHeader label="KATEGORİLER" title="NE ARIYORSUNUZ?" align="center" />
+          <SectionHeader label={get('categories.label', 'KATEGORİLER')} title={get('categories.title', 'NE ARIYORSUNUZ?')} align="center" />
           <div className={`${styles.catGrid} reveal`}>
             {categories.slice(0, 5).map((cat) => (
               <Link key={cat.id} to={`/shop/${cat.id}`} className={styles.catCard}>
@@ -83,7 +114,7 @@ export default function Home() {
       {/* ═══ 3. ÇOK SATANLAR ═══ */}
       <section className="section section-off">
         <div className="container">
-          <SectionHeader label="ÇOK SATANLAR" title="EN SEVİLEN ÜRÜNLER" />
+          <SectionHeader label={get('bestsellers.label', 'ÇOK SATANLAR')} title={get('bestsellers.title', 'EN SEVİLEN ÜRÜNLER')} />
           <div className={`${styles.productGrid} reveal`}>
             {featured.map((p) => (
               <ProductCard key={p.id} product={p} />
@@ -99,12 +130,14 @@ export default function Home() {
       <section className={styles.studioSection}>
         <div className={styles.studioGrid}>
           <div className={styles.studioLeft}>
-            <span className="section-label" style={{ color: 'rgba(255,255,255,0.5)' }}>TASARIM STÜDYOSU</span>
-            <h2 className={styles.studioTitle}>KENDİN<br />TASARLA</h2>
+            <span className="section-label" style={{ color: 'rgba(255,255,255,0.5)' }}>{get('studio.label', 'TASARIM STÜDYOSU')}</span>
+            <h2 className={styles.studioTitle}>{get('studio.title', 'KENDİN\nTASARLA').split('\n').map((line, i) => (
+              <span key={i}>{line}<br /></span>
+            ))}</h2>
             <p className={styles.studioText}>
-              Kendi tasarımını yükle veya stüdyomuzda oluştur. Baskı bölgesini seç, ürünü özelleştir.
+              {get('studio.description', 'Kendi tasarımını yükle veya stüdyomuzda oluştur. Baskı bölgesini seç, ürünü özelleştir.')}
             </p>
-            <Link to="/studio" className="btn btn-outline-white btn-lg">STÜDYOYA GİT</Link>
+            <Link to="/studio" className="btn btn-outline-white btn-lg">{get('studio.cta', 'STÜDYOYA GİT')}</Link>
           </div>
           <div className={styles.studioRight}>
             <div className={styles.studioCanvas}>
@@ -122,18 +155,18 @@ export default function Home() {
       {/* ═══ 5. KURUMSAL ÇÖZÜMLER ═══ */}
       <section className="section">
         <div className="container">
-          <SectionHeader label="KURUMSAL" title="İŞLETMENİZ İÇİN ÇÖZÜMLER" />
+          <SectionHeader label={get('corp.label', 'KURUMSAL')} title={get('corp.title', 'İŞLETMENİZ İÇİN ÇÖZÜMLER')} />
           <div className={`${styles.corpGrid} reveal`}>
             <div className={styles.corpCard}>
               <span className={styles.corpNum}>01</span>
-              <h3>Baskı & Nakış</h3>
-              <p>Logonuzu, tasarımınızı tişört, sweatshirt ve daha fazlasına uyguluyoruz. Serigrafi, dijital baskı ve nakış seçenekleri.</p>
+              <h3>{get('corp.card1.title', 'Baskı & Nakış')}</h3>
+              <p>{get('corp.card1.desc', 'Logonuzu, tasarımınızı tişört, sweatshirt ve daha fazlasına uyguluyoruz. Serigrafi, dijital baskı ve nakış seçenekleri.')}</p>
               <Link to="/corporate" className={styles.corpLink}>Detaylı Bilgi →</Link>
             </div>
             <div className={styles.corpCard}>
               <span className={styles.corpNum}>02</span>
-              <h3>Toptan Dikim</h3>
-              <p>İstediğiniz model, kumaş ve renkte toptan üretim. Minimum 50 adet sipariş ile özel fiyat avantajı.</p>
+              <h3>{get('corp.card2.title', 'Toptan Dikim')}</h3>
+              <p>{get('corp.card2.desc', 'İstediğiniz model, kumaş ve renkte toptan üretim. Minimum 50 adet sipariş ile özel fiyat avantajı.')}</p>
               <Link to="/corporate" className={styles.corpLink}>Detaylı Bilgi →</Link>
             </div>
           </div>
@@ -145,31 +178,20 @@ export default function Home() {
         <div className="container">
           <div className={styles.whyGrid}>
             <div className={`reveal`}>
-              <SectionHeader label="NEDEN BİZ" title="FARKINIZ BİZİZ" light />
+              <SectionHeader label={get('whyus.label', 'NEDEN BİZ')} title={get('whyus.title', 'FARKINIZ BİZİZ')} light />
               <ul className={styles.whyList}>
-                <li><strong>Kaliteli Kumaş</strong> — Sadece A sınıfı, sertifikalı kumaşlar kullanıyoruz.</li>
-                <li><strong>Hızlı Üretim</strong> — 500 adete kadar siparişleri 5 iş gününde teslim ediyoruz.</li>
-                <li><strong>Profesyonel Baskı</strong> — Serigrafi, dijital ve nakış, her teknikte uzman ekip.</li>
-                <li><strong>Uygun Fiyat</strong> — Aracısız, fabrikadan direkt toptan fiyat avantajı.</li>
+                {whyUsItems.map((item, i) => (
+                  <li key={i}><strong>{item.title}</strong> — {item.desc}</li>
+                ))}
               </ul>
             </div>
             <div className={`${styles.statsGrid} reveal rd2`}>
-              <div className={styles.statItem}>
-                <span className={styles.statNum}>50K+</span>
-                <span className={styles.statLabel}>Üretilen Parça</span>
-              </div>
-              <div className={styles.statItem}>
-                <span className={styles.statNum}>200+</span>
-                <span className={styles.statLabel}>Kurumsal Müşteri</span>
-              </div>
-              <div className={styles.statItem}>
-                <span className={styles.statNum}>15+</span>
-                <span className={styles.statLabel}>Yıllık Deneyim</span>
-              </div>
-              <div className={styles.statItem}>
-                <span className={styles.statNum}>%98</span>
-                <span className={styles.statLabel}>Memnuniyet</span>
-              </div>
+              {stats.map((stat, i) => (
+                <div key={i} className={styles.statItem}>
+                  <span className={styles.statNum}>{stat.num}</span>
+                  <span className={styles.statLabel}>{stat.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -199,15 +221,12 @@ export default function Home() {
               </div>
             </div>
             <div className={`reveal rd2`}>
-              <SectionHeader label="HAKKIMIZDA" title="İKİ KARDEŞİN HİKAYESİ" />
+              <SectionHeader label={get('aboutHome.label', 'HAKKIMIZDA')} title={get('aboutHome.title', 'İKİ KARDEŞİN HİKAYESİ')} />
               <p className={styles.aboutText}>
-                Antalya'da küçük bir atölyede başlayan yolculuğumuz, bugün yüzlerce kurumsal müşteriye
-                hizmet veren bir markaya dönüştü. Kalite ve müşteri memnuniyeti odaklı yaklaşımımızla
-                sektörde güvenilir bir isim olduk.
+                {get('aboutHome.text1', 'Antalya\'da küçük bir atölyede başlayan yolculuğumuz, bugün yüzlerce kurumsal müşteriye hizmet veren bir markaya dönüştü. Kalite ve müşteri memnuniyeti odaklı yaklaşımımızla sektörde güvenilir bir isim olduk.')}
               </p>
               <p className={styles.aboutText}>
-                Her bir ürünümüzde aynı özveri ve titizliği gösteriyoruz. Amacımız sadece giysi üretmek
-                değil, markanızı en iyi şekilde temsil edecek çözümler sunmak.
+                {get('aboutHome.text2', 'Her bir ürünümüzde aynı özveri ve titizliği gösteriyoruz. Amacımız sadece giysi üretmek değil, markanızı en iyi şekilde temsil edecek çözümler sunmak.')}
               </p>
               <Link to="/about" className="btn btn-secondary">DAHA FAZLA</Link>
             </div>
@@ -218,10 +237,10 @@ export default function Home() {
       {/* ═══ 9. MÜŞTERİ YORUMLARI ═══ */}
       <section className="section">
         <div className="container">
-          <SectionHeader label="YORUMLAR" title="MÜŞTERİLERİMİZ NE DİYOR?" align="center" />
+          <SectionHeader label={get('reviews.label', 'YORUMLAR')} title={get('reviews.title', 'MÜŞTERİLERİMİZ NE DİYOR?')} align="center" />
           <div className={`${styles.reviewGrid} reveal`}>
-            {testimonials.map((t) => (
-              <div key={t.id} className={styles.reviewCard}>
+            {testimonials.map((t, i) => (
+              <div key={t.id || i} className={styles.reviewCard}>
                 <div className={styles.reviewStars}>★★★★★</div>
                 <p className={styles.reviewText}>"{t.text}"</p>
                 <div className={styles.reviewAuthor}>
@@ -237,7 +256,7 @@ export default function Home() {
       {/* ═══ 10. SSS ÖZETİ ═══ */}
       <section className="section section-off">
         <div className="container">
-          <SectionHeader label="SSS" title="SIK SORULAN SORULAR" align="center" />
+          <SectionHeader label={get('faqHome.label', 'SSS')} title={get('faqHome.title', 'SIK SORULAN SORULAR')} align="center" />
           <div className={`${styles.faqList} reveal`}>
             {faqItems.map((item, i) => (
               <div key={i} className={styles.faqItem}>
@@ -265,19 +284,19 @@ export default function Home() {
         <div className="container">
           <div className={styles.contactGrid}>
             <div className="reveal">
-              <SectionHeader label="İLETİŞİM" title="BİZE ULAŞIN" />
+              <SectionHeader label={get('contactHome.label', 'İLETİŞİM')} title={get('contactHome.title', 'BİZE ULAŞIN')} />
               <div className={styles.contactInfo}>
                 <div className={styles.contactItem}>
                   <h4>Adres</h4>
-                  <p>Varsak Karşıyaka Mah. Gazi cad. 1Üzüm apt. No:11/A Kepez/ANTALYA</p>
+                  <p>{get('address', 'Varsak Karşıyaka Mah. Gazi cad. 1Üzüm apt. No:11/A Kepez/ANTALYA')}</p>
                 </div>
                 <div className={styles.contactItem}>
                   <h4>E-posta</h4>
-                  <p>hithlaingiyim@gmail.com</p>
+                  <p>{get('email', 'hithlaingiyim@gmail.com')}</p>
                 </div>
                 <div className={styles.contactItem}>
                   <h4>Telefon</h4>
-                  <p>0543 686 19 94</p>
+                  <p>{get('phone', '0543 686 19 94')}</p>
                 </div>
               </div>
             </div>
@@ -294,7 +313,7 @@ export default function Home() {
       {/* ═══ 12. INSTAGRAM ═══ */}
       <section className={styles.instaSection}>
         <div className="container">
-          <SectionHeader label="INSTAGRAM" title="@HITHLAİNGİYİM" align="center" />
+          <SectionHeader label={get('instagram.label', 'INSTAGRAM')} title={get('instagram.title', '@HITHLAİNGİYİM')} align="center" />
           <div className={`${styles.instaGrid} reveal`}>
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className={styles.instaItem}>

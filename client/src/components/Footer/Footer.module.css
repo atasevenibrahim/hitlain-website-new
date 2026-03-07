@@ -1,7 +1,7 @@
 .footer {
   background: var(--ink);
   color: var(--white);
-  padding: 5rem 0 2rem;
+  padding: 2.5rem 0 1.5rem;
 }
 
 .container {
@@ -13,8 +13,8 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1.5fr;
-  gap: 3rem;
-  padding-bottom: 3rem;
+  gap: 2rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid var(--ink3);
 }
 
@@ -102,7 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
 }
 
 .logoBottom {

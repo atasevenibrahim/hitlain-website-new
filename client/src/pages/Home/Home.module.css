@@ -1,5 +1,5 @@
 .page {
-  min-height: 100vh;
+  min-height: auto;
 }
 
 /* ═══ KATEGORİLER ═══ */
@@ -57,7 +57,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .centerCta {
@@ -77,11 +77,11 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 500px;
+  min-height: 400px;
 }
 
 .studioLeft {
-  padding: 5rem 2rem;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -108,7 +108,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .studioCanvas {
@@ -148,7 +148,7 @@
 
 .corpCard {
   background: var(--white);
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .corpNum {
@@ -192,7 +192,7 @@
 .whyGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: center;
 }
 
@@ -235,7 +235,7 @@
 
 .statItem {
   background: var(--ink2);
-  padding: 2.5rem;
+  padding: 1.5rem;
   text-align: center;
 }
 
@@ -267,7 +267,7 @@
 
 .refCard {
   background: var(--white);
-  padding: 2.5rem;
+  padding: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,7 +290,7 @@
 .aboutGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: center;
 }
 
@@ -322,7 +322,7 @@
 
 .reviewCard {
   background: var(--white);
-  padding: 2.5rem;
+  padding: 1.5rem;
 }
 
 .reviewStars {
@@ -401,7 +401,7 @@
 .contactGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .contactInfo {
@@ -433,7 +433,7 @@
 
 /* ═══ INSTAGRAM ═══ */
 .instaSection {
-  padding: 4rem 0;
+  padding: 2rem 0;
   background: var(--off);
 }
 

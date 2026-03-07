@@ -2,7 +2,7 @@
 .hero {
   background: #2d6a4f;
   color: var(--white);
-  padding: 6rem 0;
+  padding: 3rem 0;
   position: relative;
   overflow: hidden;
 }
@@ -69,7 +69,7 @@
 
 .serviceCard {
   background: var(--white);
-  padding: 2.5rem 2rem;
+  padding: 1.5rem 1.5rem;
   transition: background 0.2s;
 }
 
@@ -102,7 +102,7 @@
 .whyGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: center;
 }
 
@@ -192,7 +192,7 @@
 .contactGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: start;
 }
 
@@ -241,7 +241,7 @@
 
 @media (max-width: 640px) {
   .hero {
-    padding: 4rem 0;
+    padding: 2rem 0;
   }
 
   .heroTitle {

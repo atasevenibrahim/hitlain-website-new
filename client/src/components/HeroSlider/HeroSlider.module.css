@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  min-height: 55vh;
+  min-height: 65vh;
   overflow: hidden;
   background: var(--ink);
   color: var(--white);
@@ -16,11 +16,28 @@
   min-width: 100%;
   flex-shrink: 0;
   position: relative;
-  min-height: 55vh;
+  min-height: 65vh;
   display: flex;
   align-items: center;
   background: var(--ink);
   color: var(--white);
+}
+
+/* Text align variants */
+.slideItemCenter {
+  text-align: center;
+}
+
+.slideItemCenter .content {
+  margin: 0 auto;
+}
+
+.slideItemRight {
+  text-align: right;
+}
+
+.slideItemRight .content {
+  margin-left: auto;
 }
 
 /* ═══ Hero Slide Background ═══ */
@@ -35,7 +52,6 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
   z-index: 1;
   pointer-events: none;
 }
@@ -44,7 +60,7 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   width: 100%;
   position: relative;
   z-index: 2;
@@ -56,7 +72,7 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(3rem, 7vw, 5.5rem);
   font-weight: 900;
   line-height: 0.92;
   letter-spacing: -0.02em;
@@ -65,11 +81,20 @@
 }
 
 .subtitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  max-width: 500px;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 520px;
   margin-bottom: 2.5rem;
   line-height: 1.7;
+}
+
+.slideItemCenter .subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.slideItemRight .subtitle {
+  margin-left: auto;
 }
 
 .ctas {
@@ -78,17 +103,25 @@
   flex-wrap: wrap;
 }
 
+.slideItemCenter .ctas {
+  justify-content: center;
+}
+
+.slideItemRight .ctas {
+  justify-content: flex-end;
+}
+
 /* ═══ Ghost Text ═══ */
 .ghost {
   position: absolute;
-  bottom: -0.2em;
+  bottom: -0.15em;
   right: 2rem;
   font-family: var(--font-display);
   font-size: clamp(8rem, 18vw, 16rem);
   font-weight: 900;
   line-height: 1;
   color: var(--white);
-  opacity: 0.03;
+  opacity: 0.05;
   pointer-events: none;
   user-select: none;
   z-index: 1;
@@ -102,44 +135,62 @@
   justify-content: center;
   text-align: center;
   width: 100%;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   position: relative;
   z-index: 2;
 }
 
+.announcementIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.decorLine {
+  width: 48px;
+  height: 3px;
+  background: var(--green-l);
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
 .announcementTitle {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
   font-weight: 900;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--white);
-  margin-bottom: 0.8rem;
-  line-height: 1.1;
+  margin-bottom: 1rem;
+  line-height: 1.05;
 }
 
 .announcementText {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: rgba(255, 255, 255, 0.6);
   max-width: 560px;
   line-height: 1.7;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .announcementLink {
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--green-l);
   text-decoration: none;
   transition: color 0.2s;
+  padding: 0.5rem 1.5rem;
+  border: 1.5px solid var(--green-l);
+  border-radius: 2px;
 }
 
 .announcementLink:hover {
-  color: var(--green-xl);
+  color: var(--white);
+  border-color: var(--white);
 }
 
 /* ═══ Dot Navigation ═══ */
@@ -149,13 +200,13 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.6rem;
+  gap: 0.7rem;
   z-index: 3;
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   border: 1.5px solid rgba(255, 255, 255, 0.5);
   background: transparent;
@@ -171,34 +222,35 @@
 .dotActive {
   background: rgba(255, 255, 255, 0.9);
   border-color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.15);
 }
 
 /* ═══ Responsive ═══ */
 @media (max-width: 900px) {
   .hero {
-    min-height: 45vh;
+    min-height: 50vh;
   }
 
   .slideItem {
-    min-height: 45vh;
+    min-height: 50vh;
   }
 
   .container {
-    padding: 2.5rem 1.5rem;
+    padding: 3rem 1.5rem;
   }
 }
 
 @media (max-width: 640px) {
   .hero {
-    min-height: 40vh;
+    min-height: 45vh;
   }
 
   .slideItem {
-    min-height: 40vh;
+    min-height: 45vh;
   }
 
   .title {
-    font-size: clamp(2rem, 8vw, 3rem);
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
   }
 
   .subtitle {
@@ -209,8 +261,12 @@
     font-size: clamp(4rem, 14vw, 8rem);
   }
 
+  .announcementIcon {
+    font-size: 2rem;
+  }
+
   .announcementTitle {
-    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    font-size: clamp(1.3rem, 6vw, 2rem);
   }
 
   .announcementText {
@@ -218,6 +274,6 @@
   }
 
   .announcementWrap {
-    padding: 2rem 1.2rem;
+    padding: 2.5rem 1.2rem;
   }
 }

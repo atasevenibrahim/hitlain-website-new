@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../../utils/formatters'
+import { defaultCategories } from '../../data/mockData'
+import useSiteContent from '../../hooks/useSiteContent'
 import useCartStore from '../../stores/cartStore'
 import useToastStore from '../../stores/toastStore'
 import styles from './ProductCard.module.css'
 
 export default function ProductCard({ product }) {
+  const { getJSON } = useSiteContent()
+  const categories = getJSON('categories.list', defaultCategories)
   const addItem = useCartStore((s) => s.addItem)
   const openCart = useCartStore((s) => s.openCart)
 
@@ -35,6 +39,8 @@ export default function ProductCard({ product }) {
       <div className={styles.imageWrap}>
         {product.images?.[0] && product.images[0] !== '/placeholder-product.jpg' ? (
           <img src={product.images[0]} alt={product.name} />
+        ) : categories.find(c => c.id === product.category)?.image ? (
+          <img src={categories.find(c => c.id === product.category).image} alt={product.name} />
         ) : (
           <div className={styles.imagePlaceholder}>
             <span className={styles.placeholderIcon}>👕</span>

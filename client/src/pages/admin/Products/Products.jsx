@@ -113,7 +113,9 @@ export default function Products() {
                     <div className={s.thumbnail}>
                       {p.images?.[0] && p.images[0] !== '/placeholder-product.jpg'
                         ? <img src={p.images[0]} alt={p.name} />
-                        : '👕'}
+                        : categories.find(c => c.id === p.category)?.image
+                          ? <img src={categories.find(c => c.id === p.category).image} alt={p.name} />
+                          : '👕'}
                     </div>
                   </td>
                   <td style={{ fontWeight: 600 }}>{p.name}</td>

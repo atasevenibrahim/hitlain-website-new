@@ -118,6 +118,8 @@ export default function ProductDetail() {
             <div className={styles.mainImage}>
               {realImages.length > 0 ? (
                 <img src={realImages[activeImage]} alt={product.name} />
+              ) : category?.image ? (
+                <img src={category.image} alt={product.name} />
               ) : (
                 <div className={styles.imagePlaceholder}>
                   <span style={{ fontSize: '5rem', opacity: 0.2 }}>👕</span>

@@ -92,3 +92,60 @@
   color: var(--subtle);
   font-family: var(--font-ui);
 }
+
+/* ═══ SAVE BUTTON STATES ═══ */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.savedBtn {
+  background: var(--green) !important;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* ═══ COLLAPSIBLE SECTION ═══ */
+.collapseToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  transition: color 0.2s;
+  list-style: none;
+}
+
+.collapseToggle::-webkit-details-marker {
+  display: none;
+}
+
+.collapseToggle:hover {
+  color: var(--ink);
+}
+
+.collapseArrow {
+  display: inline-block;
+  transition: transform 0.25s;
+  font-size: 0.55rem;
+}

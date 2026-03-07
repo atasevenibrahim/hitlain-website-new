@@ -24,6 +24,7 @@ export default function SiteContent() {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
   const { refresh } = useSiteContent()
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function SiteContent() {
 
   const saveTab = async (keys) => {
     setSaving(true)
+    setSaved(false)
     try {
       const payload = {}
       for (const key of keys) {
@@ -60,6 +62,8 @@ export default function SiteContent() {
       await api.put('/settings', payload)
       refresh()
       useToastStore.getState().showToast('Kaydedildi', 'success')
+      setSaved(true)
+      setTimeout(() => setSaved(false), 1500)
     } catch {
       useToastStore.getState().showToast('Kaydetme hatasi', 'error')
     }
@@ -86,17 +90,17 @@ export default function SiteContent() {
         ))}
       </div>
 
-      {activeTab === 'categories' && <CategoriesTab getArr={getArr} set={set} save={saveTab} saving={saving} />}
-      {activeTab === 'welcome' && <WelcomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
-      {activeTab === 'home' && <HomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
-      {activeTab === 'stats' && <StatsTab get={get} set={set} save={saveTab} saving={saving} />}
-      {activeTab === 'faq' && <FaqTab getArr={getArr} set={set} save={saveTab} saving={saving} />}
-      {activeTab === 'testimonials' && <TestimonialsTab getArr={getArr} set={set} save={saveTab} saving={saving} />}
-      {activeTab === 'corporate' && <CorporateTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
-      {activeTab === 'about' && <AboutTab get={get} set={set} save={saveTab} saving={saving} />}
-      {activeTab === 'contact' && <ContactTab get={get} set={set} save={saveTab} saving={saving} />}
-      {activeTab === 'legal' && <LegalTab get={get} set={set} save={saveTab} saving={saving} />}
-      {activeTab === 'general' && <GeneralTab get={get} set={set} save={saveTab} saving={saving} />}
+      {activeTab === 'categories' && <CategoriesTab getArr={getArr} set={set} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'welcome' && <WelcomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'home' && <HomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'stats' && <StatsTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'faq' && <FaqTab getArr={getArr} set={set} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'testimonials' && <TestimonialsTab getArr={getArr} set={set} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'corporate' && <CorporateTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'about' && <AboutTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'contact' && <ContactTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'legal' && <LegalTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
+      {activeTab === 'general' && <GeneralTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
     </div>
   )
 }
@@ -114,11 +118,21 @@ function Field({ label, value, onChange, textarea, placeholder }) {
   )
 }
 
-function SaveBtn({ onClick, saving }) {
+function SaveBtn({ onClick, saving, saved }) {
   return (
     <div className={s.formActions}>
-      <button className="btn btn-primary" onClick={onClick} disabled={saving}>
-        {saving ? 'KAYDEDİLİYOR...' : 'KAYDET'}
+      <button
+        className={`btn btn-primary ${saved ? styles.savedBtn : ''}`}
+        onClick={onClick}
+        disabled={saving}
+      >
+        {saving ? (
+          <><span className={styles.spinner} /> KAYDEDİLİYOR...</>
+        ) : saved ? (
+          '\u2713 KAYDEDİLDİ'
+        ) : (
+          'KAYDET'
+        )}
       </button>
     </div>
   )
@@ -262,10 +276,12 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
             <Field label="Buton 2 Metin" value={slide.cta2Text} onChange={(v) => updateSlide(i, 'cta2Text', v)} placeholder="KURUMSAL ÇÖZÜMLER" />
             <Field label="Buton 2 Link" value={slide.cta2Link} onChange={(v) => updateSlide(i, 'cta2Link', v)} placeholder="/corporate" />
           </div>
-          {/* Gorsel Ayarlar */}
-          <div style={{ borderTop: '1px solid var(--border)', marginTop: '0.75rem', paddingTop: '0.75rem' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--subtle)', marginBottom: '0.5rem' }}>Gorsel Ayarlar</div>
-            <div className={s.formGrid}>
+          {/* Gorsel Ayarlar — varsayilan kapali */}
+          <details style={{ marginTop: '0.75rem' }}>
+            <summary className={styles.collapseToggle}>
+              <span className={styles.collapseArrow}>&#9654;</span> Gorsel Ayarlar
+            </summary>
+            <div className={s.formGrid} style={{ paddingTop: '0.5rem' }}>
               <div className={s.formGroup}>
                 <label className={s.formLabel}>Arkaplan Rengi</label>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -300,7 +316,7 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
               </div>
               <Field label="Ghost Metin" value={slide.ghostText} onChange={(v) => updateSlide(i, 'ghostText', v)} placeholder="TEKSTiL" />
             </div>
-          </div>
+          </details>
         </div>
       ))}
       <button className="btn btn-ghost btn-sm" onClick={addSlide} style={{ marginTop: '0.5rem' }}>
@@ -346,18 +362,26 @@ function renderAnnouncementEditor(key, label, getArr, set) {
             <div className={`${s.formGroup} ${s.formGroupFull}`}>
               <Field label="Aciklama" value={item.text} onChange={(v) => updateItem(i, 'text', v)} textarea placeholder="Kis koleksiyonumuz yeni urunlerle guncellendi." />
             </div>
-            <Field label="Ikon (emoji)" value={item.icon} onChange={(v) => updateItem(i, 'icon', v)} placeholder="🎨" />
-            <div className={s.formGroup}>
-              <label className={s.formLabel}>Arkaplan Rengi</label>
-              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <input type="color" value={item.bgColor || '#1a1a1a'} onChange={(e) => updateItem(i, 'bgColor', e.target.value)} style={{ width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, cursor: 'pointer', padding: 2 }} />
-                <input type="text" className={s.formInput} value={item.bgColor || ''} onChange={(e) => updateItem(i, 'bgColor', e.target.value)} placeholder="#1a1a1a" style={{ flex: 1 }} />
+          </div>
+          {/* Gorsel Ayarlar — varsayilan kapali */}
+          <details style={{ marginTop: '0.5rem' }}>
+            <summary className={styles.collapseToggle}>
+              <span className={styles.collapseArrow}>&#9654;</span> Gorsel Ayarlar
+            </summary>
+            <div className={s.formGrid} style={{ paddingTop: '0.5rem' }}>
+              <Field label="Ikon (emoji)" value={item.icon} onChange={(v) => updateItem(i, 'icon', v)} placeholder="🎨" />
+              <div className={s.formGroup}>
+                <label className={s.formLabel}>Arkaplan Rengi</label>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <input type="color" value={item.bgColor || '#1a1a1a'} onChange={(e) => updateItem(i, 'bgColor', e.target.value)} style={{ width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, cursor: 'pointer', padding: 2 }} />
+                  <input type="text" className={s.formInput} value={item.bgColor || ''} onChange={(e) => updateItem(i, 'bgColor', e.target.value)} placeholder="#1a1a1a" style={{ flex: 1 }} />
+                </div>
+              </div>
+              <div className={`${s.formGroup} ${s.formGroupFull}`}>
+                <Field label="Gradient" value={item.gradient} onChange={(v) => updateItem(i, 'gradient', v)} placeholder="linear-gradient(135deg, #1a1a1a, #2d6a4f)" />
               </div>
             </div>
-            <div className={`${s.formGroup} ${s.formGroupFull}`}>
-              <Field label="Gradient" value={item.gradient} onChange={(v) => updateItem(i, 'gradient', v)} placeholder="linear-gradient(135deg, #1a1a1a, #2d6a4f)" />
-            </div>
-          </div>
+          </details>
         </div>
       ))}
       <button className="btn btn-ghost btn-sm" onClick={addItem} style={{ marginTop: '0.5rem' }}>
@@ -368,7 +392,7 @@ function renderAnnouncementEditor(key, label, getArr, set) {
 }
 
 // ═══ KATEGORİLER ═══
-function CategoriesTab({ getArr, set, save, saving }) {
+function CategoriesTab({ getArr, set, save, saving, saved }) {
   const items = getArr('categories.list')
   const [uploading, setUploading] = useState(null)
 
@@ -485,13 +509,13 @@ function CategoriesTab({ getArr, set, save, saving }) {
           + Kategori Ekle
         </button>
       </div>
-      <SaveBtn onClick={() => save(['categories.list'])} saving={saving} />
+      <SaveBtn onClick={() => save(['categories.list'])} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ ANA SAYFA ═══
-function HomeTab({ get, set, getArr, save, saving }) {
+function HomeTab({ get, set, getArr, save, saving, saved }) {
   const [uploading, setUploading] = useState(null)
   const keys = [
     'home.hero.slides',
@@ -565,13 +589,13 @@ function HomeTab({ get, set, getArr, save, saving }) {
         </div>
       </div>
 
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} />
+      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ İSTATİSTİKLER ═══
-function StatsTab({ get, set, save, saving }) {
+function StatsTab({ get, set, save, saving, saved }) {
   const keys = [
     'stats.1.num', 'stats.1.label',
     'stats.2.num', 'stats.2.label',
@@ -590,13 +614,13 @@ function StatsTab({ get, set, save, saving }) {
           </div>
         ))}
       </div>
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} />
+      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ SSS ═══
-function FaqTab({ getArr, set, save, saving }) {
+function FaqTab({ getArr, set, save, saving, saved }) {
   const items = getArr('faq.items')
 
   const updateItem = (index, field, value) => {
@@ -631,13 +655,13 @@ function FaqTab({ getArr, set, save, saving }) {
           + Soru Ekle
         </button>
       </div>
-      <SaveBtn onClick={() => save(['faq.items'])} saving={saving} />
+      <SaveBtn onClick={() => save(['faq.items'])} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ MÜŞTERİ YORUMLARI ═══
-function TestimonialsTab({ getArr, set, save, saving }) {
+function TestimonialsTab({ getArr, set, save, saving, saved }) {
   const items = getArr('testimonials')
 
   const updateItem = (index, field, value) => {
@@ -675,13 +699,13 @@ function TestimonialsTab({ getArr, set, save, saving }) {
           + Yorum Ekle
         </button>
       </div>
-      <SaveBtn onClick={() => save(['testimonials'])} saving={saving} />
+      <SaveBtn onClick={() => save(['testimonials'])} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ KURUMSAL ═══
-function CorporateTab({ get, set, getArr, save, saving }) {
+function CorporateTab({ get, set, getArr, save, saving, saved }) {
   const [uploading, setUploading] = useState(null)
   const keys = [
     'corporate.hero.banners',
@@ -754,13 +778,13 @@ function CorporateTab({ get, set, getArr, save, saving }) {
         </div>
       </div>
 
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} />
+      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ HAKKIMIZDA ═══
-function AboutTab({ get, set, save, saving }) {
+function AboutTab({ get, set, save, saving, saved }) {
   const keys = ['about.title', 'about.subtitle', 'about.text']
 
   return (
@@ -775,13 +799,13 @@ function AboutTab({ get, set, save, saving }) {
           </div>
         </div>
       </div>
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} />
+      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ İLETİŞİM ═══
-function ContactTab({ get, set, save, saving }) {
+function ContactTab({ get, set, save, saving, saved }) {
   const keys = ['contact.title', 'contact.subtitle']
 
   return (
@@ -796,13 +820,13 @@ function ContactTab({ get, set, save, saving }) {
           Adres, telefon, e-posta bilgileri Site Ayarlari sayfasindan duzenlenir.
         </p>
       </div>
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} />
+      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ SÖZLEŞMELER ═══
-function LegalTab({ get, set, save, saving }) {
+function LegalTab({ get, set, save, saving, saved }) {
   const keys = [
     'legal.privacy.title', 'legal.privacy.content',
     'legal.terms.title', 'legal.terms.content',
@@ -839,13 +863,13 @@ function LegalTab({ get, set, save, saving }) {
           </div>
         </div>
       ))}
-      <SaveBtn onClick={() => save(keys)} saving={saving} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ GENEL ═══
-function GeneralTab({ get, set, save, saving }) {
+function GeneralTab({ get, set, save, saving, saved }) {
   const keys = ['logoText', 'logoUrl', 'footerCopyright']
   const [uploading, setUploading] = useState(false)
 
@@ -896,13 +920,13 @@ function GeneralTab({ get, set, save, saving }) {
           <Field label="Footer Telif Hakki" value={get('footerCopyright')} onChange={(v) => set('footerCopyright', v)} placeholder="© 2026 Hithlain Giyim. Tüm hakları saklıdır." />
         </div>
       </div>
-      <SaveBtn onClick={() => save(keys)} saving={saving} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }
 
 // ═══ KARSILAMA EKRANI ═══
-function WelcomeTab({ get, set, getArr, save, saving }) {
+function WelcomeTab({ get, set, getArr, save, saving, saved }) {
   const [uploading, setUploading] = useState(null)
   const keys = [
     'welcome.b2c.title', 'welcome.b2c.desc', 'welcome.b2c.cta', 'welcome.b2c.banners',
@@ -1006,7 +1030,7 @@ function WelcomeTab({ get, set, getArr, save, saving }) {
 
       {renderBannerEditor('b2b', 'Kurumsal (B2B)')}
 
-      <SaveBtn onClick={() => save(keys)} saving={saving} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }

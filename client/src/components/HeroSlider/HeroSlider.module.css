@@ -4,23 +4,32 @@
   overflow: hidden;
   background: var(--ink);
   color: var(--white);
-  display: flex;
-  align-items: center;
 }
 
-/* ═══ Background Slides ═══ */
-.slide {
+/* ═══ Sliding Track ═══ */
+.track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slideItem {
+  min-width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* ═══ Hero Slide Background ═══ */
+.slideBg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0;
-  transition: opacity 0.8s ease;
   z-index: 0;
-}
-
-.slideActive {
-  opacity: 1;
 }
 
 .overlay {
@@ -31,7 +40,7 @@
   pointer-events: none;
 }
 
-/* ═══ Content ═══ */
+/* ═══ Hero Content ═══ */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -85,6 +94,54 @@
   z-index: 1;
 }
 
+/* ═══ Announcement Slide ═══ */
+.announcementWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 3rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.announcementTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 0.8rem;
+  line-height: 1.1;
+}
+
+.announcementText {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+
+.announcementLink {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--green-l);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.announcementLink:hover {
+  color: var(--green-xl);
+}
+
 /* ═══ Dot Navigation ═══ */
 .dots {
   position: absolute;
@@ -122,6 +179,10 @@
     min-height: 45vh;
   }
 
+  .slideItem {
+    min-height: 45vh;
+  }
+
   .container {
     padding: 2.5rem 1.5rem;
   }
@@ -129,6 +190,10 @@
 
 @media (max-width: 640px) {
   .hero {
+    min-height: 40vh;
+  }
+
+  .slideItem {
     min-height: 40vh;
   }
 
@@ -142,5 +207,17 @@
 
   .ghost {
     font-size: clamp(4rem, 14vw, 8rem);
+  }
+
+  .announcementTitle {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+  }
+
+  .announcementText {
+    font-size: 0.85rem;
+  }
+
+  .announcementWrap {
+    padding: 2rem 1.2rem;
   }
 }

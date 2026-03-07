@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styles from './HeroSlider.module.css'
 
 const defaultSlide = {
+  type: 'hero',
   title: 'KURUMSAL\nTEKSTİL\nÇÖZÜMLERİ',
   subtitle: 'Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.',
   cta1Text: 'ÜRÜNLERİ KEŞFET',
@@ -11,68 +12,97 @@ const defaultSlide = {
   cta2Link: '/corporate',
 }
 
-export default function HeroSlider({ slides, interval = 6000 }) {
+export default function HeroSlider({ slides = [], announcements = [], interval = 6000 }) {
   const [active, setActive] = useState(0)
-  const validSlides = slides.filter((s) => s.imageUrl)
-  const showSlides = validSlides.length > 0
+
+  // Build unified slide list
+  const heroSlides = slides.filter((s) => s.imageUrl).map((s) => ({ ...s, type: 'hero' }))
+  const announcementSlides = announcements.map((a) => ({ ...a, type: 'announcement' }))
+
+  // If no hero slides, use default + announcements; otherwise hero + announcements
+  const allSlides = heroSlides.length > 0
+    ? [...heroSlides, ...announcementSlides]
+    : [defaultSlide, ...announcementSlides]
+
+  const total = allSlides.length
 
   const next = useCallback(() => {
-    setActive((prev) => (prev + 1) % validSlides.length)
-  }, [validSlides.length])
+    setActive((prev) => (prev + 1) % total)
+  }, [total])
 
   useEffect(() => {
-    if (validSlides.length <= 1) return
+    if (total <= 1) return
     const timer = setInterval(next, interval)
     return () => clearInterval(timer)
-  }, [validSlides.length, next, interval])
-
-  const current = showSlides ? validSlides[active] : defaultSlide
+  }, [total, next, interval])
 
   return (
     <section className={styles.hero}>
-      {/* Background slides */}
-      {showSlides && validSlides.map((slide, i) => (
-        <div
-          key={i}
-          className={`${styles.slide} ${i === active ? styles.slideActive : ''}`}
-          style={{ backgroundImage: `url(${slide.imageUrl})` }}
-        />
-      ))}
-
-      {/* Overlay */}
-      {showSlides && <div className={styles.overlay} />}
-
-      {/* Content */}
-      <div className={styles.container}>
-        <div className={styles.content}>
-          {current.title && (
-            <h1 className={styles.title}>
-              {current.title.split('\n').map((line, i) => (
-                <span key={i}>{line}<br /></span>
-              ))}
-            </h1>
-          )}
-          {current.subtitle && (
-            <p className={styles.subtitle}>{current.subtitle}</p>
-          )}
-          <div className={styles.ctas}>
-            {current.cta1Text && current.cta1Link && (
-              <Link to={current.cta1Link} className="btn btn-primary btn-lg">{current.cta1Text}</Link>
-            )}
-            {current.cta2Text && current.cta2Link && (
-              <Link to={current.cta2Link} className="btn btn-outline-white btn-lg">{current.cta2Text}</Link>
+      {/* Sliding track */}
+      <div
+        className={styles.track}
+        style={{ transform: `translateX(-${active * 100}%)` }}
+      >
+        {allSlides.map((slide, i) => (
+          <div className={styles.slideItem} key={i}>
+            {slide.type === 'hero' ? (
+              <>
+                {/* Background image */}
+                {slide.imageUrl && (
+                  <>
+                    <div
+                      className={styles.slideBg}
+                      style={{ backgroundImage: `url(${slide.imageUrl})` }}
+                    />
+                    <div className={styles.overlay} />
+                  </>
+                )}
+                {/* Hero content */}
+                <div className={styles.container}>
+                  <div className={styles.content}>
+                    {slide.title && (
+                      <h1 className={styles.title}>
+                        {slide.title.split('\n').map((line, j) => (
+                          <span key={j}>{line}<br /></span>
+                        ))}
+                      </h1>
+                    )}
+                    {slide.subtitle && (
+                      <p className={styles.subtitle}>{slide.subtitle}</p>
+                    )}
+                    <div className={styles.ctas}>
+                      {slide.cta1Text && slide.cta1Link && (
+                        <Link to={slide.cta1Link} className="btn btn-primary btn-lg">{slide.cta1Text}</Link>
+                      )}
+                      {slide.cta2Text && slide.cta2Link && (
+                        <Link to={slide.cta2Link} className="btn btn-outline-white btn-lg">{slide.cta2Text}</Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                {/* Ghost text */}
+                <div className={styles.ghost}>TEKSTİL</div>
+              </>
+            ) : (
+              /* Announcement content */
+              <div className={styles.announcementWrap}>
+                <h2 className={styles.announcementTitle}>{slide.title}</h2>
+                {slide.text && <p className={styles.announcementText}>{slide.text}</p>}
+                {slide.link && (
+                  <Link to={slide.link} className={styles.announcementLink}>
+                    Detaylar &rarr;
+                  </Link>
+                )}
+              </div>
             )}
           </div>
-        </div>
+        ))}
       </div>
 
-      {/* Ghost text */}
-      <div className={styles.ghost}>TEKSTİL</div>
-
       {/* Dot navigation */}
-      {validSlides.length > 1 && (
+      {total > 1 && (
         <div className={styles.dots}>
-          {validSlides.map((_, i) => (
+          {allSlides.map((_, i) => (
             <button
               key={i}
               className={`${styles.dot} ${i === active ? styles.dotActive : ''}`}

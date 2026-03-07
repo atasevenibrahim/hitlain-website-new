@@ -589,7 +589,7 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
         </div>
       </div>
 
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }
@@ -614,7 +614,7 @@ function StatsTab({ get, set, save, saving, saved }) {
           </div>
         ))}
       </div>
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }
@@ -778,7 +778,7 @@ function CorporateTab({ get, set, getArr, save, saving, saved }) {
         </div>
       </div>
 
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }
@@ -799,7 +799,7 @@ function AboutTab({ get, set, save, saving, saved }) {
           </div>
         </div>
       </div>
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }
@@ -820,7 +820,7 @@ function ContactTab({ get, set, save, saving, saved }) {
           Adres, telefon, e-posta bilgileri Site Ayarlari sayfasindan duzenlenir.
         </p>
       </div>
-      <SaveBtn onClick={() => saveTab(keys)} saving={saving} saved={saved} />
+      <SaveBtn onClick={() => save(keys)} saving={saving} saved={saved} />
     </>
   )
 }

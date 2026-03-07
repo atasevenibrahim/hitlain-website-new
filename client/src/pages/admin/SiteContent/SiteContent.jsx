@@ -271,6 +271,52 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
   )
 }
 
+// ═══ DUYURU BANDI EDITOR ═══
+function renderAnnouncementEditor(key, label, getArr, set) {
+  const items = getArr(key)
+
+  const updateItem = (index, field, value) => {
+    const newItems = [...items]
+    newItems[index] = { ...newItems[index], [field]: value }
+    set(key, newItems)
+  }
+
+  const addItem = () => {
+    set(key, [...items, { title: '', text: '', link: '' }])
+  }
+
+  const removeItem = (index) => {
+    set(key, items.filter((_, i) => i !== index))
+  }
+
+  return (
+    <div className={s.formSection}>
+      <div className={s.formSectionTitle}>{label}</div>
+      <p style={{ fontSize: '0.75rem', color: 'var(--mid)', marginBottom: '1rem' }}>
+        Hero altinda otomatik kayan duyuru kartlari. Bos birakilirsa varsayilan duyurular gosterilir.
+      </p>
+      {items.map((item, i) => (
+        <div key={i} className={styles.listItem}>
+          <div className={styles.listItemHeader}>
+            <span className={styles.listItemNum}>{i + 1}</span>
+            <button className={styles.removeBtn} onClick={() => removeItem(i)}>Sil</button>
+          </div>
+          <div className={s.formGrid}>
+            <Field label="Baslik" value={item.title} onChange={(v) => updateItem(i, 'title', v)} placeholder="Yeni Sezon Urunleri" />
+            <Field label="Link (opsiyonel)" value={item.link} onChange={(v) => updateItem(i, 'link', v)} placeholder="/shop" />
+            <div className={`${s.formGroup} ${s.formGroupFull}`}>
+              <Field label="Aciklama" value={item.text} onChange={(v) => updateItem(i, 'text', v)} textarea placeholder="Kis koleksiyonumuz yeni urunlerle guncellendi." />
+            </div>
+          </div>
+        </div>
+      ))}
+      <button className="btn btn-ghost btn-sm" onClick={addItem} style={{ marginTop: '0.5rem' }}>
+        + Duyuru Ekle
+      </button>
+    </div>
+  )
+}
+
 // ═══ KATEGORİLER ═══
 function CategoriesTab({ getArr, set, save, saving }) {
   const items = getArr('categories.list')
@@ -399,6 +445,7 @@ function HomeTab({ get, set, getArr, save, saving }) {
   const [uploading, setUploading] = useState(null)
   const keys = [
     'home.hero.slides',
+    'home.announcements',
     'categories.label', 'categories.title',
     'bestsellers.label', 'bestsellers.title',
     'studio.label', 'studio.title', 'studio.description', 'studio.cta',
@@ -412,6 +459,9 @@ function HomeTab({ get, set, getArr, save, saving }) {
     <>
       {/* Hero Slides */}
       {renderHeroSlideEditor('home.hero.slides', 'Hero Slider', getArr, set, uploading, setUploading)}
+
+      {/* Announcements */}
+      {renderAnnouncementEditor('home.announcements', 'Duyuru Bandi', getArr, set)}
 
       {/* Section Headers */}
       <div className={s.formSection}>

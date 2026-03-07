@@ -274,6 +274,7 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
 // ═══ KATEGORİLER ═══
 function CategoriesTab({ getArr, set, save, saving }) {
   const items = getArr('categories.list')
+  const [uploading, setUploading] = useState(null)
 
   const updateItem = (index, field, value) => {
     const newItems = [...items]
@@ -282,7 +283,7 @@ function CategoriesTab({ getArr, set, save, saving }) {
   }
 
   const addItem = () => {
-    set('categories.list', [...items, { id: '', name: '', emoji: '' }])
+    set('categories.list', [...items, { id: '', name: '', image: '' }])
   }
 
   const removeItem = (index) => {
@@ -295,6 +296,25 @@ function CategoriesTab({ getArr, set, save, saving }) {
     if (target < 0 || target >= newItems.length) return
     ;[newItems[index], newItems[target]] = [newItems[target], newItems[index]]
     set('categories.list', newItems)
+  }
+
+  const handleImageUpload = async (e, index) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(index)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await api.post('/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      updateItem(index, 'image', res.data.url)
+      useToastStore.getState().showToast('Gorsel yuklendi', 'success')
+    } catch {
+      useToastStore.getState().showToast('Gorsel yuklenemedi', 'error')
+    }
+    setUploading(null)
+    e.target.value = ''
   }
 
   return (
@@ -317,7 +337,51 @@ function CategoriesTab({ getArr, set, save, saving }) {
             <div className={s.formGrid}>
               <Field label="Slug (URL)" value={item.id} onChange={(v) => updateItem(i, 'id', v)} placeholder="tisort" />
               <Field label="Gorunen Ad" value={item.name} onChange={(v) => updateItem(i, 'name', v)} placeholder="Tişört" />
-              <Field label="Emoji" value={item.emoji} onChange={(v) => updateItem(i, 'emoji', v)} placeholder="👕" />
+              <div className={s.formGroup}>
+                <label className={s.formLabel}>Kategori Gorseli</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  {item.image ? (
+                    <div style={{ position: 'relative' }}>
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        style={{ width: 48, height: 48, objectFit: 'contain', borderRadius: 4, border: '1px solid var(--border)' }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => updateItem(i, 'image', '')}
+                        style={{
+                          position: 'absolute', top: -6, right: -6,
+                          width: 18, height: 18, borderRadius: '50%',
+                          background: 'var(--error)', color: '#fff',
+                          border: 'none', fontSize: '0.65rem', cursor: 'pointer',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: 48, height: 48, borderRadius: 4,
+                      border: '2px dashed var(--border)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: 'var(--subtle)', fontSize: '1.2rem',
+                    }}>
+                      {uploading === i ? '...' : '🖼'}
+                    </div>
+                  )}
+                  <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer', margin: 0 }}>
+                    {uploading === i ? 'Yukleniyor...' : 'Gorsel Sec'}
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/svg+xml"
+                      onChange={(e) => handleImageUpload(e, i)}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         ))}

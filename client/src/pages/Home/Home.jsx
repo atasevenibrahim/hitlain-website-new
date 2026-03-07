@@ -52,7 +52,10 @@ export default function Home() {
             {getJSON('categories.list', defaultCategories).map((cat) => (
               <Link key={cat.id} to={`/shop/${cat.id}`} className={styles.catCard}>
                 <div className={styles.catContent}>
-                  <span className={styles.catEmoji}>{cat.emoji}</span>
+                  {cat.image
+                    ? <img src={cat.image} alt={cat.name} className={styles.catIcon} />
+                    : <span className={styles.catEmoji}>{cat.emoji}</span>
+                  }
                   <h3 className={styles.catName}>{cat.name}</h3>
                 </div>
               </Link>

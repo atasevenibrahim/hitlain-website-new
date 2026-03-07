@@ -1,10 +1,10 @@
 export const defaultCategories = [
-  { id: 'tisort', name: 'Tişört', emoji: '👕' },
-  { id: 'sweatshirt', name: 'Sweatshirt', emoji: '🧥' },
-  { id: 'mont-ceket', name: 'Mont ve Ceket', emoji: '🧥' },
-  { id: 'pantolon', name: 'Pantolon', emoji: '👖' },
-  { id: 'onluk', name: 'Önlük', emoji: '🥼' },
-  { id: 'ikaz-yelegi', name: 'İkaz Yeleği', emoji: '🦺' },
+  { id: 'tisort', name: 'Tişört', emoji: '👕', image: '' },
+  { id: 'sweatshirt', name: 'Sweatshirt', emoji: '🧥', image: '' },
+  { id: 'mont-ceket', name: 'Mont ve Ceket', emoji: '🧥', image: '' },
+  { id: 'pantolon', name: 'Pantolon', emoji: '👖', image: '' },
+  { id: 'onluk', name: 'Önlük', emoji: '🥼', image: '' },
+  { id: 'ikaz-yelegi', name: 'İkaz Yeleği', emoji: '🦺', image: '' },
 ]
 
 export const colors = [

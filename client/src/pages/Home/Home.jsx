@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import HeroSlider from '../../components/HeroSlider/HeroSlider'
 import SectionHeader from '../../components/SectionHeader/SectionHeader'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { categories, references } from '../../data/mockData'
+import { categories } from '../../data/mockData'
 import useSiteContent from '../../hooks/useSiteContent'
 import api from '../../utils/api'
 import useScrollReveal from '../../hooks/useScrollReveal'
@@ -16,32 +16,12 @@ export default function Home() {
   const [featured, setFeatured] = useState([])
   const { get, getJSON } = useSiteContent()
 
-  const testimonials = getJSON('testimonials', [
-    { id: 1, name: 'Ahmet Yılmaz', company: 'PAYDIN Gıda', text: 'Toptan tişört siparişimizi zamanında ve kaliteli bir şekilde teslim ettiler. Baskı kalitesi mükemmel.', rating: 5 },
-    { id: 2, name: 'Fatma Demir', company: 'ABC İnşaat', text: 'İş kıyafetlerinde fiyat-performans oranı çok iyi. 500 adet ikaz yeleği aldık, hepsi standartlara uygundu.', rating: 5 },
-    { id: 3, name: 'Mehmet Kaya', company: '112 Acil', text: 'Nakış işçiliği çok başarılı. Logolarımız tam istediğimiz gibi çıktı. Kesinlikle tavsiye ederim.', rating: 5 },
-  ])
-
   const faqItems = getJSON('faq.items', [
     { question: 'Minimum sipariş adedi kaçtır?', answer: 'Toptan siparişlerde minimum sipariş adedi 50 adettir. Perakende satışlarda minimum adet bulunmamaktadır.' },
     { question: 'Baskı ve nakış fiyatları ürün fiyatına dahil midir?', answer: 'Hayır, baskı ve nakış işlemleri ayrıca ücretlendirilir. Tasarım stüdyomuzda tasarımınızı oluşturup fiyat bilgisini görebilirsiniz.' },
     { question: 'Kargo süresi ne kadardır?', answer: 'Standart kargo ile 3-5 iş günü, hızlı kargo ile 1-2 iş günü içinde teslimat yapılmaktadır.' },
     { question: 'İade ve değişim politikanız nedir?', answer: 'Özel baskılı/nakışlı ürünlerde iade kabul edilmemektedir. Standart ürünlerde 14 gün içinde iade ve değişim yapılabilir.' },
   ])
-
-  const whyUsItems = getJSON('whyus.items', [
-    { title: 'Kaliteli Kumaş', desc: 'Sadece A sınıfı, sertifikalı kumaşlar kullanıyoruz.' },
-    { title: 'Hızlı Üretim', desc: '500 adete kadar siparişleri 5 iş gününde teslim ediyoruz.' },
-    { title: 'Profesyonel Baskı', desc: 'Serigrafi, dijital ve nakış, her teknikte uzman ekip.' },
-    { title: 'Uygun Fiyat', desc: 'Aracısız, fabrikadan direkt toptan fiyat avantajı.' },
-  ])
-
-  const stats = [
-    { num: get('stats.1.num', '50K+'), label: get('stats.1.label', 'Üretilen Parça') },
-    { num: get('stats.2.num', '200+'), label: get('stats.2.label', 'Kurumsal Müşteri') },
-    { num: get('stats.3.num', '15+'), label: get('stats.3.label', 'Yıllık Deneyim') },
-    { num: get('stats.4.num', '%98'), label: get('stats.4.label', 'Memnuniyet') },
-  ]
 
   useEffect(() => {
     api.get('/products', { params: { limit: 100 } })
@@ -122,66 +102,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ 5. KURUMSAL ÇÖZÜMLER ═══ */}
-      <section className="section">
-        <div className="container">
-          <SectionHeader label={get('corp.label', 'KURUMSAL')} title={get('corp.title', 'İŞLETMENİZ İÇİN ÇÖZÜMLER')} />
-          <div className={`${styles.corpGrid} reveal`}>
-            <div className={styles.corpCard}>
-              <span className={styles.corpNum}>01</span>
-              <h3>{get('corp.card1.title', 'Baskı & Nakış')}</h3>
-              <p>{get('corp.card1.desc', 'Logonuzu, tasarımınızı tişört, sweatshirt ve daha fazlasına uyguluyoruz. Serigrafi, dijital baskı ve nakış seçenekleri.')}</p>
-              <Link to="/corporate" className={styles.corpLink}>Detaylı Bilgi →</Link>
-            </div>
-            <div className={styles.corpCard}>
-              <span className={styles.corpNum}>02</span>
-              <h3>{get('corp.card2.title', 'Toptan Dikim')}</h3>
-              <p>{get('corp.card2.desc', 'İstediğiniz model, kumaş ve renkte toptan üretim. Minimum 50 adet sipariş ile özel fiyat avantajı.')}</p>
-              <Link to="/corporate" className={styles.corpLink}>Detaylı Bilgi →</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 6. NEDEN BİZ + İSTATİSTİKLER ═══ */}
-      <section className="section section-dark">
-        <div className="container">
-          <div className={styles.whyGrid}>
-            <div className={`reveal`}>
-              <SectionHeader label={get('whyus.label', 'NEDEN BİZ')} title={get('whyus.title', 'FARKINIZ BİZİZ')} light />
-              <ul className={styles.whyList}>
-                {whyUsItems.map((item, i) => (
-                  <li key={i}><strong>{item.title}</strong> — {item.desc}</li>
-                ))}
-              </ul>
-            </div>
-            <div className={`${styles.statsGrid} reveal rd2`}>
-              {stats.map((stat, i) => (
-                <div key={i} className={styles.statItem}>
-                  <span className={styles.statNum}>{stat.num}</span>
-                  <span className={styles.statLabel}>{stat.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 7. REFERANSLAR ═══ */}
-      <section className="section">
-        <div className="container">
-          <SectionHeader label="REFERANSLAR" title="BİZE GÜVENEN MARKALAR" align="center" />
-          <div className={`${styles.refGrid} reveal`}>
-            {references.map((ref) => (
-              <div key={ref.id} className={styles.refCard}>
-                <span className={styles.refName}>{ref.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 8. HAKKIMIZDA ═══ */}
+      {/* ═══ 5. HAKKIMIZDA ═══ */}
       <section className="section section-off">
         <div className="container">
           <div className={styles.aboutGrid}>
@@ -204,26 +125,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ 9. MÜŞTERİ YORUMLARI ═══ */}
-      <section className="section">
-        <div className="container">
-          <SectionHeader label={get('reviews.label', 'YORUMLAR')} title={get('reviews.title', 'MÜŞTERİLERİMİZ NE DİYOR?')} align="center" />
-          <div className={`${styles.reviewGrid} reveal`}>
-            {testimonials.map((t, i) => (
-              <div key={t.id || i} className={styles.reviewCard}>
-                <div className={styles.reviewStars}>★★★★★</div>
-                <p className={styles.reviewText}>"{t.text}"</p>
-                <div className={styles.reviewAuthor}>
-                  <strong>{t.name}</strong>
-                  <span>{t.company}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 10. SSS ÖZETİ ═══ */}
+      {/* ═══ 6. SSS ÖZETİ ═══ */}
       <section className="section section-off">
         <div className="container">
           <SectionHeader label={get('faqHome.label', 'SSS')} title={get('faqHome.title', 'SIK SORULAN SORULAR')} align="center" />

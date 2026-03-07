@@ -44,42 +44,7 @@ export default function Home() {
       {/* ═══ 1. HERO ═══ */}
       <HeroSlider slides={getJSON('home.hero.slides', [])} />
 
-      {/* ═══ 2. KATEGORİLER ═══ */}
-      <section className="section">
-        <div className="container">
-          <SectionHeader label={get('categories.label', 'KATEGORİLER')} title={get('categories.title', 'NE ARIYORSUNUZ?')} align="center" />
-          <div className={`${styles.catGrid} reveal`}>
-            {getJSON('categories.list', defaultCategories).map((cat) => (
-              <Link key={cat.id} to={`/shop/${cat.id}`} className={styles.catCard}>
-                <div className={styles.catContent}>
-                  {cat.image
-                    ? <img src={cat.image} alt={cat.name} className={styles.catIcon} />
-                    : <span className={styles.catEmoji}>{cat.emoji}</span>
-                  }
-                  <h3 className={styles.catName}>{cat.name}</h3>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 3. ÇOK SATANLAR ═══ */}
-      <section className="section section-off">
-        <div className="container">
-          <SectionHeader label={get('bestsellers.label', 'ÇOK SATANLAR')} title={get('bestsellers.title', 'EN SEVİLEN ÜRÜNLER')} />
-          <div className={`${styles.productGrid} reveal`}>
-            {featured.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-          <div className={styles.centerCta}>
-            <Link to="/shop" className="btn btn-secondary">TÜM ÜRÜNLERİ GÖR</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 4. KENDİN TASARLA ═══ */}
+      {/* ═══ 2. KENDİN TASARLA ═══ */}
       <section className={styles.studioSection}>
         <div className={styles.studioGrid}>
           <div className={styles.studioLeft}>
@@ -101,6 +66,41 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 3. KATEGORİLER ═══ */}
+      <section className="section">
+        <div className="container">
+          <SectionHeader label={get('categories.label', 'KATEGORİLER')} title={get('categories.title', 'NE ARIYORSUNUZ?')} align="center" />
+          <div className={`${styles.catGrid} reveal`}>
+            {getJSON('categories.list', defaultCategories).map((cat) => (
+              <Link key={cat.id} to={`/shop/${cat.id}`} className={styles.catCard}>
+                <div className={styles.catContent}>
+                  {cat.image
+                    ? <img src={cat.image} alt={cat.name} className={styles.catIcon} />
+                    : <span className={styles.catEmoji}>{cat.emoji}</span>
+                  }
+                  <h3 className={styles.catName}>{cat.name}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 4. ÇOK SATANLAR ═══ */}
+      <section className="section section-off">
+        <div className="container">
+          <SectionHeader label={get('bestsellers.label', 'ÇOK SATANLAR')} title={get('bestsellers.title', 'EN SEVİLEN ÜRÜNLER')} />
+          <div className={`${styles.productGrid} reveal`}>
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+          <div className={styles.centerCta}>
+            <Link to="/shop" className="btn btn-secondary">TÜM ÜRÜNLERİ GÖR</Link>
           </div>
         </div>
       </section>

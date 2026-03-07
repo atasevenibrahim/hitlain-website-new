@@ -1,4 +1,4 @@
-export const categories = [
+export const defaultCategories = [
   { id: 'tisort', name: 'Tişört', emoji: '👕' },
   { id: 'sweatshirt', name: 'Sweatshirt', emoji: '🧥' },
   { id: 'mont-ceket', name: 'Mont ve Ceket', emoji: '🧥' },

@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../../../utils/api'
-import { categories, sizes as allSizes } from '../../../data/mockData'
+import { defaultCategories, sizes as allSizes } from '../../../data/mockData'
+import useSiteContent from '../../../hooks/useSiteContent'
 import useToastStore from '../../../stores/toastStore'
 import s from '../admin.module.css'
 
 export default function ProductForm() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { getJSON } = useSiteContent()
+  const categories = getJSON('categories.list', defaultCategories)
   const isEdit = Boolean(id)
   const fileInputRef = useRef(null)
 

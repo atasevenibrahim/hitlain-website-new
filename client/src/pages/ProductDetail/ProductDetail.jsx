@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { categories } from '../../data/mockData'
+import { defaultCategories } from '../../data/mockData'
+import useSiteContent from '../../hooks/useSiteContent'
 import { formatPrice } from '../../utils/formatters'
 import api from '../../utils/api'
 import useCartStore from '../../stores/cartStore'
@@ -18,6 +19,8 @@ export default function ProductDetail() {
   const revealRef = useScrollReveal()
   const { id } = useParams()
   const navigate = useNavigate()
+  const { getJSON } = useSiteContent()
+  const categories = getJSON('categories.list', defaultCategories)
 
   const [product, setProduct] = useState(null)
   const [related, setRelated] = useState([])

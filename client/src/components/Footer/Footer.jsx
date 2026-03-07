@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom'
 import useSiteContent from '../../hooks/useSiteContent'
+import { defaultCategories } from '../../data/mockData'
 import styles from './Footer.module.css'
-
-const categoryLinks = [
-  { to: '/shop/tisort', label: 'Tişört' },
-  { to: '/shop/sweatshirt', label: 'Sweatshirt' },
-  { to: '/shop/mont-ceket', label: 'Mont ve Ceket' },
-  { to: '/shop/pantolon', label: 'Pantolon' },
-  { to: '/shop/onluk', label: 'Önlük' },
-  { to: '/shop/ikaz-yelegi', label: 'İkaz Yeleği' },
-]
 
 const pageLinks = [
   { to: '/about', label: 'Hakkımızda' },
@@ -27,7 +19,8 @@ const legalLinks = [
 ]
 
 export default function Footer() {
-  const { get } = useSiteContent()
+  const { get, getJSON } = useSiteContent()
+  const categories = getJSON('categories.list', defaultCategories)
 
   return (
     <footer className={styles.footer}>
@@ -37,10 +30,10 @@ export default function Footer() {
           <div className={styles.column}>
             <h4 className={styles.columnTitle}>Kategoriler</h4>
             <ul className={styles.linkList}>
-              {categoryLinks.map((link) => (
-                <li key={link.to}>
-                  <Link to={link.to} className={styles.link}>
-                    {link.label}
+              {categories.map((cat) => (
+                <li key={cat.id}>
+                  <Link to={`/shop/${cat.id}`} className={styles.link}>
+                    {cat.name}
                   </Link>
                 </li>
               ))}

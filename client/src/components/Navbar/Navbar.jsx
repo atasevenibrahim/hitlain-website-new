@@ -2,24 +2,17 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import useCartStore from '../../stores/cartStore'
 import useSiteContent from '../../hooks/useSiteContent'
+import { defaultCategories } from '../../data/mockData'
 import styles from './Navbar.module.css'
-
-const navLinks = [
-  { to: '/shop/tisort', label: 'TİŞÖRT' },
-  { to: '/shop/sweatshirt', label: 'SWEATSHIRT' },
-  { to: '/shop/mont-ceket', label: 'MONT VE CEKET' },
-  { to: '/shop/pantolon', label: 'PANTOLON' },
-  { to: '/shop/onluk', label: 'ÖNLÜK' },
-  { to: '/shop/ikaz-yelegi', label: 'İKAZ YELEĞİ' },
-]
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const location = useLocation()
   const { openCart, items } = useCartStore()
-  const { get } = useSiteContent()
+  const { get, getJSON } = useSiteContent()
   const totalItems = items.reduce((sum, item) => sum + item.qty, 0)
+  const categories = getJSON('categories.list', defaultCategories)
 
   return (
     <nav className={styles.navbar}>
@@ -31,16 +24,16 @@ export default function Navbar() {
 
         {/* Desktop Nav Links */}
         <div className={`${styles.navLinks} ${mobileOpen ? styles.open : ''}`}>
-          {navLinks.map((link) => (
+          {categories.map((cat) => (
             <Link
-              key={link.to}
-              to={link.to}
+              key={cat.id}
+              to={`/shop/${cat.id}`}
               className={`${styles.navLink} ${
-                location.pathname === link.to ? styles.active : ''
+                location.pathname === `/shop/${cat.id}` ? styles.active : ''
               }`}
               onClick={() => setMobileOpen(false)}
             >
-              {link.label}
+              {cat.name.toUpperCase()}
             </Link>
           ))}
         </div>

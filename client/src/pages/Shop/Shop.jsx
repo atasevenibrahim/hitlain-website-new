@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams, Link } from 'react-router-dom'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { categories, colors as allColors, sizes as allSizes } from '../../data/mockData'
+import { defaultCategories, colors as allColors, sizes as allSizes } from '../../data/mockData'
+import useSiteContent from '../../hooks/useSiteContent'
 import api from '../../utils/api'
 import useScrollReveal from '../../hooks/useScrollReveal'
 import styles from './Shop.module.css'
@@ -23,6 +24,8 @@ function addBadge(p) {
 export default function Shop() {
   const revealRef = useScrollReveal()
   const { category: urlCategory } = useParams()
+  const { getJSON } = useSiteContent()
+  const categories = getJSON('categories.list', defaultCategories)
 
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)

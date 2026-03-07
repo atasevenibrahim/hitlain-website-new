@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../../utils/api'
-import { categories } from '../../../data/mockData'
+import { defaultCategories } from '../../../data/mockData'
+import useSiteContent from '../../../hooks/useSiteContent'
 import { formatPrice } from '../../../utils/formatters'
 import useToastStore from '../../../stores/toastStore'
 import { TableSkeleton } from '../../../components/Skeleton/Skeleton'
@@ -14,6 +15,8 @@ const STATUS_MAP = {
 }
 
 export default function Products() {
+  const { getJSON } = useSiteContent()
+  const categories = getJSON('categories.list', defaultCategories)
   const [productList, setProductList] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')

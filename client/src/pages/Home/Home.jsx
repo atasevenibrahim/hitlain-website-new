@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import HeroSlider from '../../components/HeroSlider/HeroSlider'
 import SectionHeader from '../../components/SectionHeader/SectionHeader'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { categories } from '../../data/mockData'
+import { defaultCategories } from '../../data/mockData'
 import useSiteContent from '../../hooks/useSiteContent'
 import api from '../../utils/api'
 import useScrollReveal from '../../hooks/useScrollReveal'
@@ -49,7 +49,7 @@ export default function Home() {
         <div className="container">
           <SectionHeader label={get('categories.label', 'KATEGORİLER')} title={get('categories.title', 'NE ARIYORSUNUZ?')} align="center" />
           <div className={`${styles.catGrid} reveal`}>
-            {categories.slice(0, 5).map((cat) => (
+            {getJSON('categories.list', defaultCategories).map((cat) => (
               <Link key={cat.id} to={`/shop/${cat.id}`} className={styles.catCard}>
                 <div className={styles.catContent}>
                   <span className={styles.catEmoji}>{cat.emoji}</span>

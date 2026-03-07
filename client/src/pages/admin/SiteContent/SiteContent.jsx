@@ -6,6 +6,7 @@ import s from '../admin.module.css'
 import styles from './SiteContent.module.css'
 
 const tabs = [
+  { id: 'categories', label: 'Kategoriler' },
   { id: 'welcome', label: 'Karsilama' },
   { id: 'home', label: 'Ana Sayfa' },
   { id: 'stats', label: 'İstatistikler' },
@@ -85,6 +86,7 @@ export default function SiteContent() {
         ))}
       </div>
 
+      {activeTab === 'categories' && <CategoriesTab getArr={getArr} set={set} save={saveTab} saving={saving} />}
       {activeTab === 'welcome' && <WelcomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
       {activeTab === 'home' && <HomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
       {activeTab === 'stats' && <StatsTab get={get} set={set} save={saveTab} saving={saving} />}
@@ -266,6 +268,65 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
         + Slide Ekle
       </button>
     </div>
+  )
+}
+
+// ═══ KATEGORİLER ═══
+function CategoriesTab({ getArr, set, save, saving }) {
+  const items = getArr('categories.list')
+
+  const updateItem = (index, field, value) => {
+    const newItems = [...items]
+    newItems[index] = { ...newItems[index], [field]: value }
+    set('categories.list', newItems)
+  }
+
+  const addItem = () => {
+    set('categories.list', [...items, { id: '', name: '', emoji: '' }])
+  }
+
+  const removeItem = (index) => {
+    set('categories.list', items.filter((_, i) => i !== index))
+  }
+
+  const moveItem = (index, dir) => {
+    const newItems = [...items]
+    const target = index + dir
+    if (target < 0 || target >= newItems.length) return
+    ;[newItems[index], newItems[target]] = [newItems[target], newItems[index]]
+    set('categories.list', newItems)
+  }
+
+  return (
+    <>
+      <div className={s.formSection}>
+        <div className={s.formSectionTitle}>Kategoriler</div>
+        <p style={{ fontSize: '0.75rem', color: 'var(--mid)', marginBottom: '1rem' }}>
+          Navbar, footer, ana sayfa ve magaza filtresinde gorunen kategoriler. Slug alani URL'de kullanilir (orn: "tisort", "mont-ceket").
+        </p>
+        {items.map((item, i) => (
+          <div key={i} className={styles.listItem}>
+            <div className={styles.listItemHeader}>
+              <span className={styles.listItemNum}>{i + 1}</span>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button className={styles.removeBtn} onClick={() => moveItem(i, -1)} disabled={i === 0}>↑</button>
+                <button className={styles.removeBtn} onClick={() => moveItem(i, 1)} disabled={i === items.length - 1}>↓</button>
+                <button className={styles.removeBtn} onClick={() => removeItem(i)}>Sil</button>
+              </div>
+            </div>
+            <div className={s.formGrid}>
+              <Field label="Slug (URL)" value={item.id} onChange={(v) => updateItem(i, 'id', v)} placeholder="tisort" />
+              <Field label="Gorunen Ad" value={item.name} onChange={(v) => updateItem(i, 'name', v)} placeholder="Tişört" />
+              <Field label="Emoji" value={item.emoji} onChange={(v) => updateItem(i, 'emoji', v)} placeholder="👕" />
+            </div>
+          </div>
+        ))}
+        <button className="btn btn-ghost btn-sm" onClick={addItem} style={{ marginTop: '0.5rem' }}>
+          + Kategori Ekle
+        </button>
+      </div>
+      <SaveBtn onClick={() => save(['categories.list'])} saving={saving} />
+    </>
   )
 }
 

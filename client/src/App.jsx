@@ -21,6 +21,7 @@ import About from './pages/About/About'
 import Contact from './pages/Contact/Contact'
 import FAQ from './pages/FAQ/FAQ'
 import MyOrders from './pages/MyOrders/MyOrders'
+import Legal from './pages/Legal/Legal'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminLogin from './pages/admin/Login/Login'
@@ -72,6 +73,10 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/privacy" element={<Legal slug="privacy" />} />
+          <Route path="/terms" element={<Legal slug="terms" />} />
+          <Route path="/return-policy" element={<Legal slug="returnPolicy" />} />
+          <Route path="/kvkk" element={<Legal slug="kvkk" />} />
         </Route>
 
         {/* Admin Routes */}

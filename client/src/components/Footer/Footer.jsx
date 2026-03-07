@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useSiteContent from '../../hooks/useSiteContent'
 import styles from './Footer.module.css'
@@ -12,6 +11,14 @@ const categoryLinks = [
   { to: '/shop/ikaz-yelegi', label: 'İkaz Yeleği' },
 ]
 
+const pageLinks = [
+  { to: '/about', label: 'Hakkımızda' },
+  { to: '/contact', label: 'İletişim' },
+  { to: '/faq', label: 'SSS' },
+  { to: '/corporate', label: 'Kurumsal' },
+  { to: '/studio', label: 'Tasarım Stüdyosu' },
+]
+
 const legalLinks = [
   { to: '/privacy', label: 'Gizlilik Politikası' },
   { to: '/terms', label: 'Kullanım Koşulları' },
@@ -21,12 +28,6 @@ const legalLinks = [
 
 export default function Footer() {
   const { get } = useSiteContent()
-  const [email, setEmail] = useState('')
-
-  const handleSubscribe = (e) => {
-    e.preventDefault()
-    setEmail('')
-  }
 
   return (
     <footer className={styles.footer}>
@@ -37,6 +38,20 @@ export default function Footer() {
             <h4 className={styles.columnTitle}>Kategoriler</h4>
             <ul className={styles.linkList}>
               {categoryLinks.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className={styles.link}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Pages */}
+          <div className={styles.column}>
+            <h4 className={styles.columnTitle}>Sayfalar</h4>
+            <ul className={styles.linkList}>
+              {pageLinks.map((link) => (
                 <li key={link.to}>
                   <Link to={link.to} className={styles.link}>
                     {link.label}
@@ -58,27 +73,6 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div className={styles.column}>
-            <h4 className={styles.columnTitle}>Bülten</h4>
-            <p className={styles.newsletterText}>
-              {get('footerNewsletter', 'Kampanya ve yeni ürünlerden haberdar olun.')}
-            </p>
-            <form className={styles.newsletterForm} onSubmit={handleSubscribe}>
-              <input
-                type="email"
-                placeholder="E-posta adresiniz"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.newsletterInput}
-                required
-              />
-              <button type="submit" className={styles.newsletterBtn}>
-                ABONE OL
-              </button>
-            </form>
           </div>
         </div>
 

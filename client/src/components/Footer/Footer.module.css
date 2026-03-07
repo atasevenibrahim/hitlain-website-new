@@ -12,7 +12,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid var(--ink3);
@@ -45,56 +45,6 @@
 
 .link:hover {
   color: var(--white);
-}
-
-/* Newsletter */
-.newsletterText {
-  font-size: 0.82rem;
-  color: var(--subtle);
-  margin-bottom: 1.2rem;
-  line-height: 1.6;
-}
-
-.newsletterForm {
-  display: flex;
-}
-
-.newsletterInput {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--ink3);
-  background: transparent;
-  color: var(--white);
-  font-size: 0.82rem;
-  border-radius: 2px 0 0 2px;
-  outline: none;
-}
-
-.newsletterInput::placeholder {
-  color: var(--subtle);
-}
-
-.newsletterInput:focus {
-  border-color: var(--green);
-}
-
-.newsletterBtn {
-  padding: 0.7rem 1.2rem;
-  background: var(--green);
-  color: var(--ink);
-  border: 1px solid var(--green);
-  border-left: none;
-  border-radius: 0 2px 2px 0;
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.newsletterBtn:hover {
-  background: var(--green-l);
 }
 
 /* Bottom */

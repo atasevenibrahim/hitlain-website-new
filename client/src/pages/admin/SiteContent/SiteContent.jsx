@@ -14,6 +14,7 @@ const tabs = [
   { id: 'corporate', label: 'Kurumsal' },
   { id: 'about', label: 'Hakkımızda' },
   { id: 'contact', label: 'İletişim' },
+  { id: 'legal', label: 'Sözleşmeler' },
   { id: 'general', label: 'Genel' },
 ]
 
@@ -92,6 +93,7 @@ export default function SiteContent() {
       {activeTab === 'corporate' && <CorporateTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} />}
       {activeTab === 'about' && <AboutTab get={get} set={set} save={saveTab} saving={saving} />}
       {activeTab === 'contact' && <ContactTab get={get} set={set} save={saveTab} saving={saving} />}
+      {activeTab === 'legal' && <LegalTab get={get} set={set} save={saveTab} saving={saving} />}
       {activeTab === 'general' && <GeneralTab get={get} set={set} save={saveTab} saving={saving} />}
     </div>
   )
@@ -275,12 +277,7 @@ function HomeTab({ get, set, getArr, save, saving }) {
     'categories.label', 'categories.title',
     'bestsellers.label', 'bestsellers.title',
     'studio.label', 'studio.title', 'studio.description', 'studio.cta',
-    'corp.label', 'corp.title',
-    'corp.card1.title', 'corp.card1.desc',
-    'corp.card2.title', 'corp.card2.desc',
-    'whyus.label', 'whyus.title', 'whyus.items',
     'aboutHome.label', 'aboutHome.title', 'aboutHome.text1', 'aboutHome.text2',
-    'reviews.label', 'reviews.title',
     'faqHome.label', 'faqHome.title',
     'contactHome.label', 'contactHome.title',
     'instagram.label', 'instagram.title',
@@ -315,33 +312,6 @@ function HomeTab({ get, set, getArr, save, saving }) {
         </div>
       </div>
 
-      {/* Corporate Cards */}
-      <div className={s.formSection}>
-        <div className={s.formSectionTitle}>Kurumsal Cozumler Bolumu</div>
-        <div className={s.formGrid}>
-          <Field label="Etiket" value={get('corp.label')} onChange={(v) => set('corp.label', v)} placeholder="KURUMSAL" />
-          <Field label="Baslik" value={get('corp.title')} onChange={(v) => set('corp.title', v)} placeholder="İŞLETMENİZ İÇİN ÇÖZÜMLER" />
-          <Field label="Kart 1 Baslik" value={get('corp.card1.title')} onChange={(v) => set('corp.card1.title', v)} placeholder="Baskı & Nakış" />
-          <div className={`${s.formGroup} ${s.formGroupFull}`}>
-            <Field label="Kart 1 Aciklama" value={get('corp.card1.desc')} onChange={(v) => set('corp.card1.desc', v)} textarea />
-          </div>
-          <Field label="Kart 2 Baslik" value={get('corp.card2.title')} onChange={(v) => set('corp.card2.title', v)} placeholder="Toptan Dikim" />
-          <div className={`${s.formGroup} ${s.formGroupFull}`}>
-            <Field label="Kart 2 Aciklama" value={get('corp.card2.desc')} onChange={(v) => set('corp.card2.desc', v)} textarea />
-          </div>
-        </div>
-      </div>
-
-      {/* Why Us */}
-      <div className={s.formSection}>
-        <div className={s.formSectionTitle}>Neden Biz Bolumu</div>
-        <div className={s.formGrid}>
-          <Field label="Etiket" value={get('whyus.label')} onChange={(v) => set('whyus.label', v)} placeholder="NEDEN BİZ" />
-          <Field label="Baslik" value={get('whyus.title')} onChange={(v) => set('whyus.title', v)} placeholder="FARKINIZ BİZİZ" />
-        </div>
-        <WhyUsEditor items={getArr('whyus.items')} onChange={(v) => set('whyus.items', v)} />
-      </div>
-
       {/* About Home */}
       <div className={s.formSection}>
         <div className={s.formSectionTitle}>Hakkimizda Ozet</div>
@@ -361,8 +331,6 @@ function HomeTab({ get, set, getArr, save, saving }) {
       <div className={s.formSection}>
         <div className={s.formSectionTitle}>Diger Bolum Basliklari</div>
         <div className={s.formGrid}>
-          <Field label="Yorumlar Etiket" value={get('reviews.label')} onChange={(v) => set('reviews.label', v)} placeholder="YORUMLAR" />
-          <Field label="Yorumlar Baslik" value={get('reviews.title')} onChange={(v) => set('reviews.title', v)} placeholder="MÜŞTERİLERİMİZ NE DİYOR?" />
           <Field label="SSS Etiket" value={get('faqHome.label')} onChange={(v) => set('faqHome.label', v)} placeholder="SSS" />
           <Field label="SSS Baslik" value={get('faqHome.title')} onChange={(v) => set('faqHome.title', v)} placeholder="SIK SORULAN SORULAR" />
           <Field label="İletisim Etiket" value={get('contactHome.label')} onChange={(v) => set('contactHome.label', v)} placeholder="İLETİŞİM" />
@@ -608,9 +576,52 @@ function ContactTab({ get, set, save, saving }) {
   )
 }
 
+// ═══ SÖZLEŞMELER ═══
+function LegalTab({ get, set, save, saving }) {
+  const keys = [
+    'legal.privacy.title', 'legal.privacy.content',
+    'legal.terms.title', 'legal.terms.content',
+    'legal.returnPolicy.title', 'legal.returnPolicy.content',
+    'legal.kvkk.title', 'legal.kvkk.content',
+  ]
+
+  const sections = [
+    { key: 'legal.privacy', label: 'Gizlilik Politikasi', defaultTitle: 'Gizlilik Politikası' },
+    { key: 'legal.terms', label: 'Kullanim Kosullari', defaultTitle: 'Kullanım Koşulları' },
+    { key: 'legal.returnPolicy', label: 'Iade Politikasi', defaultTitle: 'İade Politikası' },
+    { key: 'legal.kvkk', label: 'KVKK Aydinlatma Metni', defaultTitle: 'KVKK Aydınlatma Metni' },
+  ]
+
+  return (
+    <>
+      {sections.map((sec) => (
+        <div key={sec.key} className={s.formSection}>
+          <div className={s.formSectionTitle}>{sec.label}</div>
+          <div className={s.formGrid}>
+            <div className={`${s.formGroup} ${s.formGroupFull}`}>
+              <Field label="Sayfa Basligi" value={get(`${sec.key}.title`)} onChange={(v) => set(`${sec.key}.title`, v)} placeholder={sec.defaultTitle} />
+            </div>
+            <div className={`${s.formGroup} ${s.formGroupFull}`}>
+              <label className={s.formLabel}>Icerik</label>
+              <textarea
+                className={s.formTextarea}
+                value={get(`${sec.key}.content`) || ''}
+                onChange={(e) => set(`${sec.key}.content`, e.target.value)}
+                placeholder="Sayfa icerigini buraya yazin. Paragraflar arasinda bos satir birakin."
+                rows={10}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+      <SaveBtn onClick={() => save(keys)} saving={saving} />
+    </>
+  )
+}
+
 // ═══ GENEL ═══
 function GeneralTab({ get, set, save, saving }) {
-  const keys = ['logoText', 'logoUrl', 'footerCopyright', 'footerNewsletter']
+  const keys = ['logoText', 'logoUrl', 'footerCopyright']
   const [uploading, setUploading] = useState(false)
 
   const handleLogoUpload = async (e) => {
@@ -658,9 +669,6 @@ function GeneralTab({ get, set, save, saving }) {
         <div className={s.formGrid}>
           <Field label="Logo Metni" value={get('logoText')} onChange={(v) => set('logoText', v)} placeholder="HITHLAIN" />
           <Field label="Footer Telif Hakki" value={get('footerCopyright')} onChange={(v) => set('footerCopyright', v)} placeholder="© 2026 Hithlain Giyim. Tüm hakları saklıdır." />
-          <div className={`${s.formGroup} ${s.formGroupFull}`}>
-            <Field label="Bulten Aciklamasi" value={get('footerNewsletter')} onChange={(v) => set('footerNewsletter', v)} placeholder="Kampanya ve yeni ürünlerden haberdar olun." />
-          </div>
         </div>
       </div>
       <SaveBtn onClick={() => save(keys)} saving={saving} />

@@ -58,6 +58,12 @@
   object-fit: cover;
 }
 
+.mainImage .fallbackImg {
+  object-fit: contain;
+  padding: 3rem;
+  background: var(--off2);
+}
+
 .thumbnails {
   display: flex;
   gap: 0.5rem;

@@ -40,7 +40,7 @@ export default function ProductCard({ product }) {
         {product.images?.[0] && product.images[0] !== '/placeholder-product.jpg' ? (
           <img src={product.images[0]} alt={product.name} />
         ) : categories.find(c => c.id === product.category)?.image ? (
-          <img src={categories.find(c => c.id === product.category).image} alt={product.name} />
+          <img src={categories.find(c => c.id === product.category).image} alt={product.name} className={styles.fallbackImg} />
         ) : (
           <div className={styles.imagePlaceholder}>
             <span className={styles.placeholderIcon}>👕</span>

@@ -119,7 +119,7 @@ export default function ProductDetail() {
               {realImages.length > 0 ? (
                 <img src={realImages[activeImage]} alt={product.name} />
               ) : category?.image ? (
-                <img src={category.image} alt={product.name} />
+                <img src={category.image} alt={product.name} className={styles.fallbackImg} />
               ) : (
                 <div className={styles.imagePlaceholder}>
                   <span style={{ fontSize: '5rem', opacity: 0.2 }}>👕</span>

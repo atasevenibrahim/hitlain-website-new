@@ -114,7 +114,7 @@ export default function Products() {
                       {p.images?.[0] && p.images[0] !== '/placeholder-product.jpg'
                         ? <img src={p.images[0]} alt={p.name} />
                         : categories.find(c => c.id === p.category)?.image
-                          ? <img src={categories.find(c => c.id === p.category).image} alt={p.name} />
+                          ? <img src={categories.find(c => c.id === p.category).image} alt={p.name} style={{ objectFit: 'contain', padding: '4px' }} />
                           : '👕'}
                     </div>
                   </td>

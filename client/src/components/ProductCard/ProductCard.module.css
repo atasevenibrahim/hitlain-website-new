@@ -44,6 +44,14 @@
   transform: scale(1.04);
 }
 
+.fallbackImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 2rem;
+  background: var(--off2);
+}
+
 /* Badge */
 .badge {
   position: absolute;

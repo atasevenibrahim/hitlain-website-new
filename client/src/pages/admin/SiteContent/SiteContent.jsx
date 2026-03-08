@@ -326,70 +326,6 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
   )
 }
 
-// ═══ DUYURU BANDI EDITOR ═══
-function renderAnnouncementEditor(key, label, getArr, set) {
-  const items = getArr(key)
-
-  const updateItem = (index, field, value) => {
-    const newItems = [...items]
-    newItems[index] = { ...newItems[index], [field]: value }
-    set(key, newItems)
-  }
-
-  const addItem = () => {
-    set(key, [...items, { title: '', text: '', link: '', icon: '', bgColor: '', gradient: '' }])
-  }
-
-  const removeItem = (index) => {
-    set(key, items.filter((_, i) => i !== index))
-  }
-
-  return (
-    <div className={s.formSection}>
-      <div className={s.formSectionTitle}>{label}</div>
-      <p style={{ fontSize: '0.75rem', color: 'var(--mid)', marginBottom: '1rem' }}>
-        Hero altinda otomatik kayan duyuru kartlari. Bos birakilirsa varsayilan duyurular gosterilir.
-      </p>
-      {items.map((item, i) => (
-        <div key={i} className={styles.listItem}>
-          <div className={styles.listItemHeader}>
-            <span className={styles.listItemNum}>{i + 1}</span>
-            <button className={styles.removeBtn} onClick={() => removeItem(i)}>Sil</button>
-          </div>
-          <div className={s.formGrid}>
-            <Field label="Baslik" value={item.title} onChange={(v) => updateItem(i, 'title', v)} placeholder="Yeni Sezon Urunleri" />
-            <Field label="Link (opsiyonel)" value={item.link} onChange={(v) => updateItem(i, 'link', v)} placeholder="/shop" />
-            <div className={`${s.formGroup} ${s.formGroupFull}`}>
-              <Field label="Aciklama" value={item.text} onChange={(v) => updateItem(i, 'text', v)} textarea placeholder="Kis koleksiyonumuz yeni urunlerle guncellendi." />
-            </div>
-          </div>
-          {/* Gorsel Ayarlar — varsayilan kapali */}
-          <details style={{ marginTop: '0.5rem' }}>
-            <summary className={styles.collapseToggle}>
-              <span className={styles.collapseArrow}>&#9654;</span> Gorsel Ayarlar
-            </summary>
-            <div className={s.formGrid} style={{ paddingTop: '0.5rem' }}>
-              <Field label="Ikon (emoji)" value={item.icon} onChange={(v) => updateItem(i, 'icon', v)} placeholder="🎨" />
-              <div className={s.formGroup}>
-                <label className={s.formLabel}>Arkaplan Rengi</label>
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                  <input type="color" value={item.bgColor || '#1a1a1a'} onChange={(e) => updateItem(i, 'bgColor', e.target.value)} style={{ width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, cursor: 'pointer', padding: 2 }} />
-                  <input type="text" className={s.formInput} value={item.bgColor || ''} onChange={(e) => updateItem(i, 'bgColor', e.target.value)} placeholder="#1a1a1a" style={{ flex: 1 }} />
-                </div>
-              </div>
-              <div className={`${s.formGroup} ${s.formGroupFull}`}>
-                <Field label="Gradient" value={item.gradient} onChange={(v) => updateItem(i, 'gradient', v)} placeholder="linear-gradient(135deg, #1a1a1a, #2d6a4f)" />
-              </div>
-            </div>
-          </details>
-        </div>
-      ))}
-      <button className="btn btn-ghost btn-sm" onClick={addItem} style={{ marginTop: '0.5rem' }}>
-        + Duyuru Ekle
-      </button>
-    </div>
-  )
-}
 
 // ═══ KATEGORİLER ═══
 function CategoriesTab({ getArr, set, save, saving, saved }) {
@@ -519,7 +455,6 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
   const [uploading, setUploading] = useState(null)
   const keys = [
     'home.hero.slides',
-    'home.announcements',
     'categories.label', 'categories.title',
     'bestsellers.label', 'bestsellers.title',
     'studio.label', 'studio.title', 'studio.description', 'studio.cta',
@@ -533,9 +468,6 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
     <>
       {/* Hero Slides */}
       {renderHeroSlideEditor('home.hero.slides', 'Hero Slider', getArr, set, uploading, setUploading)}
-
-      {/* Announcements */}
-      {renderAnnouncementEditor('home.announcements', 'Duyuru Bandi', getArr, set)}
 
       {/* Section Headers */}
       <div className={s.formSection}>

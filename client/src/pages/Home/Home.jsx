@@ -42,14 +42,7 @@ export default function Home() {
         <meta name="description" content={get('metaDescription', 'Toptan ve perakende iş giyim, promosyon tekstili, baskı ve nakış hizmetleri.')} />
       </Helmet>
       {/* ═══ 1. HERO ═══ */}
-      <HeroSlider
-        slides={getJSON('home.hero.slides', [])}
-        announcements={getJSON('home.announcements', [
-          { title: 'Tasarim Studyosu Acildi!', text: 'Kendi tasariminizi yukleyin veya studyomuzda olusturun. Baski bolgesini secin, urunu ozellestirin.', link: '/studio' },
-          { title: '1500\u20BA Uzeri Ucretsiz Kargo', text: '1500\u20BA ve uzeri siparislerde kargo tamamen ucretsiz!', link: '/shop' },
-          { title: 'Yeni Sezon Urunleri', text: 'Kis koleksiyonumuz yeni urunlerle guncellendi. Hemen kesfedin!', link: '/shop' },
-        ])}
-      />
+      <HeroSlider slides={getJSON('home.hero.slides', [])} />
 
       {/* ═══ 2. KENDİN TASARLA ═══ */}
       <section className={styles.studioSection}>

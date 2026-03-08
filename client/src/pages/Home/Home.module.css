@@ -161,6 +161,13 @@
 
 .aboutImage {}
 
+.aboutImg {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 .aboutPlaceholder {
   aspect-ratio: 4 / 3;
   background: var(--off2);

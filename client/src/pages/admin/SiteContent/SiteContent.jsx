@@ -458,7 +458,7 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
     'categories.label', 'categories.title',
     'bestsellers.label', 'bestsellers.title',
     'studio.label', 'studio.title', 'studio.description', 'studio.cta',
-    'aboutHome.label', 'aboutHome.title', 'aboutHome.text1', 'aboutHome.text2',
+    'aboutHome.label', 'aboutHome.title', 'aboutHome.text1', 'aboutHome.text2', 'aboutHome.image',
     'faqHome.label', 'faqHome.title',
     'contactHome.label', 'contactHome.title',
     'instagram.label', 'instagram.title',
@@ -499,6 +499,34 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
         <div className={s.formGrid}>
           <Field label="Etiket" value={get('aboutHome.label')} onChange={(v) => set('aboutHome.label', v)} placeholder="HAKKIMIZDA" />
           <Field label="Baslik" value={get('aboutHome.title')} onChange={(v) => set('aboutHome.title', v)} placeholder="İKİ KARDEŞİN HİKAYESİ" />
+          <div className={`${s.formGroup} ${s.formGroupFull}`}>
+            <label className={s.formLabel}>Fotograf</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              {get('aboutHome.image') ? (
+                <div style={{ position: 'relative' }}>
+                  <img src={get('aboutHome.image')} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--border)' }} />
+                  <button type="button" onClick={() => set('aboutHome.image', '')} style={{ position: 'absolute', top: -6, right: -6, width: 18, height: 18, borderRadius: '50%', background: 'var(--error)', color: '#fff', border: 'none', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
+                </div>
+              ) : (
+                <div style={{ width: 80, height: 60, borderRadius: 4, border: '2px dashed var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--subtle)', fontSize: '0.7rem' }}>Gorsel Yok</div>
+              )}
+              <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
+                {uploading === 'aboutHome' ? 'Yukleniyor...' : 'Gorsel Sec'}
+                <input type="file" accept="image/*" onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  if (!file) return
+                  setUploading('aboutHome')
+                  try {
+                    const formData = new FormData()
+                    formData.append('file', file)
+                    const res = await api.post('/upload', formData)
+                    set('aboutHome.image', res.data.url)
+                  } catch { useToastStore.getState().showToast('Gorsel yuklenemedi', 'error') }
+                  setUploading(null)
+                }} hidden />
+              </label>
+            </div>
+          </div>
           <div className={`${s.formGroup} ${s.formGroupFull}`}>
             <Field label="Paragraf 1" value={get('aboutHome.text1')} onChange={(v) => set('aboutHome.text1', v)} textarea />
           </div>

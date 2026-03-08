@@ -110,9 +110,13 @@ export default function Home() {
         <div className="container">
           <div className={styles.aboutGrid}>
             <div className={`${styles.aboutImage} reveal`}>
-              <div className={styles.aboutPlaceholder}>
-                <span style={{ fontSize: '3rem', opacity: 0.3 }}>📸</span>
-              </div>
+              {get('aboutHome.image') ? (
+                <img src={get('aboutHome.image')} alt="Hakkımızda" className={styles.aboutImg} />
+              ) : (
+                <div className={styles.aboutPlaceholder}>
+                  <span style={{ fontSize: '3rem', opacity: 0.3 }}>📸</span>
+                </div>
+              )}
             </div>
             <div className={`reveal rd2`}>
               <SectionHeader label={get('aboutHome.label', 'HAKKIMIZDA')} title={get('aboutHome.title', 'İKİ KARDEŞİN HİKAYESİ')} />

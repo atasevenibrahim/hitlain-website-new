@@ -38,7 +38,7 @@ export function SiteContentProvider({ children }) {
 
   return (
     <SiteContentContext.Provider value={{ content, get, getJSON, loaded, refresh }}>
-      {children}
+      {loaded ? children : null}
     </SiteContentContext.Provider>
   )
 }

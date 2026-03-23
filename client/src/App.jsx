@@ -38,9 +38,9 @@ import SiteContent from './pages/admin/SiteContent/SiteContent'
 function PublicLayout() {
   return (
     <>
-      <MarqueeBanner />
       <TrustBar />
       <Navbar />
+      <MarqueeBanner />
       <CartDrawer />
       <Toast />
       <main>

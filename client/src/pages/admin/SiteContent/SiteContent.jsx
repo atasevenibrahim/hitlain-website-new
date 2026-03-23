@@ -457,8 +457,7 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
     'home.hero.slides',
     'categories.label', 'categories.title',
     'bestsellers.label', 'bestsellers.title',
-    'studio.label', 'studio.title', 'studio.description', 'studio.cta',
-    'aboutHome.label', 'aboutHome.title', 'aboutHome.text1', 'aboutHome.text2', 'aboutHome.image',
+'aboutHome.label', 'aboutHome.title', 'aboutHome.text1', 'aboutHome.text2', 'aboutHome.image',
     'faqHome.label', 'faqHome.title',
     'contactHome.label', 'contactHome.title',
     'instagram.label', 'instagram.title',
@@ -477,19 +476,6 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
           <Field label="Kategoriler Baslik" value={get('categories.title')} onChange={(v) => set('categories.title', v)} placeholder="NE ARIYORSUNUZ?" />
           <Field label="Cok Satanlar Etiket" value={get('bestsellers.label')} onChange={(v) => set('bestsellers.label', v)} placeholder="ÇOK SATANLAR" />
           <Field label="Cok Satanlar Baslik" value={get('bestsellers.title')} onChange={(v) => set('bestsellers.title', v)} placeholder="EN SEVİLEN ÜRÜNLER" />
-        </div>
-      </div>
-
-      {/* Studio Section */}
-      <div className={s.formSection}>
-        <div className={s.formSectionTitle}>Tasarim Studyosu Bolumu</div>
-        <div className={s.formGrid}>
-          <Field label="Etiket" value={get('studio.label')} onChange={(v) => set('studio.label', v)} placeholder="TASARIM STÜDYOSU" />
-          <Field label="Baslik" value={get('studio.title')} onChange={(v) => set('studio.title', v)} placeholder="KENDİN TASARLA" />
-          <div className={`${s.formGroup} ${s.formGroupFull}`}>
-            <Field label="Aciklama" value={get('studio.description')} onChange={(v) => set('studio.description', v)} textarea placeholder="Kendi tasarımını yükle..." />
-          </div>
-          <Field label="CTA Buton" value={get('studio.cta')} onChange={(v) => set('studio.cta', v)} placeholder="STÜDYOYA GİT" />
         </div>
       </div>
 

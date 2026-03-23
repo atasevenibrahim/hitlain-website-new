@@ -44,33 +44,7 @@ export default function Home() {
       {/* ═══ 1. HERO ═══ */}
       <HeroSlider slides={getJSON('home.hero.slides', [])} />
 
-      {/* ═══ 2. KENDİN TASARLA ═══ */}
-      <section className={styles.studioSection}>
-        <div className={styles.studioGrid}>
-          <div className={styles.studioLeft}>
-            <span className="section-label" style={{ color: 'rgba(255,255,255,0.5)' }}>{get('studio.label', 'TASARIM STÜDYOSU')}</span>
-            <h2 className={styles.studioTitle}>{get('studio.title', 'KENDİN\nTASARLA').split('\n').map((line, i) => (
-              <span key={i}>{line}<br /></span>
-            ))}</h2>
-            <p className={styles.studioText}>
-              {get('studio.description', 'Kendi tasarımını yükle veya stüdyomuzda oluştur. Baskı bölgesini seç, ürünü özelleştir.')}
-            </p>
-            <Link to="/studio" className="btn btn-outline-white btn-lg">{get('studio.cta', 'STÜDYOYA GİT')}</Link>
-          </div>
-          <div className={styles.studioRight}>
-            <div className={styles.studioCanvas}>
-              <div className={styles.studioMockup}>
-                <span style={{ fontSize: '4rem' }}>👕</span>
-                <div className={styles.studioOverlay}>
-                  <span>Tasarımın Burada</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 3. KATEGORİLER ═══ */}
+      {/* ═══ 2. KATEGORİLER ═══ */}
       <section className="section">
         <div className="container">
           <SectionHeader label={get('categories.label', 'KATEGORİLER')} title={get('categories.title', 'NE ARIYORSUNUZ?')} align="center" />

@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  min-height: 65vh;
+  min-height: 85vh;
   overflow: hidden;
   background: var(--ink);
   color: var(--white);
@@ -16,7 +16,7 @@
   min-width: 100%;
   flex-shrink: 0;
   position: relative;
-  min-height: 65vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   background: var(--ink);
@@ -111,6 +111,27 @@
   justify-content: flex-end;
 }
 
+.ctas :global(.btn-primary) {
+  background: #fcc201;
+  color: var(--ink);
+  border-color: #fcc201;
+}
+
+.ctas :global(.btn-primary):hover {
+  background: #e5af01;
+  border-color: #e5af01;
+}
+
+.ctas :global(.btn-outline-white) {
+  border-color: #fcc201;
+  color: #fcc201;
+}
+
+.ctas :global(.btn-outline-white):hover {
+  background: #fcc201;
+  color: var(--ink);
+}
+
 /* ═══ Ghost Text ═══ */
 .ghost {
   position: absolute;
@@ -162,11 +183,11 @@
 /* ═══ Responsive ═══ */
 @media (max-width: 900px) {
   .hero {
-    min-height: 50vh;
+    min-height: 65vh;
   }
 
   .slideItem {
-    min-height: 50vh;
+    min-height: 65vh;
   }
 
   .container {
@@ -176,11 +197,11 @@
 
 @media (max-width: 640px) {
   .hero {
-    min-height: 45vh;
+    min-height: 55vh;
   }
 
   .slideItem {
-    min-height: 45vh;
+    min-height: 55vh;
   }
 
   .title {

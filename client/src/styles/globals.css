@@ -8,36 +8,40 @@
 
 :root {
   /* Zemin & Yüzeyler */
-  --white: #ffffff;
-  --off: #f0f7f2;
-  --off2: #e2f0e5;
+  --white:      #ffffff;
+  --off:        #eef1e9;   /* Sayfa arkaplanı — sage yeşili */
+  --off2:       #f4f6f0;   /* Kart arkaplanı */
 
-  /* Yeşil Skalası */
-  --ink: #0d3b22;
-  --ink2: #145232;
-  --ink3: #1a6b40;
-  --mid: #3d7a56;
-  --subtle: #6b9e80;
-  --border: #c2dbc9;
-  --border2: #dceee0;
+  /* Yeşil Ana Renk Skalası */
+  --ink:        #16241d;   /* Ana metin */
+  --ink2:       #1c4634;   /* Navbar / header arkaplanı */
+  --ink3:       #0e231b;   /* Footer / marquee arkaplanı */
+  --mid:        #5d6b62;   /* İkincil metin */
+  --subtle:     #9aa69d;   /* Placeholder, yardımcı metin */
+  --border:     #e6e9df;   /* Ana kenarlık */
+  --border2:    #d9ded2;   /* Daha koyu kenarlık */
 
-  /* Aksan — SARI */
-  --green: #d4a017;
-  --green-l: #e6b422;
-  --green-xl: #fef9e7;
-  --green-txt: #7a5c00;
+  /* Aksan — ALTIN */
+  --green:      #c8962b;   /* CTA, aktif seçim */
+  --green-l:    #e7c46b;   /* Hover */
+  --green-xl:   #fff6e5;   /* Badge arkaplanı */
+  --green-txt:  #7a4e00;   /* Altın yüzey üzeri metin */
+
+  /* İndirim */
+  --sale:       #bb4d2e;
+  --sale-bg:    #fbeae3;
 
   /* Durum Renkleri */
-  --success: #2d6a4f;
-  --warning: #b45309;
-  --error: #b91c1c;
+  --success:    #2d6a4f;
+  --warning:    #b45309;
+  --error:      #b91c1c;
   --warning-bg: #fef3c7;
-  --error-bg: #fee2e2;
+  --error-bg:   #fee2e2;
 
   /* Tipografi */
-  --font-display: 'Barlow Condensed', sans-serif;
-  --font-ui: 'Barlow', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Archivo Black', sans-serif;
+  --font-ui:      'Archivo', sans-serif;
+  --font-body:    'Archivo', sans-serif;
 }
 
 /* Reset */
@@ -60,7 +64,7 @@ body {
   font-size: 0.9rem;
   line-height: 1.7;
   color: var(--ink);
-  background: var(--white);
+  background: var(--off);
 }
 
 img {
@@ -88,21 +92,27 @@ input, textarea, select {
   font-family: inherit;
   font-size: inherit;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 9px;
   padding: 0.7rem 1rem;
   outline: none;
   transition: border-color 0.2s;
+  background: var(--white);
+  color: var(--ink);
 }
 
 input:focus, textarea:focus, select:focus {
   border-color: var(--green);
 }
 
+input::placeholder, textarea::placeholder {
+  color: var(--subtle);
+}
+
 /* Container */
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 28px;
 }
 
 /* Section */
@@ -118,7 +128,7 @@ input:focus, textarea:focus, select:focus {
 
 /* Section Off */
 .section-off {
-  background: var(--off);
+  background: var(--off2);
 }
 
 /* Scrollbar */

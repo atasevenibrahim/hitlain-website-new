@@ -5,6 +5,7 @@ import useCartStore from '../../stores/cartStore'
 import useToastStore from '../../stores/toastStore'
 import { formatPrice } from '../../utils/formatters'
 import api from '../../utils/api'
+import PayTRFrame from './PayTRFrame'
 import styles from './Checkout.module.css'
 
 const FREE_SHIPPING_LIMIT = 1500
@@ -31,12 +32,10 @@ export default function Checkout() {
     address: '',
     shippingMethod: 'standard',
     note: '',
-    cardNumber: '',
-    cardName: '',
-    cardExpiry: '',
-    cardCvv: '',
   })
   const [submitting, setSubmitting] = useState(false)
+  const [paytrToken, setPaytrToken] = useState(null)
+  const [createdOrderId, setCreatedOrderId] = useState(null)
 
   const isFreeShipping = totalPrice >= FREE_SHIPPING_LIMIT
   const shippingFee =
@@ -56,6 +55,10 @@ export default function Checkout() {
       useToastStore.getState().showToast('Lütfen tüm zorunlu alanları doldurun', 'error')
       return
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      useToastStore.getState().showToast('Geçerli bir e-posta adresi girin', 'error')
+      return
+    }
 
     setSubmitting(true)
     try {
@@ -67,25 +70,44 @@ export default function Checkout() {
         price: item.product.price,
       }))
 
-      const res = await api.post('/orders', {
-        customerName: form.name,
-        email: form.email,
-        phone: form.phone,
-        address: form.address,
+      const orderRes = await api.post('/orders', {
+        customerName: form.name.trim(),
+        email: form.email.trim().toLowerCase(),
+        phone: form.phone.trim(),
+        address: form.address.trim(),
         city: form.city,
-        district: form.district || '-',
+        district: form.district.trim() || '-',
         total: grandTotal,
         shippingFee,
-        note: form.note || null,
+        note: form.note.trim() || null,
         items: orderItems,
       })
 
-      clearCart()
-      navigate('/checkout/success', { state: { orderId: res.data.id } })
+      const orderId = orderRes.data.id
+      setCreatedOrderId(orderId)
+
+      try {
+        const payRes = await api.post('/payment/init', { orderId })
+        setPaytrToken(payRes.data.token)
+      } catch {
+        // PayTR unavailable — fall back to WhatsApp
+        clearCart()
+        navigate('/checkout/success', { state: { orderId, paymentPending: true } })
+      }
     } catch {
       useToastStore.getState().showToast('Sipariş oluşturulamadı. Lütfen tekrar deneyin.', 'error')
     }
     setSubmitting(false)
+  }
+
+  const handlePayTRClose = (result) => {
+    setPaytrToken(null)
+    if (result === 'success') {
+      clearCart()
+      navigate('/checkout/success', { state: { orderId: createdOrderId } })
+    } else if (result === 'failed') {
+      useToastStore.getState().showToast('Ödeme başarısız. Lütfen tekrar deneyin.', 'error')
+    }
   }
 
   if (items.length === 0) {
@@ -255,70 +277,15 @@ export default function Checkout() {
               </div>
             </div>
 
-            {/* Payment (fake) */}
+            {/* Payment */}
             <div className={styles.formSection}>
-              <h2 className={styles.formTitle}>Ödeme Bilgileri</h2>
+              <h2 className={styles.formTitle}>Ödeme</h2>
               <div className={styles.paymentNotice}>
-                Kart bilgileriniz güvenli bir şekilde işlenir.
-              </div>
-              <div className={styles.formGrid}>
-                <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
-                  <label className={styles.formLabel}>Kart Numarası</label>
-                  <input
-                    type="text"
-                    className={styles.formInput}
-                    value={form.cardNumber}
-                    onChange={(e) => {
-                      const val = e.target.value
-                        .replace(/\D/g, '')
-                        .slice(0, 16)
-                        .replace(/(\d{4})/g, '$1 ')
-                        .trim()
-                      updateForm('cardNumber', val)
-                    }}
-                    placeholder="0000 0000 0000 0000"
-                    maxLength={19}
-                  />
-                </div>
-                <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
-                  <label className={styles.formLabel}>Kart Üzerindeki İsim</label>
-                  <input
-                    type="text"
-                    className={styles.formInput}
-                    value={form.cardName}
-                    onChange={(e) => updateForm('cardName', e.target.value)}
-                    placeholder="AD SOYAD"
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Son Kullanma</label>
-                  <input
-                    type="text"
-                    className={styles.formInput}
-                    value={form.cardExpiry}
-                    onChange={(e) => {
-                      let val = e.target.value.replace(/\D/g, '').slice(0, 4)
-                      if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2)
-                      updateForm('cardExpiry', val)
-                    }}
-                    placeholder="MM/YY"
-                    maxLength={5}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>CVV</label>
-                  <input
-                    type="text"
-                    className={styles.formInput}
-                    value={form.cardCvv}
-                    onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, '').slice(0, 3)
-                      updateForm('cardCvv', val)
-                    }}
-                    placeholder="000"
-                    maxLength={3}
-                  />
-                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ flexShrink: 0 }}>
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                Ödemeniz PayTR güvenli altyapısı üzerinden işlenir. Kart bilgileriniz sitemizde saklanmaz.
               </div>
             </div>
 
@@ -332,9 +299,14 @@ export default function Checkout() {
                 onClick={handleSubmit}
                 disabled={submitting}
               >
-                {submitting ? 'İŞLENİYOR...' : 'SİPARİŞİ TAMAMLA'}
+                {submitting ? 'İŞLENİYOR...' : `ÖDEMEYE GEÇ — ${formatPrice(grandTotal)}`}
               </button>
             </div>
+
+            {/* PayTR iFrame Modal */}
+            {paytrToken && (
+              <PayTRFrame token={paytrToken} onClose={handlePayTRClose} />
+            )}
           </div>
 
           {/* Mini Summary */}

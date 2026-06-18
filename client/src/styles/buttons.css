@@ -8,7 +8,7 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.85rem 2rem;
-  border-radius: 2px;
+  border-radius: 999px;
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 700;
@@ -28,7 +28,7 @@
   transform: translateY(0);
 }
 
-/* Primary — Sarı CTA */
+/* Primary — Altın CTA */
 .btn-primary {
   background: var(--green);
   color: var(--ink);
@@ -107,10 +107,12 @@
 .btn-sm {
   padding: 0.55rem 1.2rem;
   font-size: 0.7rem;
+  border-radius: 999px;
 }
 
 /* Large */
 .btn-lg {
   padding: 1rem 2.5rem;
   font-size: 0.8rem;
+  border-radius: 999px;
 }

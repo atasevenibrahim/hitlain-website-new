@@ -17,7 +17,7 @@ const upload = multer({
       cb(new Error('Desteklenmeyen dosya formati'), false)
     }
   },
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 5 * 1024 * 1024 },
 })
 
 // Cloudinary setup

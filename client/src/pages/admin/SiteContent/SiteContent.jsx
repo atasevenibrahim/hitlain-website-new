@@ -7,12 +7,10 @@ import styles from './SiteContent.module.css'
 
 const tabs = [
   { id: 'categories', label: 'Kategoriler' },
-  { id: 'welcome', label: 'Karsilama' },
   { id: 'home', label: 'Ana Sayfa' },
   { id: 'stats', label: 'İstatistikler' },
   { id: 'faq', label: 'SSS' },
   { id: 'testimonials', label: 'Yorumlar' },
-  { id: 'corporate', label: 'Kurumsal' },
   { id: 'about', label: 'Hakkımızda' },
   { id: 'contact', label: 'İletişim' },
   { id: 'legal', label: 'Sözleşmeler' },
@@ -20,7 +18,7 @@ const tabs = [
 ]
 
 export default function SiteContent() {
-  const [activeTab, setActiveTab] = useState('welcome')
+  const [activeTab, setActiveTab] = useState('home')
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -91,12 +89,10 @@ export default function SiteContent() {
       </div>
 
       {activeTab === 'categories' && <CategoriesTab getArr={getArr} set={set} save={saveTab} saving={saving} saved={saved} />}
-      {activeTab === 'welcome' && <WelcomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} saved={saved} />}
       {activeTab === 'home' && <HomeTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} saved={saved} />}
       {activeTab === 'stats' && <StatsTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
       {activeTab === 'faq' && <FaqTab getArr={getArr} set={set} save={saveTab} saving={saving} saved={saved} />}
       {activeTab === 'testimonials' && <TestimonialsTab getArr={getArr} set={set} save={saveTab} saving={saving} saved={saved} />}
-      {activeTab === 'corporate' && <CorporateTab get={get} set={set} getArr={getArr} save={saveTab} saving={saving} saved={saved} />}
       {activeTab === 'about' && <AboutTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
       {activeTab === 'contact' && <ContactTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
       {activeTab === 'legal' && <LegalTab get={get} set={set} save={saveTab} saving={saving} saved={saved} />}
@@ -206,22 +202,22 @@ function renderBannerSection(key, label, getArr, set, uploading, setUploading) {
   )
 }
 
-// ═══ HERO SLIDE EDITOR ═══
-function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading) {
-  const slides = getArr(key)
+// ═══ KATEGORİ BANNER KARTLARI ═══
+function renderCategoryBannerSection(key, label, getArr, set, uploading, setUploading) {
+  const cards = getArr(key)
 
-  const updateSlide = (index, field, value) => {
-    const newSlides = [...slides]
-    newSlides[index] = { ...newSlides[index], [field]: value }
-    set(key, newSlides)
+  const updateCard = (index, field, value) => {
+    const newCards = [...cards]
+    newCards[index] = { ...newCards[index], [field]: value }
+    set(key, newCards)
   }
 
-  const addSlide = () => {
-    set(key, [...slides, { imageUrl: '', title: '', subtitle: '', cta1Text: '', cta1Link: '', cta2Text: '', cta2Link: '', bgColor: '', gradient: '', overlayOpacity: 'medium', textAlign: 'left', ghostText: '' }])
+  const addCard = () => {
+    set(key, [...cards, { id: '', name: '', count: '', image: '', gradient: 'linear-gradient(160deg,#234f3a,#12301f)' }])
   }
 
-  const removeSlide = (index) => {
-    set(key, slides.filter((_, i) => i !== index))
+  const removeCard = (index) => {
+    set(key, cards.filter((_, i) => i !== index))
   }
 
   const handleUpload = async (index, e) => {
@@ -232,9 +228,7 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
       const formData = new FormData()
       formData.append('file', file)
       const res = await api.post('/upload', formData)
-      const newSlides = [...slides]
-      newSlides[index] = { ...newSlides[index], imageUrl: res.data.url }
-      set(key, newSlides)
+      updateCard(index, 'image', res.data.url)
     } catch {
       useToastStore.getState().showToast('Gorsel yuklenemedi', 'error')
     }
@@ -244,18 +238,18 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
   return (
     <div className={s.formSection}>
       <div className={s.formSectionTitle}>{label}</div>
-      <p style={{ fontSize: '0.75rem', color: 'var(--mid)', marginBottom: '1rem' }}>
-        Slide yoksa varsayilan icerik gosterilir. En az 1 slide ekleyin.
-      </p>
-      {slides.map((slide, i) => (
+      {cards.map((card, i) => (
         <div key={i} className={styles.listItem}>
           <div className={styles.listItemHeader}>
-            <span className={styles.listItemNum}>Slide {i + 1}</span>
-            <button className={styles.removeBtn} onClick={() => removeSlide(i)}>Sil</button>
+            <span className={styles.listItemNum}>{i + 1}</span>
+            <button className={styles.removeBtn} onClick={() => removeCard(i)}>Sil</button>
           </div>
           <div className={styles.bannerRow}>
-            {slide.imageUrl ? (
-              <img src={slide.imageUrl} alt="" className={styles.bannerThumb} />
+            {card.image ? (
+              <div style={{ position: 'relative' }}>
+                <img src={card.image} alt="" className={styles.bannerThumb} />
+                <button type="button" onClick={() => updateCard(i, 'image', '')} style={{ position: 'absolute', top: -6, right: -6, width: 18, height: 18, borderRadius: '50%', background: 'var(--error)', color: '#fff', border: 'none', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
+              </div>
             ) : (
               <div className={styles.bannerThumbEmpty}>Gorsel Yok</div>
             )}
@@ -265,67 +259,18 @@ function renderHeroSlideEditor(key, label, getArr, set, uploading, setUploading)
             </label>
           </div>
           <div className={s.formGrid}>
-            <div className={`${s.formGroup} ${s.formGroupFull}`}>
-              <Field label="Baslik" value={slide.title} onChange={(v) => updateSlide(i, 'title', v)} placeholder="BAHAR KOLEKSİYONU" />
-            </div>
-            <div className={`${s.formGroup} ${s.formGroupFull}`}>
-              <Field label="Aciklama" value={slide.subtitle} onChange={(v) => updateSlide(i, 'subtitle', v)} textarea placeholder="Yeni sezon urunleri kesfet" />
-            </div>
-            <Field label="Buton 1 Metin" value={slide.cta1Text} onChange={(v) => updateSlide(i, 'cta1Text', v)} placeholder="HEMEN İNCELE" />
-            <Field label="Buton 1 Link" value={slide.cta1Link} onChange={(v) => updateSlide(i, 'cta1Link', v)} placeholder="/shop" />
-            <Field label="Buton 2 Metin" value={slide.cta2Text} onChange={(v) => updateSlide(i, 'cta2Text', v)} placeholder="KURUMSAL ÇÖZÜMLER" />
-            <Field label="Buton 2 Link" value={slide.cta2Link} onChange={(v) => updateSlide(i, 'cta2Link', v)} placeholder="/corporate" />
+            <Field label="Kategori ID (route)" value={card.id} onChange={(v) => updateCard(i, 'id', v)} placeholder="tisort" />
+            <Field label="Kart Basligi" value={card.name} onChange={(v) => updateCard(i, 'name', v)} placeholder="TİŞÖRT" />
+            <Field label="Alt Etiket" value={card.count} onChange={(v) => updateCard(i, 'count', v)} placeholder="48 MODEL" />
           </div>
-          {/* Gorsel Ayarlar — varsayilan kapali */}
-          <details style={{ marginTop: '0.75rem' }}>
-            <summary className={styles.collapseToggle}>
-              <span className={styles.collapseArrow}>&#9654;</span> Gorsel Ayarlar
-            </summary>
-            <div className={s.formGrid} style={{ paddingTop: '0.5rem' }}>
-              <div className={s.formGroup}>
-                <label className={s.formLabel}>Arkaplan Rengi</label>
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                  <input type="color" value={slide.bgColor || '#1a1a1a'} onChange={(e) => updateSlide(i, 'bgColor', e.target.value)} style={{ width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, cursor: 'pointer', padding: 2 }} />
-                  <input type="text" className={s.formInput} value={slide.bgColor || ''} onChange={(e) => updateSlide(i, 'bgColor', e.target.value)} placeholder="#1a1a1a" style={{ flex: 1 }} />
-                </div>
-              </div>
-              <Field label="Gradient" value={slide.gradient} onChange={(v) => updateSlide(i, 'gradient', v)} placeholder="linear-gradient(135deg, #1a1a1a, #2d6a4f)" />
-              <div className={s.formGroup}>
-                <label className={s.formLabel}>Overlay Yogunlugu</label>
-                <select className={s.formInput} value={slide.overlayOpacity || 'medium'} onChange={(e) => updateSlide(i, 'overlayOpacity', e.target.value)}>
-                  <option value="light">Hafif</option>
-                  <option value="medium">Orta (Varsayilan)</option>
-                  <option value="heavy">Yogun</option>
-                </select>
-              </div>
-              <div className={s.formGroup}>
-                <label className={s.formLabel}>Metin Hizalama</label>
-                <div style={{ display: 'flex', gap: '0.25rem' }}>
-                  {['left', 'center', 'right'].map((align) => (
-                    <button
-                      key={align}
-                      type="button"
-                      className="btn btn-ghost btn-sm"
-                      style={{ flex: 1, background: slide.textAlign === align ? 'var(--ink)' : '', color: slide.textAlign === align ? 'var(--white)' : '' }}
-                      onClick={() => updateSlide(i, 'textAlign', align)}
-                    >
-                      {align === 'left' ? 'Sol' : align === 'center' ? 'Orta' : 'Sag'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <Field label="Ghost Metin" value={slide.ghostText} onChange={(v) => updateSlide(i, 'ghostText', v)} placeholder="TEKSTiL" />
-            </div>
-          </details>
         </div>
       ))}
-      <button className="btn btn-ghost btn-sm" onClick={addSlide} style={{ marginTop: '0.5rem' }}>
-        + Slide Ekle
+      <button className="btn btn-ghost btn-sm" onClick={addCard} style={{ marginTop: '0.5rem' }}>
+        + Kart Ekle
       </button>
     </div>
   )
 }
-
 
 // ═══ KATEGORİLER ═══
 function CategoriesTab({ getArr, set, save, saving, saved }) {
@@ -454,7 +399,7 @@ function CategoriesTab({ getArr, set, save, saving, saved }) {
 function HomeTab({ get, set, getArr, save, saving, saved }) {
   const [uploading, setUploading] = useState(null)
   const keys = [
-    'home.hero.slides',
+    'home.hero.image', 'home.studioPromo.image', 'home.categoryBanners',
     'categories.label', 'categories.title',
     'bestsellers.label', 'bestsellers.title',
 'aboutHome.label', 'aboutHome.title', 'aboutHome.text1', 'aboutHome.text2', 'aboutHome.image',
@@ -463,10 +408,71 @@ function HomeTab({ get, set, getArr, save, saving, saved }) {
     'instagram.label', 'instagram.title',
   ]
 
+  const uploadSingleImage = async (settingKey, uploadId, e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(uploadId)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await api.post('/upload', formData)
+      set(settingKey, res.data.url)
+    } catch { useToastStore.getState().showToast('Gorsel yuklenemedi', 'error') }
+    setUploading(null)
+  }
+
   return (
     <>
-      {/* Hero Slides */}
-      {renderHeroSlideEditor('home.hero.slides', 'Hero Slider', getArr, set, uploading, setUploading)}
+      {/* Hero Banner Gorseli */}
+      <div className={s.formSection}>
+        <div className={s.formSectionTitle}>Hero Banner Gorseli</div>
+        <div className={s.formGrid}>
+          <div className={`${s.formGroup} ${s.formGroupFull}`}>
+            <label className={s.formLabel}>Fotograf</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              {get('home.hero.image') ? (
+                <div style={{ position: 'relative' }}>
+                  <img src={get('home.hero.image')} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--border)' }} />
+                  <button type="button" onClick={() => set('home.hero.image', '')} style={{ position: 'absolute', top: -6, right: -6, width: 18, height: 18, borderRadius: '50%', background: 'var(--error)', color: '#fff', border: 'none', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
+                </div>
+              ) : (
+                <div style={{ width: 80, height: 60, borderRadius: 4, border: '2px dashed var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--subtle)', fontSize: '0.7rem' }}>Gorsel Yok</div>
+              )}
+              <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
+                {uploading === 'home.hero.image' ? 'Yukleniyor...' : 'Gorsel Sec'}
+                <input type="file" accept="image/*" onChange={(e) => uploadSingleImage('home.hero.image', 'home.hero.image', e)} hidden />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Studio Promosyon Banner Gorseli */}
+      <div className={s.formSection}>
+        <div className={s.formSectionTitle}>Studyo Promosyon Banner Gorseli</div>
+        <div className={s.formGrid}>
+          <div className={`${s.formGroup} ${s.formGroupFull}`}>
+            <label className={s.formLabel}>Fotograf</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              {get('home.studioPromo.image') ? (
+                <div style={{ position: 'relative' }}>
+                  <img src={get('home.studioPromo.image')} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--border)' }} />
+                  <button type="button" onClick={() => set('home.studioPromo.image', '')} style={{ position: 'absolute', top: -6, right: -6, width: 18, height: 18, borderRadius: '50%', background: 'var(--error)', color: '#fff', border: 'none', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
+                </div>
+              ) : (
+                <div style={{ width: 80, height: 60, borderRadius: 4, border: '2px dashed var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--subtle)', fontSize: '0.7rem' }}>Gorsel Yok</div>
+              )}
+              <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
+                {uploading === 'home.studioPromo.image' ? 'Yukleniyor...' : 'Gorsel Sec'}
+                <input type="file" accept="image/*" onChange={(e) => uploadSingleImage('home.studioPromo.image', 'home.studioPromo.image', e)} hidden />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Kategori Banner Kartlari */}
+      {renderCategoryBannerSection('home.categoryBanners', 'Kategori Banner Kartlari', getArr, set, uploading, setUploading)}
 
       {/* Section Headers */}
       <div className={s.formSection}>
@@ -773,39 +779,37 @@ function ContactTab({ get, set, save, saving, saved }) {
 
 // ═══ SÖZLEŞMELER ═══
 function LegalTab({ get, set, save, saving, saved }) {
-  const keys = [
-    'legal.privacy.title', 'legal.privacy.content',
-    'legal.terms.title', 'legal.terms.content',
-    'legal.returnPolicy.title', 'legal.returnPolicy.content',
-    'legal.kvkk.title', 'legal.kvkk.content',
-  ]
+  const keys = ['legal.kvkk', 'legal.gizlilik', 'legal.mesafeli-satis', 'legal.iptal-iade']
 
   const sections = [
-    { key: 'legal.privacy', label: 'Gizlilik Politikasi', defaultTitle: 'Gizlilik Politikası' },
-    { key: 'legal.terms', label: 'Kullanim Kosullari', defaultTitle: 'Kullanım Koşulları' },
-    { key: 'legal.returnPolicy', label: 'Iade Politikasi', defaultTitle: 'İade Politikası' },
-    { key: 'legal.kvkk', label: 'KVKK Aydinlatma Metni', defaultTitle: 'KVKK Aydınlatma Metni' },
+    { key: 'legal.kvkk', label: 'KVKK Aydinlatma Metni', slug: '/kvkk' },
+    { key: 'legal.gizlilik', label: 'Gizlilik Politikasi', slug: '/gizlilik' },
+    { key: 'legal.mesafeli-satis', label: 'Mesafeli Satis Sozlesmesi', slug: '/mesafeli-satis' },
+    { key: 'legal.iptal-iade', label: 'Iptal & Iade Politikasi', slug: '/iptal-iade' },
   ]
 
   return (
     <>
+      <p style={{ fontSize: '0.75rem', color: 'var(--mid)', marginBottom: '1rem' }}>
+        Icerik Markdown formatini destekler. # baslik, ## alt baslik, - liste, **kalin** gibi.
+      </p>
       {sections.map((sec) => (
         <div key={sec.key} className={s.formSection}>
-          <div className={s.formSectionTitle}>{sec.label}</div>
-          <div className={s.formGrid}>
-            <div className={`${s.formGroup} ${s.formGroupFull}`}>
-              <Field label="Sayfa Basligi" value={get(`${sec.key}.title`)} onChange={(v) => set(`${sec.key}.title`, v)} placeholder={sec.defaultTitle} />
-            </div>
-            <div className={`${s.formGroup} ${s.formGroupFull}`}>
-              <label className={s.formLabel}>Icerik</label>
-              <textarea
-                className={s.formTextarea}
-                value={get(`${sec.key}.content`) || ''}
-                onChange={(e) => set(`${sec.key}.content`, e.target.value)}
-                placeholder="Sayfa icerigini buraya yazin. Paragraflar arasinda bos satir birakin."
-                rows={10}
-              />
-            </div>
+          <div className={s.formSectionTitle}>
+            {sec.label}
+            <span style={{ fontSize: '0.7rem', color: 'var(--subtle)', marginLeft: '0.75rem', fontWeight: 400 }}>
+              {sec.slug}
+            </span>
+          </div>
+          <div className={`${s.formGroup} ${s.formGroupFull}`}>
+            <label className={s.formLabel}>Icerik (Markdown)</label>
+            <textarea
+              className={s.formTextarea}
+              value={get(sec.key) || ''}
+              onChange={(e) => set(sec.key, e.target.value)}
+              placeholder="# Baslik&#10;&#10;Icerik buraya..."
+              rows={12}
+            />
           </div>
         </div>
       ))}

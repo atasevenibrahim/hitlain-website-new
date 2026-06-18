@@ -112,23 +112,23 @@
 }
 
 .ctas :global(.btn-primary) {
-  background: #fcc201;
+  background: var(--green);
   color: var(--ink);
-  border-color: #fcc201;
+  border-color: var(--green);
 }
 
 .ctas :global(.btn-primary):hover {
-  background: #e5af01;
-  border-color: #e5af01;
+  background: var(--green-l);
+  border-color: var(--green-l);
 }
 
 .ctas :global(.btn-outline-white) {
-  border-color: #fcc201;
-  color: #fcc201;
+  border-color: var(--green);
+  color: var(--green);
 }
 
 .ctas :global(.btn-outline-white):hover {
-  background: #fcc201;
+  background: var(--green);
   color: var(--ink);
 }
 

@@ -39,19 +39,22 @@ model Variant {
 }
 
 model Order {
-  id           Int         @id @default(autoincrement())
-  customerName String
-  email        String
-  phone        String
-  address      String
-  city         String
-  district     String
-  total        Float
-  shippingFee  Float       @default(0)
-  status       String      @default("pending")
-  note         String?
-  items        OrderItem[]
-  createdAt    DateTime    @default(now())
+  id             Int         @id @default(autoincrement())
+  customerName   String
+  email          String
+  phone          String
+  address        String
+  city           String
+  district       String
+  total          Float
+  shippingFee    Float       @default(0)
+  status         String      @default("pending")
+  paymentStatus  String      @default("pending")
+  paytrOrderId   String?     @unique
+  paidAt         DateTime?
+  note           String?
+  items          OrderItem[]
+  createdAt      DateTime    @default(now())
 }
 
 model OrderItem {
@@ -90,15 +93,14 @@ model StudioOrderItem {
   price         Float
 }
 
-model Reference {
+model StudioTemplate {
   id          Int      @id @default(autoincrement())
-  clientName  String
-  sector      String?
-  description String?
-  logoUrl     String?
-  images      String   @default("[]")
-  quantity    Int?
+  name        String
+  category    String
+  previewUrl  String   @default("")
+  canvasJson  String
   isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
 }
 

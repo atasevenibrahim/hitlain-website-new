@@ -27,9 +27,76 @@
   font-size: 0.75rem;
   color: var(--mid);
   margin-bottom: 1rem;
-  padding: 0.5rem 0.8rem;
-  background: var(--off);
-  border-radius: 2px;
+  padding: 0.75rem 1rem;
+  background: var(--green-xl);
+  border-radius: 9px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  line-height: 1.6;
+}
+
+/* ═══ PAYTR MODAL ═══ */
+.paytrOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.paytrModal {
+  background: var(--white);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+}
+
+.paytrHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.paytrTitle {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.paytrClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--mid);
+  font-size: 1rem;
+  padding: 0.2rem;
+  transition: color 0.2s;
+}
+
+.paytrClose:hover {
+  color: var(--ink);
+}
+
+.paytrIframe {
+  width: 100%;
+  flex: 1;
+  min-height: 480px;
+  border: none;
 }
 
 /* ═══ BODY LAYOUT ═══ */
@@ -44,7 +111,7 @@
 .formSection {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 14px;
   padding: 2rem;
 }
 
@@ -86,7 +153,7 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 9px;
   color: var(--ink);
   transition: border-color 0.2s;
 }
@@ -105,7 +172,7 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 9px;
   color: var(--ink);
   resize: vertical;
   min-height: 80px;
@@ -122,7 +189,7 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 9px;
   color: var(--ink);
   background: var(--white);
   cursor: pointer;
@@ -148,7 +215,7 @@
   gap: 1rem;
   padding: 1rem 1.2rem;
   border: 2px solid var(--border);
-  border-radius: 4px;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -254,7 +321,7 @@
   top: 100px;
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 14px;
   padding: 1.5rem;
 }
 
@@ -286,7 +353,7 @@
 .miniItemImage {
   width: 48px;
   height: 48px;
-  border-radius: 2px;
+  border-radius: 9px;
   overflow: hidden;
   background: var(--off);
   flex-shrink: 0;

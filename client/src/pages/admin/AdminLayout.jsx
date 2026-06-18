@@ -9,7 +9,7 @@ const navItems = [
   { to: '/admin/stock', label: 'Stok Takibi', icon: '📦' },
   { to: '/admin/orders', label: 'Siparişler', icon: '📋' },
   { to: '/admin/studio-orders', label: 'Stüdyo Siparişleri', icon: '🎨' },
-  { to: '/admin/references', label: 'Referanslar', icon: '🏢' },
+  { to: '/admin/studio-templates', label: 'Stüdyo Şablonları', icon: '🖼️' },
   { to: '/admin/site-content', label: 'Site İçeriği', icon: '✏️' },
   { to: '/admin/settings', label: 'Site Ayarları', icon: '⚙️' },
 ]
@@ -47,7 +47,7 @@ export default function AdminLayout() {
         </nav>
 
         <div className={styles.sidebarBottom}>
-          <Link to="/home" className={styles.navItem}>
+          <Link to="/" className={styles.navItem}>
             ← Siteye Dön
           </Link>
           <button className={styles.logoutBtn} onClick={logout}>

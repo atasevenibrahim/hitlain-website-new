@@ -29,27 +29,61 @@
 .layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
-/* Gallery */
-.gallery {}
+/* Gallery — vertical thumbnail column */
+.gallery {
+  display: flex;
+  gap: 14px;
+  position: sticky;
+  top: 96px;
+  align-self: start;
+}
 
-.mainImage {
-  aspect-ratio: 4 / 5;
-  background: var(--off);
-  border-radius: 2px;
+.thumbColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.thumb {
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  border: 2px solid var(--border);
+  cursor: pointer;
   overflow: hidden;
-  margin-bottom: 0.8rem;
+  background: var(--off2);
+  transition: border-color 0.2s;
 }
 
-.imagePlaceholder {
+.thumb:hover {
+  border-color: #1c4634;
+}
+
+.thumbActive {
+  border-color: #1c4634;
+}
+
+.thumb img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+.mainImage {
+  flex: 1;
+  background: var(--off2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  height: 540px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--off2);
+  position: relative;
+  overflow: hidden;
 }
 
 .mainImage img {
@@ -61,123 +95,166 @@
 .mainImage .fallbackImg {
   object-fit: contain;
   padding: 3rem;
-  background: var(--off2);
 }
 
-.thumbnails {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  margin-bottom: 1rem;
-}
-
-.thumb {
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
-  border-radius: 2px;
-  border: 1px solid var(--border);
-  cursor: pointer;
-  overflow: hidden;
-  transition: border-color 0.2s;
-}
-
-.thumb:hover {
-  border-color: var(--ink);
-}
-
-.thumbActive {
-  border-color: var(--ink);
-  border-width: 2px;
-}
-
-.thumb img {
+.imagePlaceholder {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-.thumbPlaceholder {
-  width: 100%;
-  height: 100%;
-  background: var(--off2);
-}
-
-/* Studio Banner */
-.studioBanner {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.2rem;
-  background: var(--green-xl);
-  border-radius: 2px;
+  justify-content: center;
+  background: var(--off2);
+}
+
+.studioBannerOverlay {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(28, 70, 52, 0.25);
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1c4634;
   text-decoration: none;
-  color: var(--green-txt);
-  transition: opacity 0.2s;
+  transition: background 0.2s;
 }
 
-.studioBanner:hover {
-  opacity: 0.9;
-}
-
-.studioBannerIcon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.studioBanner strong {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  font-weight: 700;
-  margin-bottom: 0.15rem;
-}
-
-.studioBanner p {
-  font-size: 0.72rem;
-  color: var(--green);
-  opacity: 0.8;
-}
-
-.studioBannerArrow {
-  margin-left: auto;
-  font-size: 1.2rem;
-  flex-shrink: 0;
+.studioBannerOverlay:hover {
+  background: #fff;
 }
 
 /* Info Panel */
 .info {
   position: sticky;
-  top: 80px;
+  top: 96px;
   align-self: start;
 }
 
 .brand {
   font-family: var(--font-ui);
-  font-size: 0.65rem;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--subtle);
-  margin-bottom: 0.3rem;
+  margin-bottom: 8px;
   display: block;
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 900;
-  line-height: 1.05;
-  margin-bottom: 0.8rem;
+  font-size: 30px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+/* Stars */
+.starsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.starsVal {
+  color: #d4b861;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.starsCount {
+  color: var(--mid);
+  font-size: 13.5px;
+}
+
+/* Price Block */
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 4px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.discountBadge {
+  background: var(--sale-bg);
+  color: var(--sale);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 6px;
+}
+
+.oldPrice {
+  color: var(--subtle);
+  font-size: 14px;
+  text-decoration: line-through;
 }
 
 .price {
   display: block;
   font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: var(--green);
-  margin-bottom: 0.5rem;
+  font-size: 34px;
+  color: var(--ink);
+  width: 100%;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+  align-items: stretch;
+}
+
+.addToCart {
+  flex: 1;
+  background: #1c4634;
+  color: #fff;
+  border: none;
+  border-radius: 11px;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 16px;
+  transition: background 0.2s;
+}
+
+.addToCart:hover {
+  background: #0e231b;
+}
+
+.buyNow {
+  background: var(--green);
+  color: var(--ink);
+  border: none;
+  border-radius: 11px;
+  padding: 0 26px;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.buyNow:hover {
+  background: var(--green-l);
 }
 
 .stock {
@@ -188,7 +265,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: 999px;
 }
 
 .stockIn {
@@ -253,8 +330,8 @@
 }
 
 .colorActive {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--ink);
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px var(--off), 0 0 0 4px var(--green);
 }
 
 /* Size Options */
@@ -272,7 +349,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 9px;
   background: var(--white);
   font-family: var(--font-ui);
   font-size: 0.75rem;
@@ -316,7 +393,7 @@
   display: flex;
   align-items: center;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 9px;
 }
 
 .qtyControl button {

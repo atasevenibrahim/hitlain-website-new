@@ -113,22 +113,10 @@ export default function ProductDetail() {
         </div>
 
         <div className={styles.layout}>
-          {/* Sol — Görsel Galeri */}
+          {/* Sol — Görsel Galeri (dikey thumbnail + büyük görsel) */}
           <div className={styles.gallery}>
-            <div className={styles.mainImage}>
-              {realImages.length > 0 ? (
-                <img src={realImages[activeImage]} alt={product.name} />
-              ) : category?.image ? (
-                <img src={category.image} alt={product.name} className={styles.fallbackImg} />
-              ) : (
-                <div className={styles.imagePlaceholder}>
-                  <span style={{ fontSize: '5rem', opacity: 0.2 }}>👕</span>
-                </div>
-              )}
-            </div>
-
             {realImages.length > 1 && (
-              <div className={styles.thumbnails}>
+              <div className={styles.thumbColumn}>
                 {realImages.map((img, i) => (
                   <div
                     key={i}
@@ -140,23 +128,52 @@ export default function ProductDetail() {
                 ))}
               </div>
             )}
-
-            <Link to="/studio" className={styles.studioBanner}>
-              <span className={styles.studioBannerIcon}>✏</span>
-              <div>
-                <strong>Bu ürünü stüdyoda özelleştir</strong>
-                <p>Kendi tasarımını ekle, baskı bölgesini seç</p>
-              </div>
-              <span className={styles.studioBannerArrow}>→</span>
-            </Link>
+            <div className={styles.mainImage}>
+              {realImages.length > 0 ? (
+                <img src={realImages[activeImage]} alt={product.name} />
+              ) : category?.image ? (
+                <img src={category.image} alt={product.name} className={styles.fallbackImg} />
+              ) : (
+                <div className={styles.imagePlaceholder}>
+                  <svg width="86" height="86" viewBox="0 0 24 24" fill="none" stroke="#c3ccbd" strokeWidth="1">
+                    <path d="M20.4 5.6 16 4l-1.3 1.3a3.8 3.8 0 0 1-5.4 0L8 4 3.6 5.6a1 1 0 0 0-.6 1.2L4.4 11l2.6-.6V20a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-9.6l2.6.6 1.4-4.2a1 1 0 0 0-.6-1.2z" />
+                  </svg>
+                </div>
+              )}
+              <Link to="/studio" className={styles.studioBannerOverlay}>
+                <span>✏ Özelleştir</span>
+              </Link>
+            </div>
           </div>
 
           {/* Sağ — Ürün Bilgisi */}
           <div className={styles.info}>
             <span className={styles.brand}>HITHLAIN</span>
             <h1 className={styles.title}>{product.name}</h1>
-            <span className={styles.price}>{formatPrice(product.price)}</span>
-            <span className={`${styles.stock} ${stockBadge.cls}`}>{stockBadge.text}</span>
+
+            {/* Stars */}
+            <div className={styles.starsRow}>
+              <span className={styles.starsVal}>★★★★★</span>
+              <span className={styles.starsCount}>4.8 · 124 değerlendirme</span>
+            </div>
+
+            {/* Price */}
+            <div className={styles.priceBlock}>
+              {product.oldPrice && product.oldPrice > product.price ? (
+                <>
+                  <div className={styles.priceRow}>
+                    <span className={styles.discountBadge}>
+                      %{Math.round((1 - product.price / product.oldPrice) * 100)} İNDİRİM
+                    </span>
+                    <span className={styles.oldPrice}>{formatPrice(product.oldPrice)}</span>
+                  </div>
+                  <span className={styles.price}>{formatPrice(product.price)}</span>
+                </>
+              ) : (
+                <span className={styles.price}>{formatPrice(product.price)}</span>
+              )}
+              <span className={`${styles.stock} ${stockBadge.cls}`}>{stockBadge.text}</span>
+            </div>
 
             <div className={styles.divider} />
 
@@ -207,13 +224,19 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* CTA */}
-            <button className="btn btn-primary btn-full btn-lg" onClick={handleAddToCart}>
-              SEPETE EKLE
-            </button>
-            <button className="btn btn-secondary btn-full" onClick={handleStudioAdd} style={{ marginTop: '0.5rem' }}>
-              TASARIMLA EKLE
-            </button>
+            {/* CTAs */}
+            <div className={styles.actions}>
+              <button className={styles.addToCart} onClick={handleAddToCart}>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
+                </svg>
+                SEPETE EKLE
+              </button>
+              <button className={styles.buyNow} onClick={handleAddToCart}>
+                HEMEN AL
+              </button>
+            </div>
 
             <div className={styles.divider} />
 

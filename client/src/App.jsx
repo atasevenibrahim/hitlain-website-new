@@ -8,7 +8,6 @@ import Footer from './components/Footer/Footer'
 import CartDrawer from './components/CartDrawer/CartDrawer'
 import Toast from './components/Toast/Toast'
 
-import Welcome from './pages/Welcome/Welcome'
 import Home from './pages/Home/Home'
 import Shop from './pages/Shop/Shop'
 import ProductDetail from './pages/ProductDetail/ProductDetail'
@@ -16,7 +15,6 @@ import Studio from './pages/Studio/Studio'
 import Cart from './pages/Cart/Cart'
 import Checkout from './pages/Checkout/Checkout'
 import CheckoutSuccess from './pages/CheckoutSuccess/CheckoutSuccess'
-import Corporate from './pages/Corporate/Corporate'
 import About from './pages/About/About'
 import Contact from './pages/Contact/Contact'
 import FAQ from './pages/FAQ/FAQ'
@@ -31,9 +29,9 @@ import ProductForm from './pages/admin/Products/ProductForm'
 import Stock from './pages/admin/Stock/Stock'
 import Orders from './pages/admin/Orders/Orders'
 import StudioOrders from './pages/admin/StudioOrders/StudioOrders'
-import References from './pages/admin/References/References'
 import Settings from './pages/admin/Settings/Settings'
 import SiteContent from './pages/admin/SiteContent/SiteContent'
+import StudioTemplates from './pages/admin/StudioTemplates/StudioTemplates'
 
 function PublicLayout() {
   return (
@@ -59,8 +57,7 @@ export default function App() {
       <Routes>
         {/* Public Routes */}
         <Route element={<PublicLayout />}>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:category" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetail />} />
@@ -68,15 +65,14 @@ export default function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
-          <Route path="/corporate" element={<Corporate />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/my-orders" element={<MyOrders />} />
-          <Route path="/privacy" element={<Legal slug="privacy" />} />
-          <Route path="/terms" element={<Legal slug="terms" />} />
-          <Route path="/return-policy" element={<Legal slug="returnPolicy" />} />
           <Route path="/kvkk" element={<Legal slug="kvkk" />} />
+          <Route path="/gizlilik" element={<Legal slug="gizlilik" />} />
+          <Route path="/mesafeli-satis" element={<Legal slug="mesafeli-satis" />} />
+          <Route path="/iptal-iade" element={<Legal slug="iptal-iade" />} />
         </Route>
 
         {/* Admin Routes */}
@@ -89,7 +85,7 @@ export default function App() {
           <Route path="stock" element={<Stock />} />
           <Route path="orders" element={<Orders />} />
           <Route path="studio-orders" element={<StudioOrders />} />
-          <Route path="references" element={<References />} />
+          <Route path="studio-templates" element={<StudioTemplates />} />
           <Route path="settings" element={<Settings />} />
           <Route path="site-content" element={<SiteContent />} />
         </Route>

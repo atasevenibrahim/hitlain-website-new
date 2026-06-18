@@ -131,12 +131,14 @@ export default function Shop() {
         <title>{pageTitle} — HITHLAIN Giyim</title>
         <meta name="description" content={`HITHLAIN Giyim ${pageTitle} kategorisinde kaliteli iş giyim ürünleri.`} />
       </Helmet>
-      <div className={styles.pageHeader}>
-        <div className="container">
-          <div className={styles.breadcrumb}>
-            <Link to="/home">Ana Sayfa</Link> <span>/</span> <span>{pageTitle}</span>
+      {/* Green Header Banner */}
+      <div className={styles.plpHeader}>
+        <div className={styles.plpHeaderInner}>
+          <div className={styles.plpBreadcrumb}>
+            <Link to="/">Ana Sayfa</Link> › <span>{pageTitle}</span>
           </div>
-          <h1 className={styles.pageTitle}>{pageTitle.toUpperCase()}</h1>
+          <h1 className={styles.plpTitle}>{pageTitle.toUpperCase()}</h1>
+          <p className={styles.plpMeta}>{filtered.length} ürün · Tek adetten kurumsal toplu siparişe baskı &amp; nakış uygulanabilir.</p>
         </div>
       </div>
 
@@ -258,7 +260,7 @@ export default function Shop() {
               <>
                 <div className={styles.grid}>
                   {visible.map((p) => (
-                    <ProductCard key={p.id} product={p} />
+                    <ProductCard key={p.id} product={p} gridMode />
                   ))}
                 </div>
                 {hasMore && (

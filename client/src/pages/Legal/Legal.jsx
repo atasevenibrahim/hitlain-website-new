@@ -4,37 +4,61 @@ import SectionHeader from '../../components/SectionHeader/SectionHeader'
 import useSiteContent from '../../hooks/useSiteContent'
 import styles from './Legal.module.css'
 
-const pages = {
-  privacy: {
-    key: 'legal.privacy',
-    defaultTitle: 'Gizlilik Politikası',
-    defaultContent: 'Bu sayfa henüz düzenlenmemiştir. Lütfen admin panelinden içerik ekleyin.',
-  },
-  terms: {
-    key: 'legal.terms',
-    defaultTitle: 'Kullanım Koşulları',
-    defaultContent: 'Bu sayfa henüz düzenlenmemiştir. Lütfen admin panelinden içerik ekleyin.',
-  },
-  returnPolicy: {
-    key: 'legal.returnPolicy',
-    defaultTitle: 'İade Politikası',
-    defaultContent: 'Bu sayfa henüz düzenlenmemiştir. Lütfen admin panelinden içerik ekleyin.',
-  },
-  kvkk: {
-    key: 'legal.kvkk',
-    defaultTitle: 'KVKK Aydınlatma Metni',
-    defaultContent: 'Bu sayfa henüz düzenlenmemiştir. Lütfen admin panelinden içerik ekleyin.',
-  },
+const META = {
+  kvkk: 'KVKK Aydınlatma Metni',
+  gizlilik: 'Gizlilik Politikası',
+  'mesafeli-satis': 'Mesafeli Satış Sözleşmesi',
+  'iptal-iade': 'İptal & İade Politikası',
+}
+
+function renderMarkdown(text) {
+  if (!text) return null
+  const lines = text.split('\n')
+  const elements = []
+  let i = 0
+
+  while (i < lines.length) {
+    const line = lines[i]
+
+    if (line.startsWith('### ')) {
+      elements.push(<h3 key={i} className={styles.h3}>{line.slice(4)}</h3>)
+    } else if (line.startsWith('## ')) {
+      elements.push(<h2 key={i} className={styles.h2}>{line.slice(3)}</h2>)
+    } else if (line.startsWith('# ')) {
+      elements.push(<h1 key={i} className={styles.h1}>{line.slice(2)}</h1>)
+    } else if (line.startsWith('- ')) {
+      const listItems = []
+      while (i < lines.length && lines[i].startsWith('- ')) {
+        listItems.push(<li key={i}>{lines[i].slice(2)}</li>)
+        i++
+      }
+      elements.push(<ul key={`ul-${i}`} className={styles.list}>{listItems}</ul>)
+      continue
+    } else if (line.trim() === '') {
+      // skip blank lines
+    } else {
+      // inline bold
+      const parts = line.split(/(\*\*[^*]+\*\*)/)
+      const rendered = parts.map((part, j) =>
+        part.startsWith('**') && part.endsWith('**')
+          ? <strong key={j}>{part.slice(2, -2)}</strong>
+          : part
+      )
+      elements.push(<p key={i} className={styles.para}>{rendered}</p>)
+    }
+    i++
+  }
+
+  return elements
 }
 
 export default function Legal({ slug }) {
   const { get } = useSiteContent()
-  const page = pages[slug]
+  const title = META[slug]
 
-  if (!page) return null
+  if (!title) return null
 
-  const title = get(`${page.key}.title`, page.defaultTitle)
-  const content = get(`${page.key}.content`, page.defaultContent)
+  const content = get(`legal.${slug}`, '')
 
   return (
     <div className={styles.page}>
@@ -45,7 +69,7 @@ export default function Legal({ slug }) {
       <section className="section">
         <div className="container">
           <div className={styles.breadcrumb}>
-            <Link to="/home">Ana Sayfa</Link>
+            <Link to="/">Ana Sayfa</Link>
             <span>›</span>
             <span>{title}</span>
           </div>
@@ -53,9 +77,12 @@ export default function Legal({ slug }) {
           <SectionHeader label="SÖZLEŞMELER" title={title} />
 
           <div className={styles.content}>
-            {content.split('\n\n').map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
+            {content
+              ? renderMarkdown(content)
+              : <p className={styles.para} style={{ color: 'var(--subtle)' }}>
+                  Bu sayfa henüz düzenlenmemiştir. Admin panelinden içerik ekleyin.
+                </p>
+            }
           </div>
         </div>
       </section>
